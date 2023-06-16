@@ -3,6 +3,7 @@ package ru.nsu.fit.pixelmind.game_field;
 import javafx.scene.canvas.Canvas;
 import javafx.util.Pair;
 import ru.nsu.fit.pixelmind.tile.TileController;
+import ru.nsu.fit.pixelmind.tile.TileModel;
 import ru.nsu.fit.pixelmind.utils.ShortestPathFinder;
 
 import java.util.*;
@@ -40,25 +41,25 @@ public class GameFieldController {
         viewBuilder.draw();
     }
 
-    public boolean isTileAccessible(int tileIndexX, int tileIndexY) {
-        if (tileIndexX >= model.getTileMapWidth() || tileIndexY >= model.getTileMapHeight()) {
+    public boolean isTileAccessible(TileIndexCoordinates tile) {
+        if (tile.x() >= model.getTileMapWidth() || tile.y() >= model.getTileMapHeight()) {
             return false;
         }
-        TileController tileController = model.tileMap()[tileIndexX][tileIndexY];
+        TileController tileController = model.tileMap()[tile.x()][tile.y()];
         return !wallTypes.contains(tileController.getType());
     }
 
-    public Deque<Pair<Integer, Integer>> buildRoute(Pair<Integer, Integer> start, Pair<Integer, Integer> end, List<Pair<Integer, Integer>> additionalBarriers) {
+    public Deque<TileIndexCoordinates> buildRoute(TileIndexCoordinates exclusiveFrom, TileIndexCoordinates inclusiveTo, List<TileIndexCoordinates> additionalBarriers) {
         ShortestPathFinder shortestPathFinder = new ShortestPathFinder(model.tileMap(), wallTypes);
-        return shortestPathFinder.findShortestPath(start, end, additionalBarriers);
+        return shortestPathFinder.findShortestPath(exclusiveFrom, inclusiveTo, additionalBarriers);
     }
 
-    public Pair<Integer, Integer> getRandomFreeTile() {
-        ArrayList<Pair<Integer, Integer>> availableTiles = new ArrayList<>();
+    public TileIndexCoordinates getRandomFreeTile() {
+        ArrayList<TileIndexCoordinates> availableTiles = new ArrayList<>();
         for (int i = 0; i < model.getTileMapHeight(); i++) {
             for (int j = 0; j < model.getTileMapWidth(); j++) {
-                if (!wallTypes.contains(model.tileMap()[i][j].getType())) {
-                    availableTiles.add(new Pair<>(i, j));
+                if (!wallTypes.contains(model.tileMap()[i][j].getType()) && !model.tileMap()[i][j].isThereSomebodyOnTile().get()) {
+                    availableTiles.add(new TileIndexCoordinates(i, j));
                 }
             }
         }
@@ -66,16 +67,16 @@ public class GameFieldController {
         return availableTiles.get(random.nextInt(availableTiles.size()));
     }
 
-    public boolean isThereEnemyOnThisTile(Pair<Integer, Integer> tileIndex) {
-        return model.tileMap()[tileIndex.getKey()][tileIndex.getValue()].isThereEnemyOnTile().get();
+    public boolean isThereEnemyOnThisTile(TileIndexCoordinates tile) {
+        return model.tileMap()[tile.x()][tile.y()].isThereSomebodyOnTile().get();
     }
 
-    public void captureTile(Pair<Integer, Integer> tileIndex) {
-        model.tileMap()[tileIndex.getKey()][tileIndex.getValue()].isThereEnemyOnTile().set(true);
+    public void captureTile(TileIndexCoordinates tileIndex) {
+        model.tileMap()[tileIndex.x()][tileIndex.y()].isThereSomebodyOnTile().set(true);
     }
 
-    public void releaseTile(Pair<Integer, Integer> tileIndex) {
-        model.tileMap()[tileIndex.getKey()][tileIndex.getValue()].isThereEnemyOnTile().set(false);
+    public void releaseTile(TileIndexCoordinates tileIndex) {
+        model.tileMap()[tileIndex.x()][tileIndex.y()].isThereSomebodyOnTile().set(false);
     }
 
 }

@@ -8,15 +8,15 @@ import ru.nsu.fit.pixelmind.game_field.TileType;
 public class TileModel {
     private final Image tileTexture;
     private final TileType tileType;
-    private final BooleanProperty isThereEnemyOnTile = new SimpleBooleanProperty();
+    private final BooleanProperty isThereSomebodyOnTile = new SimpleBooleanProperty();
 
     TileModel(Image tileTexture, TileType tileType) {
         this.tileTexture = tileTexture;
         this.tileType = tileType;
     }
 
-    public BooleanProperty isThereEnemyOnTile() {
-        return isThereEnemyOnTile;
+    public BooleanProperty isThereSomebodyOnTile() {
+        return isThereSomebodyOnTile;
     }
 
     public Image tileTexture() {

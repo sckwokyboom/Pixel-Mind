@@ -1,4 +1,4 @@
-package ru.nsu.fit.pixelmind.widgets;
+package ru.nsu.fit.pixelmind.screens.widgets;
 
 import javafx.scene.control.Button;
 

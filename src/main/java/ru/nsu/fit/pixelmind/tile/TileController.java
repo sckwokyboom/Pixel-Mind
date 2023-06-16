@@ -21,7 +21,7 @@ public class TileController {
     public TileType getType() {
         return model.tileType();
     }
-    public BooleanProperty isThereEnemyOnTile() {
-        return model.isThereEnemyOnTile();
+    public BooleanProperty isThereSomebodyOnTile() {
+        return model.isThereSomebodyOnTile();
     }
 }

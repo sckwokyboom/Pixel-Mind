@@ -1,14 +1,10 @@
 package ru.nsu.fit.pixelmind.characters.character;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.scene.image.Image;
 import javafx.util.Builder;
-import javafx.util.Pair;
-import ru.nsu.fit.pixelmind.characters.enemy.EnemyController;
 import ru.nsu.fit.pixelmind.characters.SpriteType;
-
-import java.util.Deque;
+import ru.nsu.fit.pixelmind.characters.enemy.EnemyController;
+import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
 
 public class CharacterController {
     private final CharacterInteractor interactor;
@@ -26,36 +22,12 @@ public class CharacterController {
         return viewBuilder.build();
     }
 
-    public IntegerProperty getTileIndexXProperty() {
-        return model.currentPositionIndexXProperty();
+    public int currentHealth() {
+        return model.healthPoints();
     }
 
-    public IntegerProperty getTileIndexYProperty() {
-        return model.currentPositionIndexYProperty();
-    }
-
-    public IntegerProperty getTargetTileIndexXProperty() {
-        return model.targetIndexXProperty();
-    }
-
-    public IntegerProperty getTargetTileIndexYProperty() {
-        return model.targetIndexYProperty();
-    }
-
-    public BooleanProperty getCoordinateChanged() {
-        return model.coordinateChanged();
-    }
-
-    public Deque<Pair<Integer, Integer>> getRoute() {
-        return model.route();
-    }
-
-    public BooleanProperty routeHasChanged() {
-        return model.routeHasChanged();
-    }
-
-    public IntegerProperty getCurrentHealth() {
-        return model.healthPointsProperty();
+    public void setCurrentHealth(int newHealthCurrent) {
+        model.setHealthPoints(newHealthCurrent);
     }
 
     public int getDamageValue() {
@@ -63,12 +35,11 @@ public class CharacterController {
     }
 
     public void hit(int damage) {
-        getCurrentHealth().set(Math.max(getCurrentHealth().get() - damage, 0));
+        setCurrentHealth(Math.max(currentHealth() - damage, 0));
     }
 
-    public void setHeroToPos(Pair<Integer, Integer> target) {
-        model.currentPositionIndexXProperty().set(target.getKey());
-        model.currentPositionIndexYProperty().set(target.getValue());
+    public void setCurrentPosition(TileIndexCoordinates newPosition) {
+        model.setCurrentPosition(newPosition);
     }
 
     public EnemyController getHuntedEnemy() {
@@ -91,5 +62,17 @@ public class CharacterController {
         }
         model.setCurrentSpriteType(SpriteType.values()[model.getCurrentSpriteType().ordinal() + 1]);
         model.setCurrentSprite(model.getCharacterSprites().get(model.getCurrentSpriteType().ordinal()));
+    }
+
+    public TileIndexCoordinates currentPosition() {
+        return model.currentPosition();
+    }
+
+    public TileIndexCoordinates targetTile() {
+        return model.targetTile();
+    }
+
+    public void setTargetTile(TileIndexCoordinates newTarget) {
+        model.setTargetTile(newTarget);
     }
 }

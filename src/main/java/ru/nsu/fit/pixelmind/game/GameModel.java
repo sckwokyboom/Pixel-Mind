@@ -11,7 +11,7 @@ import java.util.List;
 public class GameModel {
     private HeroController hero;
     private final List<EnemyController> enemies;
-    private final IntegerProperty score = new SimpleIntegerProperty();
+    private int score;
     private final IntegerProperty enemiesCount = new SimpleIntegerProperty();
 
     public HeroController getHeroController() {
@@ -28,22 +28,14 @@ public class GameModel {
     }
 
     public int getScore() {
-        return score.get();
-    }
-
-    public IntegerProperty scoreProperty() {
         return score;
-    }
-
-    public int getEnemiesCount() {
-        return enemiesCount.get();
-    }
-
-    public IntegerProperty enemiesCountProperty() {
-        return enemiesCount;
     }
 
     public void setHero(HeroController hero) {
         this.hero = hero;
+    }
+
+    public void setScore(int newScore) {
+        this.score = newScore;
     }
 }

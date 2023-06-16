@@ -1,68 +1,36 @@
 package ru.nsu.fit.pixelmind.characters.character;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
-import javafx.util.Pair;
-import ru.nsu.fit.pixelmind.characters.enemy.EnemyController;
 import ru.nsu.fit.pixelmind.characters.SpriteType;
+import ru.nsu.fit.pixelmind.characters.enemy.EnemyController;
+import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 
 public class CharacterModel {
     private int damageValue = 15;
-    private final IntegerProperty healthPoints = new SimpleIntegerProperty(100);
+    private int healthPoints = 100;
     private final ArrayList<Image> characterSprites = new ArrayList<>(10);
     private final IntegerProperty currentPositionIndexX = new SimpleIntegerProperty();
     private final IntegerProperty currentPositionIndexY = new SimpleIntegerProperty();
-    private final IntegerProperty targetIndexX = new SimpleIntegerProperty();
-    private final IntegerProperty targetIndexY = new SimpleIntegerProperty();
-
-    private final BooleanProperty routeHasChanged = new SimpleBooleanProperty(false);
-    private final Deque<Pair<Integer, Integer>> route = new ArrayDeque<>();
-    private final BooleanProperty coordinateChanged = new SimpleBooleanProperty(false);
+    private TileIndexCoordinates currentPosition;
+    private TileIndexCoordinates targetTile;
     private EnemyController huntedEnemy;
     private SpriteType currentSpriteType = SpriteType.REGULAR_SPRITE;
     private Image currentSprite;
 
-    public IntegerProperty currentPositionIndexXProperty() {
-        return currentPositionIndexX;
-    }
-
-    public IntegerProperty currentPositionIndexYProperty() {
-        return currentPositionIndexY;
-    }
-
-    public IntegerProperty targetIndexXProperty() {
-        return targetIndexX;
-    }
-
-    public IntegerProperty targetIndexYProperty() {
-        return targetIndexY;
-    }
-
-    public BooleanProperty coordinateChanged() {
-        return coordinateChanged;
-    }
-
-    public BooleanProperty routeHasChanged() {
-        return routeHasChanged;
-    }
-
-    public IntegerProperty healthPointsProperty() {
+    public int healthPoints() {
         return healthPoints;
+    }
+
+    public void setHealthPoints(int newHealthPoints) {
+        healthPoints = newHealthPoints;
     }
 
     public ArrayList<Image> getCharacterSprites() {
         return characterSprites;
-    }
-
-    public Deque<Pair<Integer, Integer>> route() {
-        return route;
     }
 
     public int getDamageValue() {
@@ -95,5 +63,21 @@ public class CharacterModel {
 
     public void setCurrentSprite(Image currentSprite) {
         this.currentSprite = currentSprite;
+    }
+
+    public TileIndexCoordinates currentPosition() {
+        return currentPosition;
+    }
+
+    public void setCurrentPosition(TileIndexCoordinates currentPosition) {
+        this.currentPosition = currentPosition;
+    }
+
+    public TileIndexCoordinates targetTile() {
+        return targetTile;
+    }
+
+    public void setTargetTile(TileIndexCoordinates targetTile) {
+        this.targetTile = targetTile;
     }
 }

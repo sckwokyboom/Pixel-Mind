@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Builder;
-import ru.nsu.fit.pixelmind.widgets.Buttons;
+import ru.nsu.fit.pixelmind.screens.widgets.Buttons;
 
 public class ScoresViewBuilder implements Builder<Region> {
     private final Runnable backToMainMenuButtonHandler;
