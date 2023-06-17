@@ -10,6 +10,22 @@ public enum TileType {
     REGULAR_WALL(6),
     MOSSY_WALL(7);
 
-    TileType(int i) {
+    private final int key;
+
+    TileType(int key) {
+        this.key = key;
+    }
+
+    public int getKey() {
+        return this.key;
+    }
+
+    public static TileType valueOf(int key) {
+        for (TileType type : TileType.values()) {
+            if (type.getKey() == key) {
+                return type;
+            }
+        }
+        return null;
     }
 }

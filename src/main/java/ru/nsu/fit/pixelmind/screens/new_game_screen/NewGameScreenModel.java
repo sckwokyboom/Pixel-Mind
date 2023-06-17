@@ -4,8 +4,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 
 public class NewGameScreenModel {
-    private  StringProperty heroType;
-    private  BooleanProperty startGameSelected;
+    private StringProperty heroType;
+    private BooleanProperty startGameSelected;
 
     public BooleanProperty startGameSelectedProperty() {
         return startGameSelected;
@@ -14,6 +14,7 @@ public class NewGameScreenModel {
     public StringProperty getHeroType() {
         return heroType;
     }
+
     public NewGameScreenModel() {
 
     }

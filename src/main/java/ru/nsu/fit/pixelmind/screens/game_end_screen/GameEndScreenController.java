@@ -3,8 +3,9 @@ package ru.nsu.fit.pixelmind.screens.game_end_screen;
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
 import ru.nsu.fit.pixelmind.screens.SceneManager;
+import ru.nsu.fit.pixelmind.screens.ScreenController;
 
-public class GameEndScreenController {
+public class GameEndScreenController implements ScreenController {
 
     private final Builder<Region> viewBuilder;
     private final SceneManager sceneManager;
@@ -21,6 +22,7 @@ public class GameEndScreenController {
     }
 
 
+    @Override
     public Region getView() {
         return viewBuilder.build();
     }

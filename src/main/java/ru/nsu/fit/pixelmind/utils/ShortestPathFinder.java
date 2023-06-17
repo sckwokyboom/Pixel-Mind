@@ -2,7 +2,7 @@ package ru.nsu.fit.pixelmind.utils;
 
 import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
 import ru.nsu.fit.pixelmind.game_field.TileType;
-import ru.nsu.fit.pixelmind.tile.TileController;
+import ru.nsu.fit.pixelmind.game_field.tile.TileController;
 
 import java.util.*;
 

@@ -2,8 +2,9 @@ package ru.nsu.fit.pixelmind.screens.main_menu_screen;
 
 import javafx.scene.layout.Region;
 import ru.nsu.fit.pixelmind.screens.SceneManager;
+import ru.nsu.fit.pixelmind.screens.ScreenController;
 
-public class MainMenuController {
+public class MainMenuController implements ScreenController {
     private SceneManager sceneManager;
     private final MainMenuViewBuilder mainMenuViewBuilder;
 
@@ -28,6 +29,7 @@ public class MainMenuController {
         sceneManager.exit();
     }
 
+    @Override
     public Region getView() {
         return mainMenuViewBuilder.build();
     }

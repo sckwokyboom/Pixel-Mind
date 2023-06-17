@@ -2,25 +2,19 @@ package ru.nsu.fit.pixelmind.characters.character;
 
 import javafx.scene.image.Image;
 import javafx.util.Builder;
-import ru.nsu.fit.pixelmind.characters.SpriteType;
-import ru.nsu.fit.pixelmind.characters.enemy.EnemyController;
 import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
 
 public class CharacterController {
-    private final CharacterInteractor interactor;
+//    private final CharacterInteractor interactor;
     private final Builder<Image> viewBuilder;
     private final CharacterModel model;
 
     public CharacterController(String spriteType) {
         this.model = new CharacterModel();
-        interactor = new CharacterInteractor(model);
-        interactor.loadSprites(spriteType);
-        viewBuilder = new CharacterViewBuilder(model);
+//        interactor = new CharacterInteractor();
+//        interactor.loadSprites(spriteType);
+        viewBuilder = new CharacterView(model);
     }
-
-//    public Image getView() {
-//        return viewBuilder.build();
-//    }
 
     public int currentHealth() {
         return model.healthPoints();
@@ -42,11 +36,11 @@ public class CharacterController {
         model.setCurrentPosition(newPosition);
     }
 
-    public EnemyController getHuntedEnemy() {
+    public CharacterController getHuntedEnemy() {
         return model.getHuntedEnemy();
     }
 
-    public void huntEnemy(EnemyController enemy) {
+    public void huntEnemy(CharacterController enemy) {
         model.setHuntedEnemy(enemy);
     }
 

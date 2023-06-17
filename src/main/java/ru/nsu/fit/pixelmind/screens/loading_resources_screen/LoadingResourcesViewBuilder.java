@@ -11,11 +11,11 @@ public class LoadingResourcesViewBuilder implements Builder<Region> {
 
 
     private final LoadingResourcesModel model;
-    private final Runnable finishLoadingHandler;
+//    private final Runnable finishLoadingHandler;
 
-    public LoadingResourcesViewBuilder(LoadingResourcesModel model, Runnable finishLoadingHandler) {
+    public LoadingResourcesViewBuilder(LoadingResourcesModel model) {
         this.model = model;
-        this.finishLoadingHandler = finishLoadingHandler;
+//        this.finishLoadingHandler = finishLoadingHandler;
     }
 
     @Override
@@ -24,11 +24,10 @@ public class LoadingResourcesViewBuilder implements Builder<Region> {
         VBox results = new VBox(20, label);
         results.setPadding(new Insets(40));
         results.setAlignment(Pos.CENTER);
-        model.isFinishedLoadingResourcesProperty().addListener((observable, newValue, oldValue) -> {
-            if (newValue) {
-                finishLoadingHandler.run();
-            }
-        });
+//        model.isSetupProperty().addListener((observable, newValue, oldValue) -> {
+//            System.out.println("Finish loading!");
+//            finishLoadingHandler.run();
+//        });
         return results;
     }
 }

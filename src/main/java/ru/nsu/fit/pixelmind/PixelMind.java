@@ -9,7 +9,7 @@ public class PixelMind extends Application {
     public void start(Stage stage) {
         stage.setTitle("Pixel Mind");
         SceneManager sceneManager = new SceneManager(stage);
-        sceneManager.switchToLoadingResourcesScreen();
+        sceneManager.switchToMainMenuScene();
     }
 
     public static void main(String[] args) {

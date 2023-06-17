@@ -1,6 +1,5 @@
 package ru.nsu.fit.pixelmind.characters.character;
 
-import ru.nsu.fit.pixelmind.characters.enemy.EnemyController;
 import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
 
 public class CharacterModel {
@@ -8,7 +7,7 @@ public class CharacterModel {
     private int healthPoints = 100;
     private TileIndexCoordinates currentPosition;
     private TileIndexCoordinates targetTile;
-    private EnemyController huntedEnemy;
+    private CharacterController huntedEnemy;
 
     public int healthPoints() {
         return healthPoints;
@@ -42,11 +41,11 @@ public class CharacterModel {
         this.targetTile = targetTile;
     }
 
-    public EnemyController getHuntedEnemy() {
+    public CharacterController getHuntedEnemy() {
         return huntedEnemy;
     }
 
-    public void setHuntedEnemy(EnemyController huntedEnemy) {
+    public void setHuntedEnemy(CharacterController huntedEnemy) {
         this.huntedEnemy = huntedEnemy;
     }
 }

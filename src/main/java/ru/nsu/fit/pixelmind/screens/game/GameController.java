@@ -1,52 +1,65 @@
-package ru.nsu.fit.pixelmind.game;
+package ru.nsu.fit.pixelmind.screens.game;
 
+import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.Assets;
-import ru.nsu.fit.pixelmind.screens.SceneManager;
 import ru.nsu.fit.pixelmind.camera.CameraController;
 import ru.nsu.fit.pixelmind.characters.StepInfo;
 import ru.nsu.fit.pixelmind.characters.StepType;
 import ru.nsu.fit.pixelmind.characters.character.CharacterController;
-import ru.nsu.fit.pixelmind.characters.enemy.EnemyController;
-import ru.nsu.fit.pixelmind.characters.hero.HeroController;
+import ru.nsu.fit.pixelmind.config.GameSessionConfig;
 import ru.nsu.fit.pixelmind.game_field.GameFieldController;
 import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.game_field.TileSetType;
+import ru.nsu.fit.pixelmind.game_field.TileType;
+import ru.nsu.fit.pixelmind.screens.SceneManager;
+import ru.nsu.fit.pixelmind.screens.ScreenController;
+import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
 
 import java.util.*;
 
-public class GameController {
+public class GameController implements ScreenController {
     private final GameViewBuilder gameView;
-//    private HeroController gameModel.gameSession().hero();
     private final CameraController cameraController;
-    //    private final GameFieldController gameModel.gameSession().gameField();
     private final GameModel gameModel;
     private final SceneManager sceneManager;
+//    private final Supplier<@NotNull Resources> getResources;
+//    private final Supplier<GameSessionConfig> gameSessionConfig;
 
-    public GameController(SceneManager sceneManager) {
+    public GameController(@NotNull SceneManager sceneManager) {
         this.sceneManager = sceneManager;
+//        this.getResources = resources;
+//        this.gameSessionConfig = gameSessionConfig;
         gameModel = new GameModel();
         cameraController = new CameraController(gameModel, this::handleTileClicked);
         gameView = new GameViewBuilder(cameraController, gameModel);
     }
 
+    @Override
     public Region getView() {
         return gameView.build();
     }
 
-    public void launchGameSession() {
-        GameFieldController gameFieldController = new GameFieldController();
-        //TODO: how to load?
-        gameFieldController.loadTileMap();
-
-        HeroController hero = new HeroController();
+    public void launchGameSession(@NotNull Resources resources, @NotNull GameSessionConfig gameSessionConfig) {
+        System.out.println("Launch game session with");
+        System.out.println("Resources: " + resources);
+        System.out.println("Hero type: " + gameSessionConfig.heroType());
+        System.out.println("Enemies: " + gameSessionConfig.enemiesTypes());
+        System.out.println("Tile map size: " + gameSessionConfig.tileMapSize());
+        Map<TileType, Image> tileTypeImageMap = resources.tileSets().get(gameSessionConfig.tileSetType());
+        System.out.println("TileMapType" + resources.tileSets().get(TileSetType.REGULAR));
+        GameFieldController gameFieldController = new GameFieldController(gameSessionConfig.tileMap(), gameSessionConfig.tileMapSize(), tileTypeImageMap);
+        CharacterController hero = new CharacterController(Assets.HERO_SPRITES);
         TileIndexCoordinates heroPos = gameFieldController.getRandomFreeTile();
         gameFieldController.captureTile(heroPos);
         hero.setCurrentPosition(heroPos);
 
-        List<EnemyController> enemies = new ArrayList<>();
+        List<CharacterController> enemies = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            EnemyController enemy = new EnemyController(Assets.FIRE_WOMAN_SPRITES);
+            CharacterController enemy = new CharacterController(Assets.FIRE_WOMAN_SPRITES);
             TileIndexCoordinates enemyPos = gameFieldController.getRandomFreeTile();
+            System.out.println("END");
             gameFieldController.captureTile(enemyPos);
             enemies.add(enemy);
         }
@@ -80,7 +93,7 @@ public class GameController {
         if (gameView.isAnimatingRightNow()) {
             return;
         }
-        EnemyController huntedEnemy = gameModel.gameSession().hero().getHuntedEnemy();
+        CharacterController huntedEnemy = gameModel.gameSession().hero().getHuntedEnemy();
         if (huntedEnemy == null) {
             return;
         }
@@ -131,8 +144,8 @@ public class GameController {
         gameView.animateNextStep(gameModel.gameSession().hero(), heroStepInfo, enemiesStepAnimationInfo, this::moveHeroToNextTile);
     }
 
-    private EnemyController getEnemyOnTile(TileIndexCoordinates tile) {
-        for (EnemyController enemy : gameModel.getEnemies()) {
+    private CharacterController getEnemyOnTile(TileIndexCoordinates tile) {
+        for (CharacterController enemy : gameModel.getEnemies()) {
             if (enemy.currentPosition().equals(tile)) {
                 return enemy;
             }
@@ -140,9 +153,9 @@ public class GameController {
         return null;
     }
 
-    private HashMap<EnemyController, StepInfo> doAndGatherEnemiesSteps(TileIndexCoordinates targetPosition) {
-        HashMap<EnemyController, StepInfo> enemiesAnimationInfo = new HashMap<>();
-        for (EnemyController enemy : gameModel.getEnemies()) {
+    private HashMap<CharacterController, StepInfo> doAndGatherEnemiesSteps(TileIndexCoordinates targetPosition) {
+        HashMap<CharacterController, StepInfo> enemiesAnimationInfo = new HashMap<>();
+        for (CharacterController enemy : gameModel.getEnemies()) {
             var route = buildRoute(enemy.currentPosition(), targetPosition, getAllCapturedTilesExcept(enemy));
             if (route.isEmpty()) {
                 continue;
@@ -170,7 +183,7 @@ public class GameController {
 
     private List<TileIndexCoordinates> getAllCapturedTilesExcept(CharacterController... availableCharacters) {
         List<TileIndexCoordinates> capturedTiles = new ArrayList<>();
-        for (EnemyController enemy : gameModel.getEnemies()) {
+        for (CharacterController enemy : gameModel.getEnemies()) {
             if (!Arrays.stream(availableCharacters).toList().contains(enemy)) {
                 capturedTiles.add(enemy.currentPosition());
             }
@@ -187,7 +200,7 @@ public class GameController {
     }
 
 //    private boolean checkAreEnemiesDead() {
-//        for (EnemyController enemy : gameModel.getEnemies()) {
+//        for (CharacterController enemy : gameModel.getEnemies()) {
 //            if (enemy.currentHealth() != 0) {
 //                return false;
 //            }

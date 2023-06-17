@@ -1,21 +1,13 @@
 package ru.nsu.fit.pixelmind.game_field;
 
-import javafx.scene.image.Image;
-import ru.nsu.fit.pixelmind.tile.TileController;
-
-import java.util.HashMap;
+import ru.nsu.fit.pixelmind.game_field.tile.TileController;
 
 public class GameFieldModel {
-    private final HashMap<TileType, Image> tileSet = new HashMap<>();
-    private TileController[][] tileMap;
+    private final TileController[][] tileMap;
     private int tileMapHeight;
     private int tileMapWidth;
 
-    public HashMap<TileType, Image> tileSet() {
-        return tileSet;
-    }
-
-    public void updateLevelTileMap(TileController[][] tileMap) {
+    public GameFieldModel(TileController[][] tileMap) {
         this.tileMap = tileMap;
     }
 
@@ -23,19 +15,19 @@ public class GameFieldModel {
         return tileMap;
     }
 
-    public int getTileMapWidth() {
+    public int width() {
         return tileMapWidth;
     }
 
-    public int getTileMapHeight() {
+    public int height() {
         return tileMapHeight;
     }
 
-    public void setTileMapHeight(int tileMapHeight) {
+    public void setHeight(int tileMapHeight) {
         this.tileMapHeight = tileMapHeight;
     }
 
-    public void setTileMapWidth(int tileMapWidth) {
+    public void setWidth(int tileMapWidth) {
         this.tileMapWidth = tileMapWidth;
     }
 }

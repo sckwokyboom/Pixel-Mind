@@ -7,7 +7,7 @@ import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
 
 import java.util.ArrayList;
 
-public class CharacterViewBuilder implements Builder<Image> {
+public class CharacterView implements Builder<Image> {
     private final CharacterModel model;
     private TileIndexCoordinates currentPosition;
     private TileIndexCoordinates targetTile;
@@ -16,7 +16,7 @@ public class CharacterViewBuilder implements Builder<Image> {
     private SpriteType currentSpriteType = SpriteType.REGULAR_SPRITE;
 
 
-    public CharacterViewBuilder(CharacterModel model) {
+    public CharacterView(CharacterModel model) {
         this.model = model;
     }
 

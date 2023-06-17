@@ -1,0 +1,18 @@
+{
+  "sprites": [
+    {
+      "characterType": "WARRIOR",
+      "spritesAsset": "src/main/resources/assets/HERO_SPRITES.png"
+    },
+    {
+      "characterType": "FIRE_WOMAN",
+      "spritesAsset": "src/main/resources/assets/FIRE_WOMAN_SPRITES.png"
+    }
+  ],
+  "tileSets": [
+    {
+      "tileSetType": "REGULAR",
+      "tileSetAsset": "src/main/resources/assets/REGULAR_TILES.png"
+    }
+  ]
+}
