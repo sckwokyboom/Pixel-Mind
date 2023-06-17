@@ -1,8 +1,9 @@
 package ru.nsu.fit.pixelmind.screens.new_game_screen;
 
+import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
-import ru.nsu.fit.pixelmind.SceneManager;
+import ru.nsu.fit.pixelmind.screens.SceneManager;
 
 public class NewGameScreenController {
     private final Builder<Region> viewBuilder;
@@ -21,7 +22,12 @@ public class NewGameScreenController {
     public void handleStartButtonClicked() {
         sceneManager.switchToGameScene();
     }
+
     public Region getView() {
         return viewBuilder.build();
+    }
+
+    public Scene getScene() {
+        return new Scene(getView(), 512, 512);
     }
 }

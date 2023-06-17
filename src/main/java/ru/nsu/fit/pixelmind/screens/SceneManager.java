@@ -1,10 +1,11 @@
-package ru.nsu.fit.pixelmind;
+package ru.nsu.fit.pixelmind.screens;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ru.nsu.fit.pixelmind.game.GameController;
 import ru.nsu.fit.pixelmind.screens.game_end_screen.GameEndScreenController;
 import ru.nsu.fit.pixelmind.screens.load_game_screen.LoadGameScreenController;
+import ru.nsu.fit.pixelmind.screens.loading_resources_screen.LoadingResourcesScreenController;
 import ru.nsu.fit.pixelmind.screens.main_menu_screen.MainMenuController;
 import ru.nsu.fit.pixelmind.screens.new_game_screen.NewGameScreenController;
 import ru.nsu.fit.pixelmind.screens.scores_screen.ScoresController;
@@ -17,6 +18,7 @@ public class SceneManager {
     private final GameController gameController;
     private final MainMenuController mainMenuController;
     private final GameEndScreenController gameEndScreenController;
+    private final LoadingResourcesScreenController loadingResourcesScreenController;
 
     private final Scene mainMenuScene;
 
@@ -28,12 +30,12 @@ public class SceneManager {
         gameController = new GameController(this);
         mainMenuController = new MainMenuController(this);
         gameEndScreenController = new GameEndScreenController(this);
+        loadingResourcesScreenController = new LoadingResourcesScreenController(this, model, interactor);
         mainMenuScene = new Scene(mainMenuController.getView(), 512, 512);
     }
 
     public void switchToNewGameScene() {
-        System.out.println("New game!!!");
-        Scene newGameScene = new Scene(newGameScreenController.getView(), 512, 512);
+        Scene newGameScene = newGameScreenController.getScene();
 
         primaryStage.setScene(newGameScene);
         primaryStage.show();
@@ -74,6 +76,13 @@ public class SceneManager {
         Scene gameEndScene = new Scene(gameEndScreenController.getView(), 512, 512);
 
         primaryStage.setScene(gameEndScene);
+        primaryStage.show();
+    }
+
+    public void switchToLoadingResourcesScreen() {
+        Scene loadingResourcesScene = loadingResourcesScreenController.getScene();
+
+        primaryStage.setScene(loadingResourcesScene);
         primaryStage.show();
     }
 

@@ -27,4 +27,6 @@ module ru.nsu.fit.pixelmind {
     opens ru.nsu.fit.pixelmind.utils to javafx.fxml;
     exports ru.nsu.fit.pixelmind.characters;
     opens ru.nsu.fit.pixelmind.characters to javafx.fxml;
+    exports ru.nsu.fit.pixelmind.screens;
+    opens ru.nsu.fit.pixelmind.screens to javafx.fxml;
 }

@@ -29,11 +29,7 @@ public class GameFieldController {
         return viewBuilder.build();
     }
 
-    public void setHeroToPos() {
-    }
-
     public void loadTileMap() {
-        // TODO: load level from somewhere...
         model.updateLevelTileMap(interactor.levelCreate());
     }
 

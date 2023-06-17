@@ -1,7 +1,7 @@
 package ru.nsu.fit.pixelmind.screens.main_menu_screen;
 
 import javafx.scene.layout.Region;
-import ru.nsu.fit.pixelmind.SceneManager;
+import ru.nsu.fit.pixelmind.screens.SceneManager;
 
 public class MainMenuController {
     private SceneManager sceneManager;

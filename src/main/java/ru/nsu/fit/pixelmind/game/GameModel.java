@@ -2,6 +2,7 @@ package ru.nsu.fit.pixelmind.game;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import ru.nsu.fit.pixelmind.characters.character.CharacterInteractor;
 import ru.nsu.fit.pixelmind.characters.enemy.EnemyController;
 import ru.nsu.fit.pixelmind.characters.hero.HeroController;
 
@@ -13,6 +14,8 @@ public class GameModel {
     private final List<EnemyController> enemies;
     private int score;
     private final IntegerProperty enemiesCount = new SimpleIntegerProperty();
+
+    private GameSession gameSession;
 
     public HeroController getHeroController() {
         return hero;
@@ -37,5 +40,13 @@ public class GameModel {
 
     public void setScore(int newScore) {
         this.score = newScore;
+    }
+
+    public GameSession gameSession() {
+        return gameSession;
+    }
+
+    public void setGameSession(GameSession gameSession) {
+        this.gameSession = gameSession;
     }
 }

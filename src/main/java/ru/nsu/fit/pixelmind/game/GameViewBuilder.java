@@ -9,8 +9,12 @@ import javafx.scene.paint.Color;
 import javafx.util.Builder;
 import ru.nsu.fit.pixelmind.camera.CameraController;
 import ru.nsu.fit.pixelmind.characters.StepInfo;
+import ru.nsu.fit.pixelmind.characters.character.CharacterController;
+import ru.nsu.fit.pixelmind.characters.character.CharacterModel;
+import ru.nsu.fit.pixelmind.characters.character.CharacterViewBuilder;
 import ru.nsu.fit.pixelmind.characters.enemy.EnemyController;
 import ru.nsu.fit.pixelmind.characters.hero.HeroController;
+import ru.nsu.fit.pixelmind.characters.hero.HeroViewBuilder;
 import ru.nsu.fit.pixelmind.game_field.GameFieldController;
 import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
 
@@ -24,21 +28,20 @@ import static ru.nsu.fit.pixelmind.Constants.TILE_SIZE;
 
 public class GameViewBuilder implements Builder<Region> {
     private Canvas gameField;
-    private final GameFieldController gameFieldController;
-    //    private final HeroController heroController;
+    private GameFieldController gameFieldController;
     private final CameraController cameraController;
     private final GameModel gameModel;
     private boolean isAnimatingRightNow;
 
 
-    public GameViewBuilder(GameFieldController gameFieldController, CameraController cameraController, GameModel gameModel) {
-        this.gameFieldController = gameFieldController;
+    public GameViewBuilder(CameraController cameraController, GameModel gameModel) {
         this.cameraController = cameraController;
         this.gameModel = gameModel;
     }
 
     @Override
     public Region build() {
+        gameFieldController = gameModel.gameSession().gameField();
         gameField = gameFieldController.getView();
 
         StackPane gameScreen = new StackPane();
@@ -63,7 +66,7 @@ public class GameViewBuilder implements Builder<Region> {
         }
     }
 
-    public void animateHeroAttack(HeroController hero, StepInfo heroStepInfo, HashMap<EnemyController, StepInfo> enemiesAnimationInfo, Runnable callback) {
+    public void animateHeroAttack(CharacterViewBuilder hero, StepInfo heroStepInfo, HashMap<EnemyController, StepInfo> enemiesAnimationInfo, Runnable callback) {
         var animation = new AnimationTimer() {
             final double duration = 500;
             final double fps = 20;
@@ -92,7 +95,7 @@ public class GameViewBuilder implements Builder<Region> {
         animation.start();
     }
 
-    public void animateHeroMove(HeroController hero, StepInfo heroStepInfo, HashMap<EnemyController, StepInfo> enemiesAnimationInfo, Runnable callback) {
+    public void animateHeroMove(CharacterViewBuilder hero, StepInfo heroStepInfo, HashMap<CharacterViewBuilder, StepInfo> enemiesAnimationInfo, Runnable callback) {
         var animation = new AnimationTimer() {
             final double duration = 250;
             final double fps = 60;
@@ -109,8 +112,8 @@ public class GameViewBuilder implements Builder<Region> {
                 gameField.getGraphicsContext2D().clearRect(0, 0, gameField.getWidth(), gameField.getHeight());
                 gameFieldController.redrawTileMap();
                 List<EnemyController> enemiesForRedraw = new ArrayList<>(gameModel.getEnemies());
-                for (Map.Entry<EnemyController, StepInfo> entry : enemiesAnimationInfo.entrySet()) {
-                    EnemyController enemy = entry.getKey();
+                for (Map.Entry<CharacterViewBuilder, StepInfo> entry : enemiesAnimationInfo.entrySet()) {
+                    CharacterViewBuilder enemy = entry.getKey();
                     StepInfo enemyStepInfo = entry.getValue();
                     switch (enemyStepInfo.stepType()) {
                         case MOVE -> {
@@ -136,7 +139,7 @@ public class GameViewBuilder implements Builder<Region> {
         animation.start();
     }
 
-    private void animateEnemies(HeroController hero, StepInfo heroStepInfo, HashMap<EnemyController, StepInfo> enemiesAnimationStepInfo, Runnable callbackToNextHeroStep) {
+    private void animateEnemies(CharacterViewBuilder hero, StepInfo heroStepInfo, HashMap<CharacterViewBuilder, StepInfo> enemiesAnimationStepInfo, Runnable callbackToNextHeroStep) {
         var animation = new AnimationTimer() {
             final double duration = 250;
             final double fps = 60;
@@ -156,7 +159,7 @@ public class GameViewBuilder implements Builder<Region> {
                 gameFieldController.redrawTileMap();
                 redrawHero(hero, heroStepInfo.targetTile());
 
-                List<EnemyController> enemiesForRedraw = new ArrayList<>(gameModel.getEnemies());
+                List<CharacterViewBuilder> enemiesForRedraw = new ArrayList<>(gameModel.getEnemies());
                 for (Map.Entry<EnemyController, StepInfo> entry : enemiesAnimationStepInfo.entrySet()) {
                     EnemyController enemy = entry.getKey();
                     StepInfo enemyStepInfo = entry.getValue();
@@ -185,12 +188,12 @@ public class GameViewBuilder implements Builder<Region> {
     }
 
 
-    private void redrawHero(HeroController hero, TileIndexCoordinates position) {
+    private void redrawHero(CharacterViewBuilder hero, TileIndexCoordinates position) {
         gameField.getGraphicsContext2D().drawImage(hero.getView(), position.x() * TILE_SIZE, position.y() * TILE_SIZE);
     }
 
-    private void redrawEnemies(List<EnemyController> enemiesForRedraw) {
-        for (EnemyController enemy : enemiesForRedraw) {
+    private void redrawEnemies(List<CharacterViewBuilder> enemiesForRedraw) {
+        for (CharacterViewBuilder enemy : enemiesForRedraw) {
             gameField.getGraphicsContext2D().drawImage(enemy.getView(), enemy.currentPosition().x() * TILE_SIZE, enemy.currentPosition().y() * TILE_SIZE);
         }
     }

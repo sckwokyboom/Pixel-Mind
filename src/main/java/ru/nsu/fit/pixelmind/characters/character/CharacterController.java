@@ -18,9 +18,9 @@ public class CharacterController {
         viewBuilder = new CharacterViewBuilder(model);
     }
 
-    public Image getView() {
-        return viewBuilder.build();
-    }
+//    public Image getView() {
+//        return viewBuilder.build();
+//    }
 
     public int currentHealth() {
         return model.healthPoints();
@@ -35,7 +35,7 @@ public class CharacterController {
     }
 
     public void hit(int damage) {
-        setCurrentHealth(Math.max(currentHealth() - damage, 0));
+        model.setHealthPoints(Math.max(currentHealth() - damage, 0));
     }
 
     public void setCurrentPosition(TileIndexCoordinates newPosition) {
@@ -50,19 +50,6 @@ public class CharacterController {
         model.setHuntedEnemy(enemy);
     }
 
-    public void chooseSprite(SpriteType spriteType) {
-        model.setCurrentSpriteType(spriteType);
-    }
-
-    public void nextAttackSprite() {
-        if ((model.getCurrentSpriteType().ordinal() + 1) > 5 || model.getCurrentSpriteType().ordinal() < 2) {
-            model.setCurrentSpriteType(SpriteType.values()[2]);
-            model.setCurrentSprite(model.getCharacterSprites().get(2));
-            return;
-        }
-        model.setCurrentSpriteType(SpriteType.values()[model.getCurrentSpriteType().ordinal() + 1]);
-        model.setCurrentSprite(model.getCharacterSprites().get(model.getCurrentSpriteType().ordinal()));
-    }
 
     public TileIndexCoordinates currentPosition() {
         return model.currentPosition();
