@@ -6,7 +6,6 @@ import ru.nsu.fit.pixelmind.screens.SceneManager;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 
 public class GameEndScreenController implements ScreenController {
-
     private final Builder<Region> viewBuilder;
     private final SceneManager sceneManager;
     private final GameEndScreenModel model;

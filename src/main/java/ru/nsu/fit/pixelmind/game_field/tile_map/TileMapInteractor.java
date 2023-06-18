@@ -26,7 +26,7 @@ public class TileMapInteractor {
         TileController[][] tileControllers = new TileController[tileMapSize.height()][tileMapSize.width()];
         for (int i = 0; i < tileMapSize.height(); i++) {
             for (int j = 0; j < tileMapSize.width(); j++) {
-                tileControllers[i][j] = new TileController(tileTypes[i][j]);
+                tileControllers[i][j] = new TileController(tileTypes[j][i]);
             }
         }
         return tileControllers;

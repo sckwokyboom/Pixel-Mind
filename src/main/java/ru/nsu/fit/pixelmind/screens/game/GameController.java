@@ -8,10 +8,10 @@ import ru.nsu.fit.pixelmind.characters.character.CharacterController;
 import ru.nsu.fit.pixelmind.characters.character.CharacterType;
 import ru.nsu.fit.pixelmind.characters.character.CharacterView;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
-import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapController;
-import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 import ru.nsu.fit.pixelmind.game_field.TileSetType;
+import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 import ru.nsu.fit.pixelmind.game_field.tile.TileType;
+import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapController;
 import ru.nsu.fit.pixelmind.screens.SceneManager;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
@@ -23,10 +23,10 @@ import static ru.nsu.fit.pixelmind.characters.ActionType.*;
 public class GameController implements ScreenController {
     private final GameViewBuilder gameView;
     private final GameModel gameModel;
-    private final SceneManager sceneManager;
+    private final SceneManager.GameEndSceneHandler gameEndSceneHandler;
 
-    public GameController(@NotNull SceneManager sceneManager) {
-        this.sceneManager = sceneManager;
+    public GameController(@NotNull SceneManager sceneManager, SceneManager.GameEndSceneHandler gameEndSceneHandler) {
+        this.gameEndSceneHandler = gameEndSceneHandler;
         gameModel = new GameModel();
         CameraController cameraController = new CameraController(gameModel, this::handleTileClicked);
         gameView = new GameViewBuilder(cameraController, gameModel);
@@ -79,7 +79,7 @@ public class GameController implements ScreenController {
             System.out.println("This tile is not accessible");
             return;
         }
-        if (tile.equals(gameModel.gameSession().hero().currentPosition())) {
+        if (tile.equals(gameModel.gameSession().hero().currentTile())) {
             System.out.println("You clicked on yourself");
             return;
         }
@@ -89,7 +89,7 @@ public class GameController implements ScreenController {
             huntEnemy();
             return;
         }
-        var route = buildRoute(gameModel.gameSession().hero().currentPosition(), tile, getAllCapturedTilesExcept());
+        var route = buildRoute(gameModel.gameSession().hero().currentTile(), tile, getAllCapturedTilesExcept());
         if (route.isEmpty()) {
             return;
         }
@@ -106,8 +106,8 @@ public class GameController implements ScreenController {
         if (huntedEnemy == null) {
             return;
         }
-        TileIndexCoordinates currentHuntedEnemyPosition = huntedEnemy.currentPosition();
-        var route = buildRoute(hero.currentPosition(), currentHuntedEnemyPosition, getAllCapturedTilesExcept(huntedEnemy));
+        TileIndexCoordinates currentHuntedEnemyPosition = huntedEnemy.currentTile();
+        var route = buildRoute(hero.currentTile(), currentHuntedEnemyPosition, getAllCapturedTilesExcept(huntedEnemy));
         if (route.isEmpty()) {
             System.out.println("Enemy cannot be accessible");
             return;
@@ -115,28 +115,29 @@ public class GameController implements ScreenController {
         if (route.size() == 1) {
             System.out.println("You hit enemy");
             huntedEnemy.hit(hero.damageValue());
-            List<CharacterView> enemiesViews = doAndGatherEnemiesSteps(hero.currentPosition());
             Runnable callback = () -> {
             };
             if (huntedEnemy.currentHealth() == 0) {
+                gameModel.gameSession().gameField().releaseTile(huntedEnemy.currentTile());
                 gameModel.gameSession().enemies().remove(huntedEnemy);
             }
             if (gameModel.gameSession().enemies().isEmpty()) {
                 callback = this::playerWon;
             }
             hero.setAnimationInfoOnThisStep(
-                    hero.currentPosition(),
+                    hero.currentTile(),
                     currentHuntedEnemyPosition,
                     ATTACK
             );
+            List<CharacterView> enemiesViews = doAndGatherEnemiesSteps(hero.currentTile());
             gameView.animateNextStep(hero.getView(), enemiesViews, callback);
             return;
         }
         TileIndexCoordinates nextTileToHuntEnemy = route.getFirst();
-        hero.setAnimationInfoOnThisStep(hero.currentPosition(), nextTileToHuntEnemy, MOVE);
+        hero.setAnimationInfoOnThisStep(hero.currentTile(), nextTileToHuntEnemy, MOVE);
         List<CharacterView> enemiesViews = doAndGatherEnemiesSteps(nextTileToHuntEnemy);
         gameView.animateNextStep(hero.getView(), enemiesViews, this::huntEnemy);
-        gameModel.gameSession().gameField().releaseTile(gameModel.gameSession().hero().currentPosition());
+        gameModel.gameSession().gameField().releaseTile(gameModel.gameSession().hero().currentTile());
         gameModel.gameSession().gameField().captureTile(nextTileToHuntEnemy);
         gameModel.gameSession().hero().setCurrentPosition(nextTileToHuntEnemy);
     }
@@ -146,14 +147,14 @@ public class GameController implements ScreenController {
             return;
         }
         CharacterController hero = gameModel.gameSession().hero();
-        var route = buildRoute(hero.currentPosition(), hero.targetTile(), getAllCapturedTilesExcept());
+        var route = buildRoute(hero.currentTile(), hero.targetTile(), getAllCapturedTilesExcept());
         if (route.isEmpty()) {
             System.out.println("This tile cannot be accessible");
             return;
         }
         TileIndexCoordinates nextTileInRoute = route.getFirst();
-        hero.setAnimationInfoOnThisStep(hero.currentPosition(), nextTileInRoute, MOVE);
-        gameModel.gameSession().gameField().releaseTile(gameModel.gameSession().hero().currentPosition());
+        hero.setAnimationInfoOnThisStep(hero.currentTile(), nextTileInRoute, MOVE);
+        gameModel.gameSession().gameField().releaseTile(gameModel.gameSession().hero().currentTile());
         gameModel.gameSession().gameField().captureTile(nextTileInRoute);
         hero.setCurrentPosition(nextTileInRoute);
         List<CharacterView> enemiesViews = doAndGatherEnemiesSteps(nextTileInRoute);
@@ -162,7 +163,7 @@ public class GameController implements ScreenController {
 
     private CharacterController getEnemyOnTile(@NotNull TileIndexCoordinates tile) {
         for (CharacterController enemy : gameModel.gameSession().enemies()) {
-            if (enemy.currentPosition().equals(tile)) {
+            if (enemy.currentTile().equals(tile)) {
                 return enemy;
             }
         }
@@ -173,27 +174,27 @@ public class GameController implements ScreenController {
     private List<CharacterView> doAndGatherEnemiesSteps(TileIndexCoordinates targetPosition) {
         List<CharacterView> enemiesViews = new ArrayList<>();
         for (CharacterController enemy : gameModel.gameSession().enemies()) {
-            var route = buildRoute(enemy.currentPosition(), targetPosition, getAllCapturedTilesExcept(enemy));
+            var route = buildRoute(enemy.currentTile(), targetPosition, getAllCapturedTilesExcept(enemy));
             if (route.isEmpty()) {
                 System.out.println("Enemy cannot accessible you");
-                enemy.setAnimationInfoOnThisStep(enemy.currentPosition(), enemy.currentPosition(), WAIT);
+                enemy.setAnimationInfoOnThisStep(enemy.currentTile(), enemy.currentTile(), WAIT);
                 enemiesViews.add(enemy.getView());
                 continue;
             }
             if (route.size() == 1) {
                 System.out.println("Enemy hit you");
                 assert (targetPosition.equals(route.getFirst()));
-                enemy.setAnimationInfoOnThisStep(enemy.currentPosition(), targetPosition, ATTACK);
+                enemy.setAnimationInfoOnThisStep(enemy.currentTile(), targetPosition, ATTACK);
                 gameModel.gameSession().hero().hit(enemy.damageValue());
                 if (gameModel.gameSession().hero().currentHealth() == 0) {
-                    finishGameSession("You lose :(", gameModel.getScore());
+                    playerLose();
                 }
                 enemiesViews.add(enemy.getView());
                 continue;
             }
-            enemy.setAnimationInfoOnThisStep(enemy.currentPosition(), route.getFirst(), MOVE);
+            enemy.setAnimationInfoOnThisStep(enemy.currentTile(), route.getFirst(), MOVE);
             enemiesViews.add(enemy.getView());
-            gameModel.gameSession().gameField().releaseTile(enemy.currentPosition());
+            gameModel.gameSession().gameField().releaseTile(enemy.currentTile());
             gameModel.gameSession().gameField().captureTile(route.getFirst());
             enemy.setCurrentPosition(route.getFirst());
         }
@@ -204,7 +205,7 @@ public class GameController implements ScreenController {
         List<TileIndexCoordinates> capturedTiles = new ArrayList<>();
         for (CharacterController enemy : gameModel.gameSession().enemies()) {
             if (!Arrays.stream(availableCharacters).toList().contains(enemy)) {
-                capturedTiles.add(enemy.currentPosition());
+                capturedTiles.add(enemy.currentTile());
             }
         }
         return capturedTiles;
@@ -226,7 +227,7 @@ public class GameController implements ScreenController {
 
 
     private void finishGameSession(String gameResult, int gameScore) {
-        sceneManager.switchToGameEndScene(gameResult, gameScore);
+        gameEndSceneHandler.switchToGameEndScene(gameResult, gameScore);
         gameModel.setScore(0);
     }
 

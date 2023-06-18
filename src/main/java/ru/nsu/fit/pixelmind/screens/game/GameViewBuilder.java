@@ -42,7 +42,7 @@ public class GameViewBuilder implements Builder<Region> {
         StackPane gameScreen = new StackPane();
         gameScreen.getChildren().add(cameraController.getView());
         gameScreen.setBackground(Background.fill(Color.BLACK));
-        redrawHeroOnPosition(gameModel.gameSession().hero().getView(), gameModel.gameSession().hero().currentPosition());
+        redrawHeroOnPosition(gameModel.gameSession().hero().getView(), gameModel.gameSession().hero().currentTile());
         System.out.println(gameModel.gameSession().enemies());
         redrawEnemiesCurrentPositions(gameModel.gameSession().enemies().stream().map(CharacterController::getView).toList());
         return gameScreen;

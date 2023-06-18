@@ -2,6 +2,7 @@ package ru.nsu.fit.pixelmind.screens;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.screens.game.GameController;
 import ru.nsu.fit.pixelmind.screens.game_end_screen.GameEndScreenController;
 import ru.nsu.fit.pixelmind.screens.load_game_screen.LoadGameScreenController;
@@ -19,13 +20,13 @@ public class SceneManager {
     private final MainMenuController mainMenuController;
     private final GameEndScreenController gameEndScreenController;
     private final LoadingResourcesController loadingResourcesScreenController;
-
-//    private final Scene mainMenuScene;
+    private final GameEndSceneHandler gameEndSceneHandler;
 
     public SceneManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        gameEndSceneHandler = new GameEndSceneSwitcher();
         loadingResourcesScreenController = new LoadingResourcesController(this);
-        gameController = new GameController(this);
+        gameController = new GameController(this, gameEndSceneHandler);
         newGameScreenController = new NewGameScreenController(this, loadingResourcesScreenController::resources, loadingResourcesScreenController::gameSessionConfig, gameController::launchGameSession);
         loadGameScreenController = new LoadGameScreenController(this);
         scoresController = new ScoresController(this);
@@ -68,16 +69,6 @@ public class SceneManager {
         primaryStage.show();
     }
 
-    public void switchToGameEndScene(String gameResult, int gameScore) {
-        //TODO: remove parameters
-        gameEndScreenController.setScore(gameScore);
-        gameEndScreenController.setGameResult(gameResult);
-        Scene gameEndScene = new Scene(gameEndScreenController.getView(), 512, 512);
-
-        primaryStage.setScene(gameEndScene);
-        primaryStage.show();
-    }
-
     public void switchToLoadingResourcesScreen() {
         Scene loadingResourcesScene = new Scene(loadingResourcesScreenController.getView(), 512, 512);
 
@@ -89,6 +80,22 @@ public class SceneManager {
 
     public void exit() {
         primaryStage.close();
+    }
+
+    public interface GameEndSceneHandler {
+        void switchToGameEndScene(@NotNull String gameResult, int gameScore);
+    }
+
+    public class GameEndSceneSwitcher implements GameEndSceneHandler {
+        @Override
+        public void switchToGameEndScene(@NotNull String gameResult, int gameScore) {
+            gameEndScreenController.setGameResult(gameResult);
+            gameEndScreenController.setScore(gameScore);
+            Scene gameEndScene = new Scene(gameEndScreenController.getView(), 512, 512);
+            primaryStage.setScene(gameEndScene);
+            primaryStage.show();
+        }
+
     }
 
 }

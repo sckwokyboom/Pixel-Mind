@@ -53,7 +53,7 @@ public class CharacterController {
     }
 
 
-    public TileIndexCoordinates currentPosition() {
+    public TileIndexCoordinates currentTile() {
         return model.currentPosition();
     }
 
