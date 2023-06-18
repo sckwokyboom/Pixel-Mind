@@ -1,7 +1,8 @@
 package ru.nsu.fit.pixelmind.characters;
 
-public enum StepType {
+public enum ActionType {
     ATTACK,
     MOVE,
-    DIE;
+    WAIT,
+    DIE
 }

@@ -44,7 +44,11 @@ public class GameFieldController {
     @NotNull
     public Deque<TileIndexCoordinates> buildRoute(@NotNull TileIndexCoordinates exclusiveFrom, @NotNull TileIndexCoordinates inclusiveTo, @NotNull List<TileIndexCoordinates> additionalBarriers) {
         ShortestPathFinder shortestPathFinder = new ShortestPathFinder(tileMapModel.tileMap(), wallTypes);
-        return shortestPathFinder.findShortestPath(exclusiveFrom, inclusiveTo, additionalBarriers);
+        var route = shortestPathFinder.findShortestPath(exclusiveFrom, inclusiveTo, additionalBarriers);
+        if (route == null) {
+            return new ArrayDeque<>();
+        }
+        return route;
     }
 
     @Nullable

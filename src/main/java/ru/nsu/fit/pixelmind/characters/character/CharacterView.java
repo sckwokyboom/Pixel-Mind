@@ -2,58 +2,74 @@ package ru.nsu.fit.pixelmind.characters.character;
 
 import javafx.scene.image.Image;
 import javafx.util.Builder;
+import org.jetbrains.annotations.NotNull;
+import ru.nsu.fit.pixelmind.characters.ActionType;
 import ru.nsu.fit.pixelmind.characters.SpriteType;
 import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
 
-import java.util.ArrayList;
+import java.util.Map;
 
 public class CharacterView implements Builder<Image> {
-    private final CharacterModel model;
-    private TileIndexCoordinates currentPosition;
-    private TileIndexCoordinates targetTile;
-    private final ArrayList<Image> characterSprites = new ArrayList<>(10);
+    private TileIndexCoordinates currentPositionOnThisStep;
+    private TileIndexCoordinates actionTargetTileOnThisStep;
+    @NotNull
+    private Map<SpriteType, Image> characterSprites;
+    @NotNull
+    private ActionType actionTypeOnThisStep = ActionType.WAIT;
+    @NotNull
     private Image currentSprite;
+    @NotNull
     private SpriteType currentSpriteType = SpriteType.REGULAR_SPRITE;
 
 
-    public CharacterView(CharacterModel model) {
-        this.model = model;
+    CharacterView(Map<SpriteType, Image> characterSprites) {
+        this.characterSprites = characterSprites;
+        currentSprite = characterSprites.get(currentSpriteType);
     }
 
-    public TileIndexCoordinates currentPosition() {
-        return currentPosition;
+    public void setCurrentPositionOnThisStep(TileIndexCoordinates currentPositionOnThisStep) {
+        this.currentPositionOnThisStep = currentPositionOnThisStep;
     }
 
-    public void setCurrentPosition(TileIndexCoordinates currentPosition) {
-        this.currentPosition = currentPosition;
+    public void setActionTargetTileOnThisStep(TileIndexCoordinates actionTargetTileOnThisStep) {
+        this.actionTargetTileOnThisStep = actionTargetTileOnThisStep;
+    }
+
+    public void setCurrentSpriteType(@NotNull SpriteType currentSpriteType) {
+        this.currentSpriteType = currentSpriteType;
+        this.currentSprite = characterSprites.get(currentSpriteType);
+    }
+
+    public void setCurrentSprite(@NotNull Image currentSprite) {
+        this.currentSprite = currentSprite;
+    }
+
+    public void setActionTypeOnThisStep(@NotNull ActionType actionTypeOnThisStep) {
+        this.actionTypeOnThisStep = actionTypeOnThisStep;
+    }
+
+    public void setCharacterSprites(@NotNull Map<SpriteType, Image> characterSprites) {
+        this.characterSprites = characterSprites;
+    }
+
+    public TileIndexCoordinates currentTile() {
+        return currentPositionOnThisStep;
     }
 
     public TileIndexCoordinates targetTile() {
-        return targetTile;
+        return actionTargetTileOnThisStep;
     }
 
-    public void setTargetTile(TileIndexCoordinates targetTile) {
-        this.targetTile = targetTile;
-    }
-
-    public ArrayList<Image> getCharacterSprites() {
+    public Map<SpriteType, Image> characterSprites() {
         return characterSprites;
     }
 
-    public SpriteType getCurrentSpriteType() {
+    public SpriteType currentSpriteType() {
         return currentSpriteType;
     }
 
-    public void setCurrentSpriteType(SpriteType currentSpriteType) {
-        this.currentSpriteType = currentSpriteType;
-    }
-
-    public Image getCurrentSprite() {
+    public Image currentSprite() {
         return currentSprite;
-    }
-
-    public void setCurrentSprite(Image currentSprite) {
-        this.currentSprite = currentSprite;
     }
 
     public void chooseSprite(SpriteType spriteType) {
@@ -61,20 +77,23 @@ public class CharacterView implements Builder<Image> {
     }
 
     public void nextAttackSprite() {
-        if ((getCurrentSpriteType().ordinal() + 1) > 5 || getCurrentSpriteType().ordinal() < 2) {
+        if ((currentSpriteType.ordinal() + 1) > 5 || currentSpriteType.ordinal() < 2) {
             setCurrentSpriteType(SpriteType.values()[2]);
-            setCurrentSprite(getCharacterSprites().get(2));
+            setCurrentSprite(characterSprites.get(2));
             return;
         }
-        setCurrentSpriteType(SpriteType.values()[getCurrentSpriteType().ordinal() + 1]);
-        setCurrentSprite(getCharacterSprites().get(getCurrentSpriteType().ordinal()));
+        setCurrentSpriteType(SpriteType.values()[currentSpriteType.ordinal() + 1]);
+        setCurrentSprite(characterSprites.get(currentSpriteType));
     }
 
     @Override
+    @NotNull
     public Image build() {
-        return getCharacterSprites().get(0);
+        return currentSprite;
     }
-    public Image getView() {
-        return build();
+
+    @NotNull
+    public ActionType actionTypeOnThisStep() {
+        return actionTypeOnThisStep;
     }
 }

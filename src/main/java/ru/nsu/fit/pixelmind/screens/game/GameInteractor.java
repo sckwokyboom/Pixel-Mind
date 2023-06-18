@@ -2,17 +2,20 @@ package ru.nsu.fit.pixelmind.screens.game;
 
 import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
+import ru.nsu.fit.pixelmind.characters.SpriteType;
 import ru.nsu.fit.pixelmind.characters.character.CharacterInteractor;
 import ru.nsu.fit.pixelmind.characters.character.CharacterSpriteAssetName;
 import ru.nsu.fit.pixelmind.characters.character.CharacterType;
+import ru.nsu.fit.pixelmind.config.ResourcesConfig;
 import ru.nsu.fit.pixelmind.game_field.GameFieldInteractor;
 import ru.nsu.fit.pixelmind.game_field.TileSetAssetName;
 import ru.nsu.fit.pixelmind.game_field.TileSetType;
 import ru.nsu.fit.pixelmind.game_field.TileType;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
-import ru.nsu.fit.pixelmind.config.ResourcesConfig;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameInteractor {
 
@@ -22,11 +25,11 @@ public class GameInteractor {
     }
 
     @NotNull
-    private static Map<CharacterType, List<Image>> parseSprites(@NotNull CharacterSpriteAssetName[] assets) {
-        Map<@NotNull CharacterType, @NotNull List<@NotNull Image>> sprites = new HashMap<>();
+    private static Map<CharacterType, Map<SpriteType, Image>> parseSprites(@NotNull CharacterSpriteAssetName[] assets) {
+        Map<@NotNull CharacterType, @NotNull Map<SpriteType, Image>> sprites = new HashMap<>();
         for (CharacterSpriteAssetName asset : assets) {
-            ArrayList<Image> characterSprites = CharacterInteractor.parseSprites(asset.spritesAsset());
-            sprites.put(asset.characterType(), Collections.unmodifiableList(characterSprites));
+            Map<SpriteType, Image> characterSprites = CharacterInteractor.parseSprites(asset.spritesAsset());
+            sprites.put(asset.characterType(), Collections.unmodifiableMap(characterSprites));
         }
         return Collections.unmodifiableMap(sprites);
     }

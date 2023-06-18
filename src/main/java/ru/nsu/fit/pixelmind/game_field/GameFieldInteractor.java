@@ -49,7 +49,7 @@ public class GameFieldInteractor {
         for (int i = 0; i < tileMapSize.height(); i++) {
             for (int j = 0; j < tileMapSize.width(); j++) {
                 tileControllers[i][j] = new TileController(tileTypes[i][j]);
-                System.out.println(tileControllers[i][j].getType() + " " + tileTypes[i][j]);
+//                System.out.println(tileControllers[i][j].getType() + " " + tileTypes[i][j]);
             }
         }
         return tileControllers;

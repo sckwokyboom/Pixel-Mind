@@ -1,19 +1,21 @@
 package ru.nsu.fit.pixelmind.characters.character;
 
 import javafx.scene.image.Image;
-import javafx.util.Builder;
+import org.jetbrains.annotations.Nullable;
+import ru.nsu.fit.pixelmind.characters.ActionType;
+import ru.nsu.fit.pixelmind.characters.SpriteType;
 import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
 
+import java.util.Map;
+
 public class CharacterController {
-//    private final CharacterInteractor interactor;
-    private final Builder<Image> viewBuilder;
+    // private final CharacterInteractor interactor;
+    private final CharacterView heroView;
     private final CharacterModel model;
 
-    public CharacterController(String spriteType) {
-        this.model = new CharacterModel();
-//        interactor = new CharacterInteractor();
-//        interactor.loadSprites(spriteType);
-        viewBuilder = new CharacterView(model);
+    public CharacterController(CharacterType characterType, Map<SpriteType, Image> imageResources) {
+        this.model = new CharacterModel(characterType);
+        heroView = new CharacterView(imageResources);
     }
 
     public int currentHealth() {
@@ -24,8 +26,12 @@ public class CharacterController {
         model.setHealthPoints(newHealthCurrent);
     }
 
-    public int getDamageValue() {
-        return model.getDamageValue();
+    public int damageValue() {
+        return model.damageValue();
+    }
+
+    public void setDamageValue(int damageValue) {
+        model.setDamageValue(damageValue);
     }
 
     public void hit(int damage) {
@@ -37,11 +43,13 @@ public class CharacterController {
     }
 
     public CharacterController getHuntedEnemy() {
-        return model.getHuntedEnemy();
+        return model.huntedEnemy();
     }
 
-    public void huntEnemy(CharacterController enemy) {
-        model.setHuntedEnemy(enemy);
+    public void huntEnemy(@Nullable CharacterController enemy) {
+        if (enemy != null) {
+            model.setHuntedEnemy(enemy);
+        }
     }
 
 
@@ -55,5 +63,15 @@ public class CharacterController {
 
     public void setTargetTile(TileIndexCoordinates newTarget) {
         model.setTargetTile(newTarget);
+    }
+
+    public void setAnimationInfoOnThisStep(TileIndexCoordinates current, TileIndexCoordinates target, ActionType action) {
+        heroView.setCurrentPositionOnThisStep(current);
+        heroView.setActionTargetTileOnThisStep(target);
+        heroView.setActionTypeOnThisStep(action);
+    }
+
+    public CharacterView getView() {
+        return heroView;
     }
 }

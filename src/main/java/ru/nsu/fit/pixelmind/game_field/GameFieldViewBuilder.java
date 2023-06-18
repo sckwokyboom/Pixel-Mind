@@ -38,7 +38,7 @@ public class GameFieldViewBuilder implements Builder<Canvas> {
                 TileType tileType = model.tileMap()[i][j].getType();
                 model.tileMap()[i][j].setTexture(tileTypeImageMap.get(tileType));
                 Image tileTexture = model.tileMap()[i][j].getView();
-                gameFieldCanvas.getGraphicsContext2D().drawImage(tileTexture, j * TILE_SIZE, i * TILE_SIZE);
+                gameFieldCanvas.getGraphicsContext2D().drawImage(tileTexture, i * TILE_SIZE, j * TILE_SIZE);
             }
         }
     }
