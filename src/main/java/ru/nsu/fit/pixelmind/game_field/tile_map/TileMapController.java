@@ -1,24 +1,26 @@
-package ru.nsu.fit.pixelmind.game_field;
+package ru.nsu.fit.pixelmind.game_field.tile_map;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.nsu.fit.pixelmind.game_field.tile.TileController;
+import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.game_field.tile.TileType;
 import ru.nsu.fit.pixelmind.utils.ShortestPathFinder;
 
 import java.util.*;
 
-public class GameFieldController {
-    private final GameFieldViewBuilder viewBuilder;
-    private final GameFieldModel tileMapModel;
+public class TileMapController {
+    private final TileMapViewBuilder viewBuilder;
+    private final TileMapModel tileMapModel;
     private final Set<TileType> wallTypes;
 
-    public GameFieldController(@NotNull TileType[][] tileMap, @NotNull TileMapSize tileMapSize, @NotNull Map<TileType, Image> tileTypeImageResource) {
-        tileMapModel = new GameFieldModel(GameFieldInteractor.tileTypesToTileControllers(tileMap, tileMapSize));
+    public TileMapController(@NotNull TileType[][] tileMap, @NotNull TileMapSize tileMapSize, @NotNull Map<TileType, Image> tileTypeImageResource) {
+        tileMapModel = new TileMapModel(TileMapInteractor.tileTypesToTileControllers(tileMap, tileMapSize));
         tileMapModel.setHeight(tileMapSize.height());
         tileMapModel.setWidth(tileMapSize.width());
-        viewBuilder = new GameFieldViewBuilder(tileMapModel, tileTypeImageResource);
+        viewBuilder = new TileMapViewBuilder(tileMapModel, tileTypeImageResource);
         wallTypes = new HashSet<>();
         wallTypes.add(TileType.MOSSY_WALL);
         wallTypes.add(TileType.REGULAR_WALL);

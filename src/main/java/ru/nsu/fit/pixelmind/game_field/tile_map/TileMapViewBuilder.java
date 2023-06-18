@@ -1,22 +1,23 @@
-package ru.nsu.fit.pixelmind.game_field;
+package ru.nsu.fit.pixelmind.game_field.tile_map;
 
 import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.util.Builder;
 import org.jetbrains.annotations.NotNull;
+import ru.nsu.fit.pixelmind.game_field.tile.TileType;
 
 import java.util.Map;
 
 import static ru.nsu.fit.pixelmind.Constants.TILE_SIZE;
 
-public class GameFieldViewBuilder implements Builder<Canvas> {
-    private final GameFieldModel model;
+public class TileMapViewBuilder implements Builder<Canvas> {
+    private final @NotNull TileMapModel model;
     private final @NotNull Map<TileType, Image> tileTypeImageMap;
-    private final Canvas gameFieldCanvas;
+    private final @NotNull Canvas gameFieldCanvas;
 
 
-    public GameFieldViewBuilder(@NotNull GameFieldModel model, @NotNull Map<TileType, Image> tileTypeImageMap) {
+    public TileMapViewBuilder(@NotNull TileMapModel model, @NotNull Map<TileType, Image> tileTypeImageMap) {
         this.model = model;
         this.tileTypeImageMap = tileTypeImageMap;
         gameFieldCanvas = new Canvas(model.width() * TILE_SIZE, model.height() * TILE_SIZE);

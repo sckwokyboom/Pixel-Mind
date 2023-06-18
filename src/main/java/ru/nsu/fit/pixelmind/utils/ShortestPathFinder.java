@@ -1,8 +1,8 @@
 package ru.nsu.fit.pixelmind.utils;
 
-import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
-import ru.nsu.fit.pixelmind.game_field.TileType;
 import ru.nsu.fit.pixelmind.game_field.tile.TileController;
+import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.game_field.tile.TileType;
 
 import java.util.*;
 
@@ -32,11 +32,6 @@ public class ShortestPathFinder {
                 }
             }
         }
-    }
-
-    public void addNewBarriers(List<TileIndexCoordinates> targets) {
-        buildWallBarriers();
-        barriers.addAll(targets);
     }
 
     public Deque<TileIndexCoordinates> findShortestPath(TileIndexCoordinates start, TileIndexCoordinates end, List<TileIndexCoordinates> additionalBarriers) {

@@ -35,4 +35,6 @@ module ru.nsu.fit.pixelmind {
     opens ru.nsu.fit.pixelmind.config to javafx.fxml;
     exports ru.nsu.fit.pixelmind.characters.character;
     opens ru.nsu.fit.pixelmind.characters.character to javafx.fxml;
+    exports ru.nsu.fit.pixelmind.game_field.tile_map;
+    opens ru.nsu.fit.pixelmind.game_field.tile_map to javafx.fxml;
 }

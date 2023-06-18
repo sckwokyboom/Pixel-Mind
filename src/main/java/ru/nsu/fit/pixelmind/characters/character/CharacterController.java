@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import org.jetbrains.annotations.Nullable;
 import ru.nsu.fit.pixelmind.characters.ActionType;
 import ru.nsu.fit.pixelmind.characters.SpriteType;
-import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 
 import java.util.Map;
 

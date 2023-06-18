@@ -1,13 +1,13 @@
-package ru.nsu.fit.pixelmind.game_field;
+package ru.nsu.fit.pixelmind.game_field.tile_map;
 
 import ru.nsu.fit.pixelmind.game_field.tile.TileController;
 
-public class GameFieldModel {
+public class TileMapModel {
     private final TileController[][] tileMap;
     private int tileMapHeight;
     private int tileMapWidth;
 
-    public GameFieldModel(TileController[][] tileMap) {
+    public TileMapModel(TileController[][] tileMap) {
         this.tileMap = tileMap;
     }
 

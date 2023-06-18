@@ -5,7 +5,7 @@ import javafx.util.Builder;
 import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.characters.ActionType;
 import ru.nsu.fit.pixelmind.characters.SpriteType;
-import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 
 import java.util.Map;
 
@@ -79,7 +79,7 @@ public class CharacterView implements Builder<Image> {
     public void nextAttackSprite() {
         if ((currentSpriteType.ordinal() + 1) > 5 || currentSpriteType.ordinal() < 2) {
             setCurrentSpriteType(SpriteType.values()[2]);
-            setCurrentSprite(characterSprites.get(2));
+            setCurrentSprite(characterSprites.get(SpriteType.values()[2]));
             return;
         }
         setCurrentSpriteType(SpriteType.values()[currentSpriteType.ordinal() + 1]);

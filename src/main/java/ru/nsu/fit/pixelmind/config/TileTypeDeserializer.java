@@ -1,7 +1,7 @@
 package ru.nsu.fit.pixelmind.config;
 
 import com.google.gson.*;
-import ru.nsu.fit.pixelmind.game_field.TileType;
+import ru.nsu.fit.pixelmind.game_field.tile.TileType;
 
 import java.lang.reflect.Type;
 

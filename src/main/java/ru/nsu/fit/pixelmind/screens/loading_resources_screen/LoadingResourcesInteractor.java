@@ -3,11 +3,11 @@ package ru.nsu.fit.pixelmind.screens.loading_resources_screen;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.Assets;
+import ru.nsu.fit.pixelmind.config.Assets;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
 import ru.nsu.fit.pixelmind.config.ResourcesConfig;
 import ru.nsu.fit.pixelmind.config.TileTypeDeserializer;
-import ru.nsu.fit.pixelmind.game_field.TileType;
+import ru.nsu.fit.pixelmind.game_field.tile.TileType;
 import ru.nsu.fit.pixelmind.screens.game.GameInteractor;
 
 import java.io.BufferedReader;

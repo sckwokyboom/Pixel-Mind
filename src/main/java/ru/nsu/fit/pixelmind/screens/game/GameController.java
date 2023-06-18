@@ -8,10 +8,10 @@ import ru.nsu.fit.pixelmind.characters.character.CharacterController;
 import ru.nsu.fit.pixelmind.characters.character.CharacterType;
 import ru.nsu.fit.pixelmind.characters.character.CharacterView;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
-import ru.nsu.fit.pixelmind.game_field.GameFieldController;
-import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapController;
+import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 import ru.nsu.fit.pixelmind.game_field.TileSetType;
-import ru.nsu.fit.pixelmind.game_field.TileType;
+import ru.nsu.fit.pixelmind.game_field.tile.TileType;
 import ru.nsu.fit.pixelmind.screens.SceneManager;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
@@ -46,12 +46,12 @@ public class GameController implements ScreenController {
         Map<TileType, Image> tileTypeImageResources = resources.tileSets().get(gameSessionConfig.tileSetType());
         System.out.println("TileMapType" + resources.tileSets().get(TileSetType.REGULAR));
 
-        GameFieldController gameFieldController = new GameFieldController(gameSessionConfig.tileMap(), gameSessionConfig.tileMapSize(), tileTypeImageResources);
+        TileMapController tileMapController = new TileMapController(gameSessionConfig.tileMap(), gameSessionConfig.tileMapSize(), tileTypeImageResources);
 
         CharacterController hero = new CharacterController(gameSessionConfig.heroType(), resources.sprites().get(gameSessionConfig.heroType()));
-        TileIndexCoordinates heroPos = gameFieldController.getRandomFreeTile();
+        TileIndexCoordinates heroPos = tileMapController.getRandomFreeTile();
         assert (heroPos != null);
-        gameFieldController.captureTile(heroPos);
+        tileMapController.captureTile(heroPos);
         hero.setCurrentPosition(heroPos);
         hero.setAnimationInfoOnThisStep(heroPos, heroPos, WAIT);
         hero.setDamageValue(50);
@@ -61,14 +61,14 @@ public class GameController implements ScreenController {
         List<CharacterController> enemies = new ArrayList<>(enemiesTypes.size());
         for (CharacterType enemyType : enemiesTypes) {
             CharacterController enemy = new CharacterController(enemyType, resources.sprites().get(enemyType));
-            TileIndexCoordinates enemyPos = gameFieldController.getRandomFreeTile();
+            TileIndexCoordinates enemyPos = tileMapController.getRandomFreeTile();
             assert (enemyPos != null);
-            gameFieldController.captureTile(enemyPos);
+            tileMapController.captureTile(enemyPos);
             enemy.setCurrentPosition(enemyPos);
             enemy.setAnimationInfoOnThisStep(enemyPos, enemyPos, WAIT);
             enemies.add(enemy);
         }
-        gameModel.setGameSession(new GameSession(gameFieldController, hero, enemies));
+        gameModel.setGameSession(new GameSession(tileMapController, hero, enemies));
     }
 
     public void handleTileClicked(TileIndexCoordinates tile) {

@@ -6,8 +6,6 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.game_field.GameFieldInteractor;
-import ru.nsu.fit.pixelmind.screens.game.GameInteractor;
 
 import java.nio.file.Path;
 import java.util.Objects;

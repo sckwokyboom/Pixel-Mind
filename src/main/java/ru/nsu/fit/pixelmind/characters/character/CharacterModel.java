@@ -1,6 +1,6 @@
 package ru.nsu.fit.pixelmind.characters.character;
 
-import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 
 public class CharacterModel {
     private final CharacterType characterType;

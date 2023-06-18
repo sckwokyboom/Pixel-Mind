@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import ru.nsu.fit.pixelmind.characters.SpriteType;
 import ru.nsu.fit.pixelmind.characters.character.CharacterType;
 import ru.nsu.fit.pixelmind.game_field.TileSetType;
-import ru.nsu.fit.pixelmind.game_field.TileType;
+import ru.nsu.fit.pixelmind.game_field.tile.TileType;
 
 import java.util.Map;
 

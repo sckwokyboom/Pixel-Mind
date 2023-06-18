@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 public class TileViewBuilder implements Builder<Image> {
     private Image texture;
 
-
     public void setTexture(@NotNull Image texture) {
         this.texture = texture;
     }

@@ -7,10 +7,10 @@ import ru.nsu.fit.pixelmind.characters.character.CharacterInteractor;
 import ru.nsu.fit.pixelmind.characters.character.CharacterSpriteAssetName;
 import ru.nsu.fit.pixelmind.characters.character.CharacterType;
 import ru.nsu.fit.pixelmind.config.ResourcesConfig;
-import ru.nsu.fit.pixelmind.game_field.GameFieldInteractor;
+import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapInteractor;
 import ru.nsu.fit.pixelmind.game_field.TileSetAssetName;
 import ru.nsu.fit.pixelmind.game_field.TileSetType;
-import ru.nsu.fit.pixelmind.game_field.TileType;
+import ru.nsu.fit.pixelmind.game_field.tile.TileType;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
 
 import java.util.Collections;
@@ -38,7 +38,7 @@ public class GameInteractor {
     private static Map<TileSetType, Map<TileType, Image>> parseTileSets(@NotNull TileSetAssetName[] tileSetAssetsNames) {
         Map<TileSetType, Map<TileType, Image>> tileMaps = new HashMap<>();
         for (TileSetAssetName tileSetAssetName : tileSetAssetsNames) {
-            Map<TileType, Image> tileSet = GameFieldInteractor.parseTileSet(tileSetAssetName.tileSetAsset());
+            Map<TileType, Image> tileSet = TileMapInteractor.parseTileSet(tileSetAssetName.tileSetAsset());
             tileMaps.put(tileSetAssetName.tileSetType(), Collections.unmodifiableMap(tileSet));
         }
         return Collections.unmodifiableMap(tileMaps);

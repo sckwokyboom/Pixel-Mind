@@ -2,7 +2,6 @@ package ru.nsu.fit.pixelmind.game_field.tile;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.image.Image;
-import ru.nsu.fit.pixelmind.game_field.TileType;
 
 public class TileController {
     private final TileViewBuilder viewBuilder;

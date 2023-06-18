@@ -12,8 +12,8 @@ import ru.nsu.fit.pixelmind.camera.CameraController;
 import ru.nsu.fit.pixelmind.characters.SpriteType;
 import ru.nsu.fit.pixelmind.characters.character.CharacterController;
 import ru.nsu.fit.pixelmind.characters.character.CharacterView;
-import ru.nsu.fit.pixelmind.game_field.GameFieldController;
-import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapController;
+import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import static ru.nsu.fit.pixelmind.characters.ActionType.MOVE;
 
 public class GameViewBuilder implements Builder<Region> {
     private Canvas gameField;
-    private GameFieldController gameFieldController;
+    private TileMapController tileMapController;
     private final CameraController cameraController;
     private final GameModel gameModel;
     private boolean isAnimatingRightNow;
@@ -36,8 +36,8 @@ public class GameViewBuilder implements Builder<Region> {
 
     @Override
     public Region build() {
-        gameFieldController = gameModel.gameSession().gameField();
-        gameField = gameFieldController.getView();
+        tileMapController = gameModel.gameSession().gameField();
+        gameField = tileMapController.getView();
 
         StackPane gameScreen = new StackPane();
         gameScreen.getChildren().add(cameraController.getView());
@@ -71,7 +71,7 @@ public class GameViewBuilder implements Builder<Region> {
                 }
                 isAnimatingRightNow = true;
                 gameField.getGraphicsContext2D().clearRect(0, 0, gameField.getWidth(), gameField.getHeight());
-                gameFieldController.redrawTileMap();
+                tileMapController.redrawTileMap();
                 if (frameCount >= numFramesOnHeroAnimation) {
                     if (heroView.actionTypeOnThisStep() == MOVE) {
                         heroView.setCurrentPositionOnThisStep(heroView.targetTile());

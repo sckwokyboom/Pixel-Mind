@@ -1,7 +1,7 @@
 package ru.nsu.fit.pixelmind.camera;
 
 import javafx.scene.layout.Region;
-import ru.nsu.fit.pixelmind.game_field.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 import ru.nsu.fit.pixelmind.screens.game.GameModel;
 
 import java.util.function.Consumer;
