@@ -6,6 +6,7 @@ module ru.nsu.fit.pixelmind {
     requires org.kordamp.bootstrapfx.core;
     requires com.google.gson;
     requires org.jetbrains.annotations;
+    requires org.apache.commons.csv;
 
     opens ru.nsu.fit.pixelmind to javafx.fxml;
     exports ru.nsu.fit.pixelmind;

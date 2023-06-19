@@ -5,7 +5,7 @@ import ru.nsu.fit.pixelmind.screens.SceneManager;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 
 public class MainMenuController implements ScreenController {
-    private SceneManager sceneManager;
+    private final SceneManager sceneManager;
     private final MainMenuViewBuilder mainMenuViewBuilder;
 
     public MainMenuController(SceneManager sceneManager) {

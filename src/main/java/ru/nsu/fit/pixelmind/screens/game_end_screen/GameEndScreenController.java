@@ -28,6 +28,7 @@ public class GameEndScreenController implements ScreenController {
 
     public void setScore(int score) {
         model.gameScoreProperty().set(score);
+
     }
     public void setGameResult(String gameResult) {
         model.gameResultProperty().set(gameResult);

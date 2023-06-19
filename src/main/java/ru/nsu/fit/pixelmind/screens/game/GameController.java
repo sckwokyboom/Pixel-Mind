@@ -25,7 +25,7 @@ public class GameController implements ScreenController {
     private final GameModel gameModel;
     private final SceneManager.GameEndSceneHandler gameEndSceneHandler;
 
-    public GameController(@NotNull SceneManager sceneManager, SceneManager.GameEndSceneHandler gameEndSceneHandler) {
+    public GameController(SceneManager.GameEndSceneHandler gameEndSceneHandler) {
         this.gameEndSceneHandler = gameEndSceneHandler;
         gameModel = new GameModel();
         CameraController cameraController = new CameraController(gameModel, this::handleTileClicked);
@@ -115,6 +115,7 @@ public class GameController implements ScreenController {
         if (route.size() == 1) {
             System.out.println("You hit enemy");
             huntedEnemy.hit(hero.damageValue());
+            gameModel.setScore(gameModel.getScore() + hero.damageValue());
             Runnable callback = () -> {
             };
             if (huntedEnemy.currentHealth() == 0) {

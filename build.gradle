@@ -20,7 +20,7 @@ ext {
 sourceCompatibility = '19'
 targetCompatibility = '19'
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
@@ -40,6 +40,7 @@ dependencies {
     implementation 'org.controlsfx:controlsfx:11.1.2'
     implementation 'org.jetbrains:annotations:24.0.0'
     implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.apache.commons:commons-csv:1.10.0'
 
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")

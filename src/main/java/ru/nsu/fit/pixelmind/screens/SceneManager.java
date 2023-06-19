@@ -10,9 +10,10 @@ import ru.nsu.fit.pixelmind.screens.loading_resources_screen.LoadingResourcesCon
 import ru.nsu.fit.pixelmind.screens.main_menu_screen.MainMenuController;
 import ru.nsu.fit.pixelmind.screens.new_game_screen.NewGameScreenController;
 import ru.nsu.fit.pixelmind.screens.scores_screen.ScoresController;
+import ru.nsu.fit.pixelmind.screens.scores_screen.ScoresInteractor;
 
 public class SceneManager {
-    private Stage primaryStage;
+    private final Stage primaryStage;
     private final NewGameScreenController newGameScreenController;
     private final LoadGameScreenController loadGameScreenController;
     private final ScoresController scoresController;
@@ -20,13 +21,12 @@ public class SceneManager {
     private final MainMenuController mainMenuController;
     private final GameEndScreenController gameEndScreenController;
     private final LoadingResourcesController loadingResourcesScreenController;
-    private final GameEndSceneHandler gameEndSceneHandler;
 
     public SceneManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        gameEndSceneHandler = new GameEndSceneSwitcher();
         loadingResourcesScreenController = new LoadingResourcesController(this);
-        gameController = new GameController(this, gameEndSceneHandler);
+        GameEndSceneHandler gameEndSceneHandler = new GameEndSceneSwitcher();
+        gameController = new GameController(gameEndSceneHandler);
         newGameScreenController = new NewGameScreenController(this, loadingResourcesScreenController::resources, loadingResourcesScreenController::gameSessionConfig, gameController::launchGameSession);
         loadGameScreenController = new LoadGameScreenController(this);
         scoresController = new ScoresController(this);
@@ -91,6 +91,7 @@ public class SceneManager {
         public void switchToGameEndScene(@NotNull String gameResult, int gameScore) {
             gameEndScreenController.setGameResult(gameResult);
             gameEndScreenController.setScore(gameScore);
+            ScoresInteractor.addScoreToTable(gameScore);
             Scene gameEndScene = new Scene(gameEndScreenController.getView(), 512, 512);
             primaryStage.setScene(gameEndScene);
             primaryStage.show();
