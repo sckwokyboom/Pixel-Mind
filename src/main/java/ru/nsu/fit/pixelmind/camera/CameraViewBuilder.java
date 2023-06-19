@@ -4,8 +4,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
-import ru.nsu.fit.pixelmind.screens.game.GameModel;
 import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.screens.game.GameModel;
 
 import java.util.function.Consumer;
 
@@ -45,6 +45,42 @@ public class CameraViewBuilder implements Builder<Region> {
             }
         });
         gamePane.getChildren().add(gameField);
+        gamePane.setFocusTraversable(true);
+        gamePane.setOnKeyPressed(event -> {
+            System.out.println(event.getCode());
+            switch (event.getCode()) {
+                case UP -> {
+                    int tileCurX = gameModel.gameSession().hero().currentTile().x();
+                    int tileCurY = gameModel.gameSession().hero().currentTile().y() - 1;
+                    TileIndexCoordinates tile = new TileIndexCoordinates(tileCurX, tileCurY);
+                    tileClickedHandler.accept(tile);
+                    System.out.println("User clicked tile: " + tileCurX + " " + tileCurY);
+                }
+                case DOWN -> {
+                    int tileCurX = gameModel.gameSession().hero().currentTile().x();
+                    int tileCurY = gameModel.gameSession().hero().currentTile().y() + 1;
+                    TileIndexCoordinates tile = new TileIndexCoordinates(tileCurX, tileCurY);
+                    tileClickedHandler.accept(tile);
+                    System.out.println("User clicked tile: " + tileCurX + " " + tileCurY);
+                }
+                case LEFT -> {
+                    int tileCurX = gameModel.gameSession().hero().currentTile().x() - 1;
+                    int tileCurY = gameModel.gameSession().hero().currentTile().y();
+                    TileIndexCoordinates tile = new TileIndexCoordinates(tileCurX, tileCurY);
+                    tileClickedHandler.accept(tile);
+                    System.out.println("User clicked tile: " + tileCurX + " " + tileCurY);
+
+                }
+                case RIGHT -> {
+                    int tileCurX = gameModel.gameSession().hero().currentTile().x() + 1;
+                    int tileCurY = gameModel.gameSession().hero().currentTile().y();
+                    TileIndexCoordinates tile = new TileIndexCoordinates(tileCurX, tileCurY);
+                    tileClickedHandler.accept(tile);
+                    System.out.println("User clicked tile: " + tileCurX + " " + tileCurY);
+
+                }
+            }
+        });
         return gamePane;
     }
 }

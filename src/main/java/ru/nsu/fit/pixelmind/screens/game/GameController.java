@@ -130,13 +130,13 @@ public class GameController implements ScreenController {
                     ATTACK
             );
             List<CharacterView> enemiesViews = doAndGatherEnemiesSteps(hero.currentTile());
-            gameView.animateNextStep(hero.getView(), enemiesViews, callback);
+            gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, callback);
             return;
         }
         TileIndexCoordinates nextTileToHuntEnemy = route.getFirst();
         hero.setAnimationInfoOnThisStep(hero.currentTile(), nextTileToHuntEnemy, MOVE);
         List<CharacterView> enemiesViews = doAndGatherEnemiesSteps(nextTileToHuntEnemy);
-        gameView.animateNextStep(hero.getView(), enemiesViews, this::huntEnemy);
+        gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, this::huntEnemy);
         gameModel.gameSession().gameField().releaseTile(gameModel.gameSession().hero().currentTile());
         gameModel.gameSession().gameField().captureTile(nextTileToHuntEnemy);
         gameModel.gameSession().hero().setCurrentPosition(nextTileToHuntEnemy);
@@ -149,7 +149,6 @@ public class GameController implements ScreenController {
         CharacterController hero = gameModel.gameSession().hero();
         var route = buildRoute(hero.currentTile(), hero.targetTile(), getAllCapturedTilesExcept());
         if (route.isEmpty()) {
-            System.out.println("This tile cannot be accessible");
             return;
         }
         TileIndexCoordinates nextTileInRoute = route.getFirst();
@@ -158,7 +157,7 @@ public class GameController implements ScreenController {
         gameModel.gameSession().gameField().captureTile(nextTileInRoute);
         hero.setCurrentPosition(nextTileInRoute);
         List<CharacterView> enemiesViews = doAndGatherEnemiesSteps(nextTileInRoute);
-        gameView.animateNextStep(hero.getView(), enemiesViews, this::moveHeroToNextTile);
+        gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, this::moveHeroToNextTile);
     }
 
     private CharacterController getEnemyOnTile(@NotNull TileIndexCoordinates tile) {
@@ -215,16 +214,6 @@ public class GameController implements ScreenController {
     private Deque<TileIndexCoordinates> buildRoute(@NotNull TileIndexCoordinates exclusiveFrom, @NotNull TileIndexCoordinates inclusiveTo, @NotNull List<TileIndexCoordinates> additionalBarriers) {
         return gameModel.gameSession().gameField().buildRoute(exclusiveFrom, inclusiveTo, additionalBarriers);
     }
-
-//    private boolean checkAreEnemiesDead() {
-//        for (CharacterController enemy : gameModel.getEnemies()) {
-//            if (enemy.currentHealth() != 0) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-
 
     private void finishGameSession(String gameResult, int gameScore) {
         gameEndSceneHandler.switchToGameEndScene(gameResult, gameScore);

@@ -12,8 +12,8 @@ import ru.nsu.fit.pixelmind.camera.CameraController;
 import ru.nsu.fit.pixelmind.characters.SpriteType;
 import ru.nsu.fit.pixelmind.characters.character.CharacterController;
 import ru.nsu.fit.pixelmind.characters.character.CharacterView;
-import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapController;
 import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapController;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import static ru.nsu.fit.pixelmind.characters.ActionType.MOVE;
 
 
 public class GameViewBuilder implements Builder<Region> {
-    private Canvas gameField;
+    private Canvas gameScrene;
     private TileMapController tileMapController;
     private final CameraController cameraController;
     private final GameModel gameModel;
@@ -37,18 +37,19 @@ public class GameViewBuilder implements Builder<Region> {
     @Override
     public Region build() {
         tileMapController = gameModel.gameSession().gameField();
-        gameField = tileMapController.getView();
+        gameScrene = tileMapController.getView();
 
         StackPane gameScreen = new StackPane();
         gameScreen.getChildren().add(cameraController.getView());
         gameScreen.setBackground(Background.fill(Color.BLACK));
+//        Pane cameraView = (Pane) cameraController.getView();
         redrawHeroOnPosition(gameModel.gameSession().hero().getView(), gameModel.gameSession().hero().currentTile());
         System.out.println(gameModel.gameSession().enemies());
         redrawEnemiesCurrentPositions(gameModel.gameSession().enemies().stream().map(CharacterController::getView).toList());
         return gameScreen;
     }
 
-    public void animateNextStep(CharacterView hero, List<CharacterView> enemies, Runnable callback) {
+    public void animateHeroAndEnemiesSteps(CharacterView hero, List<CharacterView> enemies, Runnable callback) {
         animateStepBlock(hero, enemies, callback);
     }
 
@@ -70,7 +71,7 @@ public class GameViewBuilder implements Builder<Region> {
                     return;
                 }
                 isAnimatingRightNow = true;
-                gameField.getGraphicsContext2D().clearRect(0, 0, gameField.getWidth(), gameField.getHeight());
+                gameScrene.getGraphicsContext2D().clearRect(0, 0, gameScrene.getWidth(), gameScrene.getHeight());
                 tileMapController.redrawTileMap();
                 if (frameCount >= numFramesOnHeroAnimation) {
                     if (heroView.actionTypeOnThisStep() == MOVE) {
@@ -93,7 +94,7 @@ public class GameViewBuilder implements Builder<Region> {
                             double dy = (double) ((heroTargetTile.y() - heroCurrentTile.y()) * TILE_SIZE) / numFramesOnHeroAnimation;
                             double x = heroCurrentTile.x() * TILE_SIZE + dx * frameCount;
                             double y = heroCurrentTile.y() * TILE_SIZE + dy * frameCount;
-                            gameField.getGraphicsContext2D().drawImage(heroView.build(), x, y);
+                            gameScrene.getGraphicsContext2D().drawImage(heroView.build(), x, y);
                             redrawEnemiesCurrentPositions(enemiesViews);
                         }
                         case WAIT, DIE -> {
@@ -106,7 +107,7 @@ public class GameViewBuilder implements Builder<Region> {
                     for (CharacterView enemyView : enemiesViews) {
                         switch (enemyView.actionTypeOnThisStep()) {
                             case ATTACK, DIE, WAIT -> {
-                                gameField.getGraphicsContext2D().drawImage(enemyView.build(), enemyView.currentTile().x() * TILE_SIZE, enemyView.currentTile().y() * TILE_SIZE);
+                                gameScrene.getGraphicsContext2D().drawImage(enemyView.build(), enemyView.currentTile().x() * TILE_SIZE, enemyView.currentTile().y() * TILE_SIZE);
                                 redrawHeroOnPosition(heroView, heroView.currentTile());
                             }
                             case MOVE -> {
@@ -116,7 +117,7 @@ public class GameViewBuilder implements Builder<Region> {
                                 double dy = (double) ((enemyTargetTile.y() - enemyCurrentTile.y()) * TILE_SIZE) / numFramesOnEnemiesAnimation;
                                 double x = enemyCurrentTile.x() * TILE_SIZE + dx * (frameCount - numFramesOnHeroAnimation);
                                 double y = enemyCurrentTile.y() * TILE_SIZE + dy * (frameCount - numFramesOnHeroAnimation);
-                                gameField.getGraphicsContext2D().drawImage(enemyView.build(), x, y);
+                                gameScrene.getGraphicsContext2D().drawImage(enemyView.build(), x, y);
                                 redrawHeroOnPosition(heroView, heroView.currentTile());
                             }
                         }
@@ -130,12 +131,12 @@ public class GameViewBuilder implements Builder<Region> {
     }
 
     private void redrawHeroOnPosition(CharacterView heroView, TileIndexCoordinates position) {
-        gameField.getGraphicsContext2D().drawImage(heroView.build(), position.x() * TILE_SIZE, position.y() * TILE_SIZE);
+        gameScrene.getGraphicsContext2D().drawImage(heroView.build(), position.x() * TILE_SIZE, position.y() * TILE_SIZE);
     }
 
     private void redrawEnemiesCurrentPositions(List<CharacterView> enemiesForRedraw) {
         for (CharacterView enemyView : enemiesForRedraw) {
-            gameField.getGraphicsContext2D().drawImage(enemyView.build(), enemyView.currentTile().x() * TILE_SIZE, enemyView.currentTile().y() * TILE_SIZE);
+            gameScrene.getGraphicsContext2D().drawImage(enemyView.build(), enemyView.currentTile().x() * TILE_SIZE, enemyView.currentTile().y() * TILE_SIZE);
         }
     }
 
