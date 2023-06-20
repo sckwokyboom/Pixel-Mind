@@ -1,4 +1,7 @@
-package ru.nsu.fit.pixelmind.screens.game;
+package ru.nsu.fit.pixelmind.screens.game.game_screen;
+
+import org.jetbrains.annotations.NotNull;
+import ru.nsu.fit.pixelmind.screens.game.GameSession;
 
 public class GameModel {
     private int score;
@@ -16,7 +19,7 @@ public class GameModel {
         return gameSession;
     }
 
-    public void setGameSession(GameSession gameSession) {
+    public void setGameSession(@NotNull GameSession gameSession) {
         this.gameSession = gameSession;
     }
 }

@@ -22,7 +22,7 @@ public class CharacterView implements Builder<Image> {
     private SpriteType currentSpriteType = SpriteType.REGULAR_SPRITE;
 
 
-    CharacterView(Map<SpriteType, Image> characterSprites) {
+    CharacterView(@NotNull Map<@NotNull SpriteType, @NotNull Image> characterSprites) {
         this.characterSprites = characterSprites;
         currentSprite = characterSprites.get(currentSpriteType);
     }

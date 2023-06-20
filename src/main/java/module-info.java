@@ -38,6 +38,8 @@ module ru.nsu.fit.pixelmind {
     opens ru.nsu.fit.pixelmind.characters.character to javafx.fxml;
     exports ru.nsu.fit.pixelmind.game_field.tile_map;
     opens ru.nsu.fit.pixelmind.game_field.tile_map to javafx.fxml;
-    exports ru.nsu.fit.pixelmind.camera;
-    opens ru.nsu.fit.pixelmind.camera to javafx.fxml;
+    exports ru.nsu.fit.pixelmind.screens.game.camera;
+    opens ru.nsu.fit.pixelmind.screens.game.camera to javafx.fxml;
+    exports ru.nsu.fit.pixelmind.screens.game.game_screen;
+    opens ru.nsu.fit.pixelmind.screens.game.game_screen to javafx.fxml;
 }

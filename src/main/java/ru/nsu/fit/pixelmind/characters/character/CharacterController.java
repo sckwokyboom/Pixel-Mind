@@ -1,6 +1,7 @@
 package ru.nsu.fit.pixelmind.characters.character;
 
 import javafx.scene.image.Image;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.nsu.fit.pixelmind.characters.ActionType;
 import ru.nsu.fit.pixelmind.characters.SpriteType;
@@ -9,7 +10,6 @@ import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 import java.util.Map;
 
 public class CharacterController {
-    // private final CharacterInteractor interactor;
     private final CharacterView heroView;
     private final CharacterModel model;
 
@@ -42,30 +42,32 @@ public class CharacterController {
         model.setCurrentPosition(newPosition);
     }
 
-    public CharacterController getHuntedEnemy() {
-        return model.huntedEnemy();
+    @Nullable
+    public CharacterController huntingTarget() {
+        return model.huntingTarget();
     }
 
     public void huntEnemy(@Nullable CharacterController enemy) {
         if (enemy != null) {
-            model.setHuntedEnemy(enemy);
+            model.setHuntingTarget(enemy);
         }
     }
 
-
+    @NotNull
     public TileIndexCoordinates currentTile() {
         return model.currentPosition();
     }
 
+    @NotNull
     public TileIndexCoordinates targetTile() {
         return model.targetTile();
     }
 
-    public void setTargetTile(TileIndexCoordinates newTarget) {
+    public void setTargetTile(@NotNull TileIndexCoordinates newTarget) {
         model.setTargetTile(newTarget);
     }
 
-    public void setAnimationInfoOnThisStep(TileIndexCoordinates current, TileIndexCoordinates target, ActionType action) {
+    public void setAnimationInfoOnThisStep(@NotNull TileIndexCoordinates current, @NotNull TileIndexCoordinates target, @NotNull ActionType action) {
         heroView.setCurrentPositionOnThisStep(current);
         heroView.setActionTargetTileOnThisStep(target);
         heroView.setActionTypeOnThisStep(action);

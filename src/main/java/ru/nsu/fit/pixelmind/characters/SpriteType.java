@@ -1,5 +1,7 @@
 package ru.nsu.fit.pixelmind.characters;
 
+import org.jetbrains.annotations.NotNull;
+
 public enum SpriteType {
     REGULAR_SPRITE(0),
     MOVING_FIRST(1),
@@ -22,12 +24,8 @@ public enum SpriteType {
         return key;
     }
 
+    @NotNull
     public static SpriteType valueOf(int key) {
-        for (SpriteType type : SpriteType.values()) {
-            if (type.getKey() == key) {
-                return type;
-            }
-        }
-        return null;
+        return SpriteType.values()[key];
     }
 }

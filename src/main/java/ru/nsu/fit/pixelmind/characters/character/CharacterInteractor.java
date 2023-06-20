@@ -15,6 +15,7 @@ public class CharacterInteractor {
     @NotNull
     public static Map<SpriteType, Image> parseSprites(@NotNull String assetPath) {
         Map<SpriteType, Image> characterSprites = new HashMap<>(NUMBER_OF_CHARACTER_SPRITES_IN_FILE);
+        assert (NUMBER_OF_CHARACTER_SPRITES_IN_FILE == SpriteType.values().length);
         for (int i = 0; i < NUMBER_OF_CHARACTER_SPRITES_IN_FILE; i++) {
             int startOffsetX = i * SPRITE_SIZE;
             int startOffsetY = 0;

@@ -1,4 +1,7 @@
 package ru.nsu.fit.pixelmind.game_field;
 
-public record TileSetAssetName(TileSetType tileSetType, String tileSetAsset) {
+import org.jetbrains.annotations.NotNull;
+
+public record TileSetAssetName(@NotNull TileSetType tileSetType,
+                               @NotNull String tileSetAsset) {
 }

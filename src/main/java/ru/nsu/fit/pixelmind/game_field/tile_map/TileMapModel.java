@@ -1,16 +1,18 @@
 package ru.nsu.fit.pixelmind.game_field.tile_map;
 
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.game_field.tile.TileController;
 
 public class TileMapModel {
-    private final TileController[][] tileMap;
+    private final @NotNull TileController[][] tileMap;
     private int tileMapHeight;
     private int tileMapWidth;
 
-    public TileMapModel(TileController[][] tileMap) {
+    public TileMapModel(@NotNull TileController[][] tileMap) {
         this.tileMap = tileMap;
     }
 
+    @NotNull
     public TileController[][] tileMap() {
         return tileMap;
     }

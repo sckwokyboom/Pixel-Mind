@@ -1,5 +1,7 @@
 package ru.nsu.fit.pixelmind.characters.character;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 
 public class CharacterModel {
@@ -8,9 +10,9 @@ public class CharacterModel {
     private int healthPoints = 100;
     private TileIndexCoordinates currentPosition;
     private TileIndexCoordinates targetTile;
-    private CharacterController huntedEnemy;
+    private CharacterController huntingTarget;
 
-    public CharacterModel(CharacterType characterType) {
+    public CharacterModel(@NotNull CharacterType characterType) {
         this.characterType = characterType;
     }
 
@@ -30,11 +32,12 @@ public class CharacterModel {
         this.damageValue = damageValue;
     }
 
+    @NotNull
     public TileIndexCoordinates currentPosition() {
         return currentPosition;
     }
 
-    public void setCurrentPosition(TileIndexCoordinates currentPosition) {
+    public void setCurrentPosition(@NotNull TileIndexCoordinates currentPosition) {
         this.currentPosition = currentPosition;
     }
 
@@ -42,18 +45,20 @@ public class CharacterModel {
         return targetTile;
     }
 
-    public void setTargetTile(TileIndexCoordinates targetTile) {
+    public void setTargetTile(@NotNull TileIndexCoordinates targetTile) {
         this.targetTile = targetTile;
     }
 
-    public CharacterController huntedEnemy() {
-        return huntedEnemy;
+    @Nullable
+    public CharacterController huntingTarget() {
+        return huntingTarget;
     }
 
-    public void setHuntedEnemy(CharacterController huntedEnemy) {
-        this.huntedEnemy = huntedEnemy;
+    public void setHuntingTarget(@Nullable CharacterController huntingTarget) {
+        this.huntingTarget = huntingTarget;
     }
 
+    @NotNull
     public CharacterType characterType() {
         return characterType;
     }

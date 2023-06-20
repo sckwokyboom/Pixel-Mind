@@ -1,23 +1,26 @@
-package ru.nsu.fit.pixelmind.screens.game;
+package ru.nsu.fit.pixelmind.screens.game.game_screen;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.camera.CameraController;
+import org.jetbrains.annotations.Nullable;
 import ru.nsu.fit.pixelmind.characters.character.CharacterController;
 import ru.nsu.fit.pixelmind.characters.character.CharacterType;
 import ru.nsu.fit.pixelmind.characters.character.CharacterView;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
-import ru.nsu.fit.pixelmind.game_field.TileSetType;
 import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 import ru.nsu.fit.pixelmind.game_field.tile.TileType;
 import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapController;
 import ru.nsu.fit.pixelmind.screens.SceneManager;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
+import ru.nsu.fit.pixelmind.screens.game.GameSession;
+import ru.nsu.fit.pixelmind.screens.game.camera.CameraController;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
 
 import java.util.*;
 
+import static ru.nsu.fit.pixelmind.Constants.GAME_LOSS_MESSAGE;
+import static ru.nsu.fit.pixelmind.Constants.GAME_VICTORY_MESSAGE;
 import static ru.nsu.fit.pixelmind.characters.ActionType.*;
 
 public class GameController implements ScreenController {
@@ -25,7 +28,7 @@ public class GameController implements ScreenController {
     private final GameModel gameModel;
     private final SceneManager.GameEndSceneHandler gameEndSceneHandler;
 
-    public GameController(SceneManager.GameEndSceneHandler gameEndSceneHandler) {
+    public GameController(@NotNull SceneManager.GameEndSceneHandler gameEndSceneHandler) {
         this.gameEndSceneHandler = gameEndSceneHandler;
         gameModel = new GameModel();
         CameraController cameraController = new CameraController(gameModel, this::handleTileClicked);
@@ -33,19 +36,14 @@ public class GameController implements ScreenController {
     }
 
     @Override
+    @NotNull
     public Region getView() {
         return gameView.build();
     }
 
     public void launchGameSession(@NotNull Resources resources, @NotNull GameSessionConfig gameSessionConfig) {
-        System.out.println("Launch game session with");
-        System.out.println("Resources: " + resources);
-        System.out.println("Hero type: " + gameSessionConfig.heroType());
-        System.out.println("Enemies: " + gameSessionConfig.enemiesTypes());
-        System.out.println("Tile map size: " + gameSessionConfig.tileMapSize());
+        System.out.println("Launch game session");
         Map<TileType, Image> tileTypeImageResources = resources.tileSets().get(gameSessionConfig.tileSetType());
-        System.out.println("TileMapType" + resources.tileSets().get(TileSetType.REGULAR));
-
         TileMapController tileMapController = new TileMapController(gameSessionConfig.tileMap(), gameSessionConfig.tileMapSize(), tileTypeImageResources);
 
         CharacterController hero = new CharacterController(gameSessionConfig.heroType(), resources.sprites().get(gameSessionConfig.heroType()));
@@ -71,7 +69,7 @@ public class GameController implements ScreenController {
         gameModel.setGameSession(new GameSession(tileMapController, hero, enemies));
     }
 
-    public void handleTileClicked(TileIndexCoordinates tile) {
+    public void handleTileClicked(@NotNull TileIndexCoordinates tile) {
         if (gameView.isAnimatingRightNow()) {
             return;
         }
@@ -102,7 +100,7 @@ public class GameController implements ScreenController {
             return;
         }
         CharacterController hero = gameModel.gameSession().hero();
-        CharacterController huntedEnemy = hero.getHuntedEnemy();
+        CharacterController huntedEnemy = hero.huntingTarget();
         if (huntedEnemy == null) {
             return;
         }
@@ -130,13 +128,13 @@ public class GameController implements ScreenController {
                     currentHuntedEnemyPosition,
                     ATTACK
             );
-            List<CharacterView> enemiesViews = doAndGatherEnemiesSteps(hero.currentTile());
+            List<CharacterView> enemiesViews = buildEnemiesSteps(hero.currentTile());
             gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, callback);
             return;
         }
         TileIndexCoordinates nextTileToHuntEnemy = route.getFirst();
         hero.setAnimationInfoOnThisStep(hero.currentTile(), nextTileToHuntEnemy, MOVE);
-        List<CharacterView> enemiesViews = doAndGatherEnemiesSteps(nextTileToHuntEnemy);
+        List<CharacterView> enemiesViews = buildEnemiesSteps(nextTileToHuntEnemy);
         gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, this::huntEnemy);
         gameModel.gameSession().gameField().releaseTile(gameModel.gameSession().hero().currentTile());
         gameModel.gameSession().gameField().captureTile(nextTileToHuntEnemy);
@@ -157,10 +155,11 @@ public class GameController implements ScreenController {
         gameModel.gameSession().gameField().releaseTile(gameModel.gameSession().hero().currentTile());
         gameModel.gameSession().gameField().captureTile(nextTileInRoute);
         hero.setCurrentPosition(nextTileInRoute);
-        List<CharacterView> enemiesViews = doAndGatherEnemiesSteps(nextTileInRoute);
+        List<CharacterView> enemiesViews = buildEnemiesSteps(nextTileInRoute);
         gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, this::moveHeroToNextTile);
     }
 
+    @Nullable
     private CharacterController getEnemyOnTile(@NotNull TileIndexCoordinates tile) {
         for (CharacterController enemy : gameModel.gameSession().enemies()) {
             if (enemy.currentTile().equals(tile)) {
@@ -171,7 +170,7 @@ public class GameController implements ScreenController {
     }
 
     @NotNull
-    private List<CharacterView> doAndGatherEnemiesSteps(TileIndexCoordinates targetPosition) {
+    private List<CharacterView> buildEnemiesSteps(@NotNull TileIndexCoordinates targetPosition) {
         List<CharacterView> enemiesViews = new ArrayList<>();
         for (CharacterController enemy : gameModel.gameSession().enemies()) {
             var route = buildRoute(enemy.currentTile(), targetPosition, getAllCapturedTilesExcept(enemy));
@@ -201,7 +200,8 @@ public class GameController implements ScreenController {
         return enemiesViews;
     }
 
-    private List<TileIndexCoordinates> getAllCapturedTilesExcept(CharacterController... availableCharacters) {
+    @NotNull
+    private List<TileIndexCoordinates> getAllCapturedTilesExcept(@NotNull CharacterController... availableCharacters) {
         List<TileIndexCoordinates> capturedTiles = new ArrayList<>();
         for (CharacterController enemy : gameModel.gameSession().enemies()) {
             if (!Arrays.stream(availableCharacters).toList().contains(enemy)) {
@@ -216,16 +216,16 @@ public class GameController implements ScreenController {
         return gameModel.gameSession().gameField().buildRoute(exclusiveFrom, inclusiveTo, additionalBarriers);
     }
 
-    private void finishGameSession(String gameResult, int gameScore) {
+    private void finishGameSession(@NotNull String gameResult, int gameScore) {
         gameEndSceneHandler.switchToGameEndScene(gameResult, gameScore);
         gameModel.setScore(0);
     }
 
     private void playerWon() {
-        finishGameSession("You won!", gameModel.getScore());
+        finishGameSession(GAME_VICTORY_MESSAGE, gameModel.getScore());
     }
 
     private void playerLose() {
-        finishGameSession("You lose :(", gameModel.getScore());
+        finishGameSession(GAME_LOSS_MESSAGE, gameModel.getScore());
     }
 }

@@ -3,7 +3,7 @@ package ru.nsu.fit.pixelmind.screens;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.screens.game.GameController;
+import ru.nsu.fit.pixelmind.screens.game.game_screen.GameController;
 import ru.nsu.fit.pixelmind.screens.game_end_screen.GameEndScreenController;
 import ru.nsu.fit.pixelmind.screens.load_game_screen.LoadGameScreenController;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.LoadingResourcesController;

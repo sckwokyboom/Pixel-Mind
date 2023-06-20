@@ -32,7 +32,8 @@ public class TileMapInteractor {
         return tileControllers;
     }
 
-    public static Map<TileType, Image> parseTileSet(String asset) {
+    @NotNull
+    public static Map<TileType, Image> parseTileSet(@NotNull String asset) {
         Map<TileType, Image> tileSet = new HashMap<>();
         for (int j = 0; j < TILES_NUM_IN_COLUMN; j++) {
             for (int i = 0; i < TILES_NUM_IN_ROW; i++) {

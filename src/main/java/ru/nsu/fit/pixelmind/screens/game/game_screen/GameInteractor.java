@@ -1,4 +1,4 @@
-package ru.nsu.fit.pixelmind.screens.game;
+package ru.nsu.fit.pixelmind.screens.game.game_screen;
 
 import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;

@@ -27,6 +27,7 @@ public class TileMapViewBuilder implements Builder<Canvas> {
     }
 
     @Override
+    @NotNull
     public Canvas build() {
         System.out.println("Redraw tile map in GameField");
         drawTileMap();

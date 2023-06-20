@@ -27,6 +27,7 @@ public class TileMapController {
         wallTypes.add(TileType.WOOD_WALL);
     }
 
+    @NotNull
     public Canvas getView() {
         return viewBuilder.build();
     }
