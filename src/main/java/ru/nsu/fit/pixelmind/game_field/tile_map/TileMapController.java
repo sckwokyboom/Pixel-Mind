@@ -37,7 +37,7 @@ public class TileMapController {
     }
 
     public boolean isTileAccessible(@NotNull TileIndexCoordinates tile) {
-        if (tile.x() >= tileMapModel.width() || tile.y() >= tileMapModel.height()) {
+        if (tile.x() >= tileMapModel.width() || tile.y() >= tileMapModel.height() || tile.x() < 0 || tile.y() < 0) {
             return false;
         }
         TileController tileController = tileMapModel.tileMap()[tile.x()][tile.y()];
