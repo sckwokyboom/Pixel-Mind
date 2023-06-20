@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
 
 public class LoadingResourcesModel {
+    // CR: just boolean
     private final BooleanProperty isSetup = new SimpleBooleanProperty(false);
     private Resources resources;
     private GameSessionConfig gameSessionConfig;

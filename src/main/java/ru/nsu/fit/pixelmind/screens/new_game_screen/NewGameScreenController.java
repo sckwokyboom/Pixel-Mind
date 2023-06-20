@@ -21,8 +21,7 @@ public class NewGameScreenController {
     public NewGameScreenController(SceneManager sceneManager, Supplier<Resources> resourcesGetter, @NotNull Supplier<GameSessionConfig> gameSessionConfig, BiConsumer<Resources, GameSessionConfig> launchGameSession) {
         this.gameSessionConfigGetter = gameSessionConfig;
         this.launchGameSession = launchGameSession;
-        NewGameScreenModel model = new NewGameScreenModel();
-        viewBuilder = new NewGameScreenViewBuilder(model, this::handleBackToMainMenuButtonClicked, this::handleStartButtonClicked);
+        viewBuilder = new NewGameScreenViewBuilder(this::handleBackToMainMenuButtonClicked, this::handleStartButtonClicked);
         this.sceneManager = sceneManager;
         this.resourcesGetter = resourcesGetter;
     }
@@ -33,10 +32,6 @@ public class NewGameScreenController {
 
     public void handleStartButtonClicked() {
         sceneManager.switchToLoadingResourcesScreen();
-        Resources resources = resourcesGetter.get();
-        GameSessionConfig gameSessionConfig = gameSessionConfigGetter.get();
-        launchGameSession.accept(resources, gameSessionConfig);
-        sceneManager.switchToGameScene();
     }
 
     public Region getView() {

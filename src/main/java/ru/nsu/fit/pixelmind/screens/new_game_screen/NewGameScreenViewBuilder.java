@@ -10,12 +10,10 @@ import javafx.util.Builder;
 import ru.nsu.fit.pixelmind.screens.widgets.Buttons;
 
 public class NewGameScreenViewBuilder implements Builder<Region> {
-    private final NewGameScreenModel model;
     private final Runnable backToMainMenuButtonHandler;
     private final Runnable startButtonHandler;
 
-    public NewGameScreenViewBuilder(NewGameScreenModel model, Runnable backToMainMenuButtonHandler, Runnable startButtonHandler) {
-        this.model = model;
+    public NewGameScreenViewBuilder(Runnable backToMainMenuButtonHandler, Runnable startButtonHandler) {
         this.backToMainMenuButtonHandler = backToMainMenuButtonHandler;
         this.startButtonHandler = startButtonHandler;
     }

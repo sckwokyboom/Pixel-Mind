@@ -3,10 +3,12 @@ package ru.nsu.fit.pixelmind.screens;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+import ru.nsu.fit.pixelmind.config.GameSessionConfig;
 import ru.nsu.fit.pixelmind.screens.game.game_screen.GameController;
 import ru.nsu.fit.pixelmind.screens.game_end_screen.GameEndScreenController;
 import ru.nsu.fit.pixelmind.screens.load_game_screen.LoadGameScreenController;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.LoadingResourcesController;
+import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
 import ru.nsu.fit.pixelmind.screens.main_menu_screen.MainMenuController;
 import ru.nsu.fit.pixelmind.screens.new_game_screen.NewGameScreenController;
 import ru.nsu.fit.pixelmind.screens.scores_screen.ScoresController;
@@ -55,8 +57,15 @@ public class SceneManager {
         primaryStage.show();
     }
 
+//    public void switchTo(ScreenController controller) {
+//        Scene mainMenuScene = new Scene(mainMenuController.getView(), 512, 512);
+//
+//        primaryStage.setScene(mainMenuScene);
+//        primaryStage.show();
+//    }
+
     public void switchToMainMenuScene() {
-        Scene mainMenuScene = new Scene(mainMenuController.getView(), 512, 512);
+        Scene mainMenuScene = new Scene(mainMenuController. getView(), 512, 512);
 
         primaryStage.setScene(mainMenuScene);
         primaryStage.show();
@@ -70,13 +79,18 @@ public class SceneManager {
     }
 
     public void switchToLoadingResourcesScreen() {
+
         Scene loadingResourcesScene = new Scene(loadingResourcesScreenController.getView(), 512, 512);
 
         primaryStage.setScene(loadingResourcesScene);
         primaryStage.show();
         System.out.println("Set loading scene");
-    }
 
+        Resources resources = loadingResourcesScreenController.resources();
+        GameSessionConfig config = loadingResourcesScreenController.gameSessionConfig();
+        gameController.launchGameSession(resources, config);
+        switchToGameScene();
+    }
 
     public void exit() {
         primaryStage.close();

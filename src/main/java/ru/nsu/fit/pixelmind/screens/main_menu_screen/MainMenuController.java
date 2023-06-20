@@ -4,6 +4,11 @@ import javafx.scene.layout.Region;
 import ru.nsu.fit.pixelmind.screens.SceneManager;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 
+// CR:
+// interface MenuListener {
+//    void handleNewGameButtonClicked();
+//}
+
 public class MainMenuController implements ScreenController {
     private final SceneManager sceneManager;
     private final MainMenuViewBuilder mainMenuViewBuilder;
