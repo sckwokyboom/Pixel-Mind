@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.jetbrains.annotations.NotNull;
+import ru.nsu.fit.pixelmind.characters.character.CharacterType;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -15,31 +16,20 @@ import java.util.List;
 
 public class ScoresInteractor {
     public static final String SCORES_TABLE = "src/main/resources/scores.csv";
-//    private ScoresInteractor instance;
-//
-//    private final List<HighScore> highScores;
-//
-//
-//    public ScoresInteractor getInstance() {
-//        if (instance != null) {
-//            return instance;
-//        }
-//        instance = new ScoresInteractor(loadFromFile(SCORES_TABLE));
-//        return instance;
-//
-//    }
-//
-//    List<HighScore> getScores() {}
-//    void dumpScores() {}
-//    void addScore(String player, int score) {
-//
-//    }
+    private final ScoresModel scoresModel;
 
-    public static void addScoreToTable(int gameScore) {
+    public ScoresInteractor(ScoresModel scoresModel) {
+        this.scoresModel = scoresModel;
+    }
+
+    public void dumpScores() {
         try (FileWriter fileWriter = new FileWriter(SCORES_TABLE, true);
              CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT)) {
 
-            csvPrinter.printRecord(gameScore);
+            for (HighScoreEntry scoreEntry : scoresModel.scores()) {
+                csvPrinter.printRecord(scoreEntry.heroType(), scoreEntry.score());
+
+            }
             csvPrinter.flush();
 
         } catch (IOException e) {
@@ -47,14 +37,22 @@ public class ScoresInteractor {
         }
     }
 
+    public void addScore(CharacterType heroType, int score) {
+        scoresModel.scores().add(new HighScoreEntry(heroType, score));
+    }
+
+    public void loadScoresFromFile() {
+        scoresModel.setScores(readScoresFromTable());
+    }
+
     @NotNull
-    public static List<CSVRecord> readScoresFromTable() {
-        ArrayList<CSVRecord> csvRecords = new ArrayList<>();
+    private static List<HighScoreEntry> readScoresFromTable() {
+        ArrayList<HighScoreEntry> csvRecords = new ArrayList<>();
         try (Reader reader = new FileReader(SCORES_TABLE);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT)) {
 
             for (CSVRecord csvRecord : csvParser) {
-                csvRecords.add(csvRecord);
+                csvRecords.add(new HighScoreEntry(CharacterType.valueOf(csvRecord.get(0)), Integer.parseInt(csvRecord.get(1))));
             }
         } catch (IOException ignored) {
         }

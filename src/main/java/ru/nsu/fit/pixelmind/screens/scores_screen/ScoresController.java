@@ -2,20 +2,27 @@ package ru.nsu.fit.pixelmind.screens.scores_screen;
 
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
-import ru.nsu.fit.pixelmind.screens.SceneManager;
+import ru.nsu.fit.pixelmind.characters.character.CharacterType;
+import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 import ru.nsu.fit.pixelmind.screens.common.BackToMainMenuListener;
 
 public class ScoresController implements BackToMainMenuListener, ScreenController {
     private final Builder<Region> viewBuilder;
-    private final SceneManager sceneManager;
+    private final MainController mainController;
+    private final ScoresModel scoresModel;
+    private final ScoresInteractor scoresInteractor;
 
-    public ScoresController(SceneManager sceneManager) {
-        viewBuilder = new ScoresViewBuilder(this::handleBackToMainMenuButtonClicked);
-        this.sceneManager = sceneManager;
+    public ScoresController(MainController mainController) {
+        scoresModel = new ScoresModel();
+        scoresInteractor = new ScoresInteractor(scoresModel);
+        viewBuilder = new ScoresViewBuilder(scoresModel, this::handleBackToMainMenu);
+        this.mainController = mainController;
     }
-    public void handleBackToMainMenuButtonClicked() {
-        sceneManager.switchToMainMenuScene();
+
+    @Override
+    public void handleBackToMainMenu() {
+        mainController.switchToMainMenuScene();
     }
 
     @Override
@@ -23,8 +30,16 @@ public class ScoresController implements BackToMainMenuListener, ScreenControlle
         return viewBuilder.build();
     }
 
-    @Override
-    public void handleBackToMainMenu() {
-        sceneManager.switchToMainMenuScene();
+    public void dumpScores() {
+        scoresInteractor.dumpScores();
     }
+
+    public void addNewScore(CharacterType heroType, int score) {
+        scoresInteractor.addScore(heroType, score);
+    }
+
+    public void loadScores() {
+        scoresInteractor.loadScoresFromFile();
+    }
+
 }

@@ -22,7 +22,7 @@
     "width": 16,
     "height": 16
   },
-  "heroType": "WARRIOR",
+  "heroType": "NORTH_WARRIOR",
   "enemiesTypes": [
     "FIRE_WOMAN",
     "FIRE_WOMAN",

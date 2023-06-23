@@ -7,10 +7,10 @@ import ru.nsu.fit.pixelmind.characters.character.CharacterInteractor;
 import ru.nsu.fit.pixelmind.characters.character.CharacterSpriteAssetName;
 import ru.nsu.fit.pixelmind.characters.character.CharacterType;
 import ru.nsu.fit.pixelmind.config.ResourcesConfig;
-import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapInteractor;
 import ru.nsu.fit.pixelmind.game_field.TileSetAssetName;
 import ru.nsu.fit.pixelmind.game_field.TileSetType;
 import ru.nsu.fit.pixelmind.game_field.tile.TileType;
+import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapInteractor;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
 
 import java.util.Collections;
@@ -21,7 +21,7 @@ public class GameInteractor {
 
     @NotNull
     public static Resources parseResources(@NotNull ResourcesConfig resourcesConfig) {
-        return new Resources(parseSprites(resourcesConfig.sprites()), parseTileSets(resourcesConfig.tileSets()));
+        return new Resources(parseAvatars(resourcesConfig.avatarsPath(), resourcesConfig.avatars()), parseSprites(resourcesConfig.sprites()), parseTileSets(resourcesConfig.tileSets()));
     }
 
     @NotNull
@@ -32,6 +32,11 @@ public class GameInteractor {
             sprites.put(asset.characterType(), Collections.unmodifiableMap(characterSprites));
         }
         return Collections.unmodifiableMap(sprites);
+    }
+
+    @NotNull
+    private static Map<CharacterType, Image> parseAvatars(@NotNull String avatarsPath, @NotNull CharacterType[] avatarsTypes) {
+        return Collections.unmodifiableMap(CharacterInteractor.parseAvatars(avatarsPath, avatarsTypes));
     }
 
     @NotNull

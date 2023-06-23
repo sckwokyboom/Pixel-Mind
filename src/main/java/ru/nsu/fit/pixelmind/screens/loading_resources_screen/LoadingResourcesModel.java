@@ -1,15 +1,15 @@
 package ru.nsu.fit.pixelmind.screens.loading_resources_screen;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
 
 public class LoadingResourcesModel {
-    // CR: just boolean
-    private final BooleanProperty isSetup = new SimpleBooleanProperty(false);
+    private boolean isResourcesSetup;
+    private boolean isGameSessionConfigSetup;
     private Resources resources;
     private GameSessionConfig gameSessionConfig;
 
+    @NotNull
     public Resources resources() {
         return resources;
     }
@@ -18,8 +18,8 @@ public class LoadingResourcesModel {
         this.resources = resources;
     }
 
-    public BooleanProperty isSetupProperty() {
-        return isSetup;
+    public boolean isResourcesSetup() {
+        return isResourcesSetup;
     }
 
     public GameSessionConfig getGameSessionConfig() {
@@ -28,5 +28,17 @@ public class LoadingResourcesModel {
 
     public void setGameSessionConfig(GameSessionConfig gameSessionConfig) {
         this.gameSessionConfig = gameSessionConfig;
+    }
+
+    public void setResourcesSetup(boolean isSetup) {
+        this.isResourcesSetup = isSetup;
+    }
+
+    public boolean isGameSessionConfigSetup() {
+        return isGameSessionConfigSetup;
+    }
+
+    public void setGameSessionConfigSetup(boolean gameSessionConfigSetup) {
+        isGameSessionConfigSetup = gameSessionConfigSetup;
     }
 }

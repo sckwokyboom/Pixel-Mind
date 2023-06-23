@@ -1,7 +1,7 @@
 package ru.nsu.fit.pixelmind.screens.main_menu_screen;
 
 import javafx.scene.layout.Region;
-import ru.nsu.fit.pixelmind.screens.SceneManager;
+import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 
 // CR:
@@ -10,10 +10,10 @@ import ru.nsu.fit.pixelmind.screens.ScreenController;
 //}
 
 public class MainMenuController implements ScreenController {
-    private final SceneManager sceneManager;
+    private final MainController sceneManager;
     private final MainMenuViewBuilder mainMenuViewBuilder;
 
-    public MainMenuController(SceneManager sceneManager) {
+    public MainMenuController(MainController sceneManager) {
         mainMenuViewBuilder = new MainMenuViewBuilder(this::handleNewGameButtonClicked, this::handleLoadGameButtonClicked, this::handleHighScoresButtonClicked, this::handleExitButtonClicked);
         this.sceneManager = sceneManager;
     }

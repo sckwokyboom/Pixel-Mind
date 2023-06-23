@@ -2,22 +2,19 @@ package ru.nsu.fit.pixelmind.screens.game_end_screen;
 
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
-import ru.nsu.fit.pixelmind.screens.SceneManager;
+import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
+import ru.nsu.fit.pixelmind.screens.common.BackToMainMenuListener;
 
-public class GameEndScreenController implements ScreenController {
+public class GameEndScreenController implements BackToMainMenuListener, ScreenController {
     private final Builder<Region> viewBuilder;
-    private final SceneManager sceneManager;
+    private final MainController sceneManager;
     private final GameEndScreenModel model;
 
-    public GameEndScreenController(SceneManager sceneManager) {
+    public GameEndScreenController(MainController sceneManager) {
         model = new GameEndScreenModel();
-        viewBuilder = new GameEndScreenViewBuilder(this::handleBackToMainMenuButtonClicked, model.gameScoreProperty(), model.gameResultProperty());
+        viewBuilder = new GameEndScreenViewBuilder(this::handleBackToMainMenu, model.gameScoreProperty(), model.gameResultProperty());
         this.sceneManager = sceneManager;
-    }
-
-    public void handleBackToMainMenuButtonClicked() {
-        sceneManager.switchToMainMenuScene();
     }
 
 
@@ -30,7 +27,13 @@ public class GameEndScreenController implements ScreenController {
         model.gameScoreProperty().set(score);
 
     }
+
     public void setGameResult(String gameResult) {
         model.gameResultProperty().set(gameResult);
+    }
+
+    @Override
+    public void handleBackToMainMenu() {
+        sceneManager.switchToMainMenuScene();
     }
 }

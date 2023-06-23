@@ -12,5 +12,5 @@ public record GameSessionConfig(@NotNull TileSetType tileSetType,
                                 @NotNull TileType[][] tileMap,
                                 @NotNull TileMapSize tileMapSize,
                                 @NotNull CharacterType heroType,
-                                @NotNull List<CharacterType> enemiesTypes) {
+                                @NotNull List<@NotNull CharacterType> enemiesTypes) {
 }

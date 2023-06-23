@@ -2,15 +2,16 @@ package ru.nsu.fit.pixelmind.screens.load_game_screen;
 
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
-import ru.nsu.fit.pixelmind.screens.SceneManager;
+import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
+import ru.nsu.fit.pixelmind.screens.common.BackToMainMenuListener;
 
-public class LoadGameScreenController implements ScreenController {
+public class LoadGameScreenController implements BackToMainMenuListener, ScreenController {
     private final Builder<Region> viewBuilder;
-    private final SceneManager sceneManager;
+    private final MainController sceneManager;
 
-    public LoadGameScreenController(SceneManager sceneManager) {
-        viewBuilder = new LoadGameScreenViewBuilder(this::handleBackToMainMenuButtonClicked);
+    public LoadGameScreenController(MainController sceneManager) {
+        viewBuilder = new LoadGameScreenViewBuilder(this::handleBackToMainMenu);
         this.sceneManager = sceneManager;
     }
 
@@ -19,7 +20,8 @@ public class LoadGameScreenController implements ScreenController {
         return viewBuilder.build();
     }
 
-    public void handleBackToMainMenuButtonClicked() {
+    @Override
+    public void handleBackToMainMenu() {
         sceneManager.switchToMainMenuScene();
     }
 }

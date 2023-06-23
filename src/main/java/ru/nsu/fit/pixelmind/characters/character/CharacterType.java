@@ -1,6 +1,7 @@
 package ru.nsu.fit.pixelmind.characters.character;
 
 public enum CharacterType {
-    WARRIOR,
+    NORTH_WARRIOR,
+    SAND_WARRIOR,
     FIRE_WOMAN
 }

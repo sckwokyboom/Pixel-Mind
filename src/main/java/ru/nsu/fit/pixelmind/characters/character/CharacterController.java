@@ -13,7 +13,7 @@ public class CharacterController {
     private final CharacterView heroView;
     private final CharacterModel model;
 
-    public CharacterController(CharacterType characterType, Map<SpriteType, Image> imageResources) {
+    public CharacterController(@NotNull CharacterType characterType, @NotNull Map<SpriteType, Image> imageResources) {
         this.model = new CharacterModel(characterType);
         heroView = new CharacterView(imageResources);
     }
@@ -75,5 +75,9 @@ public class CharacterController {
 
     public CharacterView getView() {
         return heroView;
+    }
+
+    public CharacterType characterType() {
+        return model.characterType();
     }
 }

@@ -20,15 +20,13 @@ public class LoadingResourcesInteractor {
 
     private final LoadingResourcesModel model;
 
-    public LoadingResourcesInteractor(LoadingResourcesModel model) {
+    LoadingResourcesInteractor(LoadingResourcesModel model) {
         this.model = model;
     }
 
     @NotNull
-    public Resources parseResources() {
-        Resources resources = GameInteractor.parseResources(parseResourcesConfig());
-        model.isSetupProperty().set(true);
-        return resources;
+    public static Resources parseResources() {
+        return GameInteractor.parseResources(parseResourcesConfig());
     }
 
     @NotNull

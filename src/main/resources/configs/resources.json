@@ -1,12 +1,21 @@
 {
+  "avatarsPath": "src/main/resources/assets/AVATARS.png",
+  "avatars": [
+    "SAND_WARRIOR",
+    "NORTH_WARRIOR"
+  ],
   "sprites": [
     {
-      "characterType": "WARRIOR",
+      "characterType": "NORTH_WARRIOR",
       "spritesAsset": "src/main/resources/assets/HERO_SPRITES.png"
     },
     {
       "characterType": "FIRE_WOMAN",
       "spritesAsset": "src/main/resources/assets/FIRE_WOMAN_SPRITES.png"
+    },
+    {
+      "characterType": "SAND_WARRIOR",
+      "spritesAsset": "src/main/resources/assets/SAND_WARRIOR_SPRITES.png"
     }
   ],
   "tileSets": [

@@ -1,8 +1,10 @@
 package ru.nsu.fit.pixelmind.screens;
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+import ru.nsu.fit.pixelmind.characters.character.CharacterType;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
 import ru.nsu.fit.pixelmind.screens.game.game_screen.GameController;
 import ru.nsu.fit.pixelmind.screens.game_end_screen.GameEndScreenController;
@@ -11,10 +13,10 @@ import ru.nsu.fit.pixelmind.screens.loading_resources_screen.LoadingResourcesCon
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
 import ru.nsu.fit.pixelmind.screens.main_menu_screen.MainMenuController;
 import ru.nsu.fit.pixelmind.screens.new_game_screen.NewGameScreenController;
+import ru.nsu.fit.pixelmind.screens.new_game_screen.UserModifications;
 import ru.nsu.fit.pixelmind.screens.scores_screen.ScoresController;
-import ru.nsu.fit.pixelmind.screens.scores_screen.ScoresInteractor;
 
-public class SceneManager {
+public class MainController {
     private final Stage primaryStage;
     private final NewGameScreenController newGameScreenController;
     private final LoadGameScreenController loadGameScreenController;
@@ -24,12 +26,11 @@ public class SceneManager {
     private final GameEndScreenController gameEndScreenController;
     private final LoadingResourcesController loadingResourcesScreenController;
 
-    public SceneManager(Stage primaryStage) {
+    public MainController(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        loadingResourcesScreenController = new LoadingResourcesController(this);
-        GameEndSceneHandler gameEndSceneHandler = new GameEndSceneSwitcher();
-        gameController = new GameController(gameEndSceneHandler);
-        newGameScreenController = new NewGameScreenController(this, loadingResourcesScreenController::resources, loadingResourcesScreenController::gameSessionConfig, gameController::launchGameSession);
+        loadingResourcesScreenController = new LoadingResourcesController();
+        gameController = new GameController(new GameEndSceneSwitcher());
+        newGameScreenController = new NewGameScreenController(this);
         loadGameScreenController = new LoadGameScreenController(this);
         scoresController = new ScoresController(this);
         mainMenuController = new MainMenuController(this);
@@ -57,15 +58,8 @@ public class SceneManager {
         primaryStage.show();
     }
 
-//    public void switchTo(ScreenController controller) {
-//        Scene mainMenuScene = new Scene(mainMenuController.getView(), 512, 512);
-//
-//        primaryStage.setScene(mainMenuScene);
-//        primaryStage.show();
-//    }
-
     public void switchToMainMenuScene() {
-        Scene mainMenuScene = new Scene(mainMenuController. getView(), 512, 512);
+        Scene mainMenuScene = new Scene(mainMenuController.getView(), 512, 512);
 
         primaryStage.setScene(mainMenuScene);
         primaryStage.show();
@@ -79,33 +73,48 @@ public class SceneManager {
     }
 
     public void switchToLoadingResourcesScreen() {
-
         Scene loadingResourcesScene = new Scene(loadingResourcesScreenController.getView(), 512, 512);
 
         primaryStage.setScene(loadingResourcesScene);
         primaryStage.show();
-        System.out.println("Set loading scene");
+    }
 
-        Resources resources = loadingResourcesScreenController.resources();
-        GameSessionConfig config = loadingResourcesScreenController.gameSessionConfig();
-        gameController.launchGameSession(resources, config);
-        switchToGameScene();
+    public void runGame() {
+        switchToLoadingResourcesScreen();
+        new Thread(() -> {
+            Resources resources = loadingResourcesScreenController.resources();
+            GameSessionConfig gameSessionConfig = loadingResourcesScreenController.gameSessionConfig();
+            UserModifications userModifications = newGameScreenController.getUserModifications();
+            gameController.launchGameSession(resources, userModifications, gameSessionConfig);
+            Platform.runLater(this::switchToGameScene);
+        }).start();
     }
 
     public void exit() {
         primaryStage.close();
     }
 
+    public void init() {
+        switchToLoadingResourcesScreen();
+        new Thread(() -> {
+            Resources resources = loadingResourcesScreenController.resources();
+            newGameScreenController.setAvatars(resources.avatars());
+            scoresController.loadScores();
+            Platform.runLater(this::switchToMainMenuScene);
+        }).start();
+    }
+
     public interface GameEndSceneHandler {
-        void switchToGameEndScene(@NotNull String gameResult, int gameScore);
+        void switchToGameEndScene(@NotNull String gameResult, @NotNull CharacterType heroType, int gameScore);
     }
 
     public class GameEndSceneSwitcher implements GameEndSceneHandler {
         @Override
-        public void switchToGameEndScene(@NotNull String gameResult, int gameScore) {
+        public void switchToGameEndScene(@NotNull String gameResult, @NotNull CharacterType heroType, int gameScore) {
             gameEndScreenController.setGameResult(gameResult);
             gameEndScreenController.setScore(gameScore);
-            ScoresInteractor.addScoreToTable(gameScore);
+            scoresController.addNewScore(heroType, gameScore);
+            scoresController.dumpScores();
             Scene gameEndScene = new Scene(gameEndScreenController.getView(), 512, 512);
             primaryStage.setScene(gameEndScene);
             primaryStage.show();

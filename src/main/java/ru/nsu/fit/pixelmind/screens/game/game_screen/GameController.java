@@ -11,11 +11,12 @@ import ru.nsu.fit.pixelmind.config.GameSessionConfig;
 import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
 import ru.nsu.fit.pixelmind.game_field.tile.TileType;
 import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapController;
-import ru.nsu.fit.pixelmind.screens.SceneManager;
+import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 import ru.nsu.fit.pixelmind.screens.game.GameSession;
 import ru.nsu.fit.pixelmind.screens.game.camera.CameraController;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
+import ru.nsu.fit.pixelmind.screens.new_game_screen.UserModifications;
 
 import java.util.*;
 
@@ -26,9 +27,9 @@ import static ru.nsu.fit.pixelmind.characters.ActionType.*;
 public class GameController implements ScreenController {
     private final GameViewBuilder gameView;
     private final GameModel gameModel;
-    private final SceneManager.GameEndSceneHandler gameEndSceneHandler;
+    private final MainController.GameEndSceneHandler gameEndSceneHandler;
 
-    public GameController(@NotNull SceneManager.GameEndSceneHandler gameEndSceneHandler) {
+    public GameController(@NotNull MainController.GameEndSceneHandler gameEndSceneHandler) {
         this.gameEndSceneHandler = gameEndSceneHandler;
         gameModel = new GameModel();
         CameraController cameraController = new CameraController(gameModel, this::handleTileClicked);
@@ -41,12 +42,12 @@ public class GameController implements ScreenController {
         return gameView.build();
     }
 
-    public void launchGameSession(@NotNull Resources resources, @NotNull GameSessionConfig gameSessionConfig) {
+    public void launchGameSession(@NotNull Resources resources, @NotNull UserModifications userModifications, @NotNull GameSessionConfig gameSessionConfig) {
         System.out.println("Launch game session");
         Map<TileType, Image> tileTypeImageResources = resources.tileSets().get(gameSessionConfig.tileSetType());
         TileMapController tileMapController = new TileMapController(gameSessionConfig.tileMap(), gameSessionConfig.tileMapSize(), tileTypeImageResources);
+        CharacterController hero = new CharacterController(userModifications.heroType(), resources.sprites().get(userModifications.heroType()));
 
-        CharacterController hero = new CharacterController(gameSessionConfig.heroType(), resources.sprites().get(gameSessionConfig.heroType()));
         TileIndexCoordinates heroPos = tileMapController.getRandomFreeTile();
         assert (heroPos != null);
         tileMapController.captureTile(heroPos);
@@ -216,16 +217,16 @@ public class GameController implements ScreenController {
         return gameModel.gameSession().gameField().buildRoute(exclusiveFrom, inclusiveTo, additionalBarriers);
     }
 
-    private void finishGameSession(@NotNull String gameResult, int gameScore) {
-        gameEndSceneHandler.switchToGameEndScene(gameResult, gameScore);
+    private void finishGameSession(@NotNull String gameResult, @NotNull CharacterType heroType, int gameScore) {
+        gameEndSceneHandler.switchToGameEndScene(gameResult, heroType, gameScore);
         gameModel.setScore(0);
     }
 
     private void playerWon() {
-        finishGameSession(GAME_VICTORY_MESSAGE, gameModel.getScore());
+        finishGameSession(GAME_VICTORY_MESSAGE, gameModel.gameSession().hero().characterType(), gameModel.getScore());
     }
 
     private void playerLose() {
-        finishGameSession(GAME_LOSS_MESSAGE, gameModel.getScore());
+        finishGameSession(GAME_LOSS_MESSAGE, gameModel.gameSession().hero().characterType(), gameModel.getScore());
     }
 }
