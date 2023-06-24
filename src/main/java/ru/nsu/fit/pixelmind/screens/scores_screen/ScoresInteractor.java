@@ -25,8 +25,7 @@ public class ScoresInteractor {
     public void dumpScores() {
         try (FileWriter fileWriter = new FileWriter(SCORES_TABLE, true);
              CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT)) {
-
-            for (HighScoreEntry scoreEntry : scoresModel.scores()) {
+            for (HighScoreEntry scoreEntry : scoresModel.newScores()) {
                 csvPrinter.printRecord(scoreEntry.heroType(), scoreEntry.score());
 
             }
@@ -38,6 +37,7 @@ public class ScoresInteractor {
     }
 
     public void addScore(CharacterType heroType, int score) {
+        scoresModel.newScores().add(new HighScoreEntry(heroType, score));
         scoresModel.scores().add(new HighScoreEntry(heroType, score));
     }
 
