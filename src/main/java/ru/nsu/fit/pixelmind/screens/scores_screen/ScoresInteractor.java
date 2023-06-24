@@ -5,7 +5,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.characters.character.CharacterType;
+import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -29,6 +29,7 @@ public class ScoresInteractor {
                 csvPrinter.printRecord(scoreEntry.heroType(), scoreEntry.score());
 
             }
+            // CR: do we need it?
             csvPrinter.flush();
 
         } catch (IOException e) {
@@ -52,6 +53,10 @@ public class ScoresInteractor {
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT)) {
 
             for (CSVRecord csvRecord : csvParser) {
+                if (csvRecord.size() != 2) {
+                    // log, maybe clear?
+                    return new ArrayList<>();
+                }
                 csvRecords.add(new HighScoreEntry(CharacterType.valueOf(csvRecord.get(0)), Integer.parseInt(csvRecord.get(1))));
             }
         } catch (IOException ignored) {

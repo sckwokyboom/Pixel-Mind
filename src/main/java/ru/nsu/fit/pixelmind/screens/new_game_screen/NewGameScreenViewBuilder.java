@@ -11,8 +11,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Builder;
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.characters.character.CharacterType;
-import ru.nsu.fit.pixelmind.screens.widgets.Buttons;
+import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
+import ru.nsu.fit.pixelmind.utils.widgets.Buttons;
 
 import java.util.Map;
 import java.util.function.Consumer;

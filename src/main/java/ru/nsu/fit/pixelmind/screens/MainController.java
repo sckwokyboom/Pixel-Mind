@@ -4,9 +4,9 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.characters.character.CharacterType;
+import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
-import ru.nsu.fit.pixelmind.screens.game.game_screen.GameController;
+import ru.nsu.fit.pixelmind.screens.game.GameController;
 import ru.nsu.fit.pixelmind.screens.game_end_screen.GameEndScreenController;
 import ru.nsu.fit.pixelmind.screens.load_game_screen.LoadGameScreenController;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.LoadingResourcesController;
@@ -49,6 +49,8 @@ public class MainController {
 
     public void runGame() {
         switchToLoadingResourcesScreen();
+        Platform.runLater(this::switchToGameScene);
+        // CR: find smth like that in javafx
         new Thread(() -> {
             Resources resources = loadingResourcesScreenController.resources();
             GameSessionConfig gameSessionConfig = loadingResourcesScreenController.gameSessionConfig();
@@ -114,6 +116,7 @@ public class MainController {
             gameEndScreenController.setGameResult(gameResult);
             gameEndScreenController.setScore(gameScore);
             scoresController.addNewScore(heroType, gameScore);
+            // CR: on close
             scoresController.dumpScores();
             Scene gameEndScene = new Scene(gameEndScreenController.getView(), 512, 512);
             primaryStage.setScene(gameEndScene);

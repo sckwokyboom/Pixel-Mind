@@ -1,10 +1,10 @@
 package ru.nsu.fit.pixelmind.config;
 
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.characters.character.CharacterType;
-import ru.nsu.fit.pixelmind.game_field.TileSetType;
-import ru.nsu.fit.pixelmind.game_field.tile.TileType;
-import ru.nsu.fit.pixelmind.game_field.tile_map.TileMapSize;
+import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
+import ru.nsu.fit.pixelmind.screens.game.game_field.TileSetType;
+import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileType;
+import ru.nsu.fit.pixelmind.screens.game.game_field.tile_map.TileMapSize;
 
 import java.util.List;
 

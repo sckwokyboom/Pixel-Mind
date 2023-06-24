@@ -3,7 +3,7 @@ package ru.nsu.fit.pixelmind.screens.main_menu_screen;
 import javafx.scene.layout.Region;
 import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
-import ru.nsu.fit.pixelmind.screens.common.MenuListener;
+import ru.nsu.fit.pixelmind.screens.MenuListener;
 
 
 public class MainMenuController implements ScreenController, MenuListener {

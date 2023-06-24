@@ -6,8 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Builder;
-import ru.nsu.fit.pixelmind.screens.widgets.Buttons;
-import ru.nsu.fit.pixelmind.screens.widgets.Labels;
+import ru.nsu.fit.pixelmind.utils.widgets.Buttons;
+import ru.nsu.fit.pixelmind.utils.widgets.Labels;
 
 public class MainMenuViewBuilder implements Builder<Region> {
 

@@ -4,8 +4,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
-import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
-import ru.nsu.fit.pixelmind.screens.game.game_screen.GameModel;
+import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.screens.game.GameModel;
 
 import java.util.function.Consumer;
 

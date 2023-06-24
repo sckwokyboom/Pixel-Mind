@@ -7,8 +7,8 @@ import ru.nsu.fit.pixelmind.config.Assets;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
 import ru.nsu.fit.pixelmind.config.ResourcesConfig;
 import ru.nsu.fit.pixelmind.config.TileTypeDeserializer;
-import ru.nsu.fit.pixelmind.game_field.tile.TileType;
-import ru.nsu.fit.pixelmind.screens.game.game_screen.GameInteractor;
+import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileType;
+import ru.nsu.fit.pixelmind.screens.game.GameInteractor;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

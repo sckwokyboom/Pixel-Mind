@@ -4,7 +4,7 @@ import javafx.scene.layout.Region;
 import javafx.util.Builder;
 import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
-import ru.nsu.fit.pixelmind.screens.common.BackToMainMenuListener;
+import ru.nsu.fit.pixelmind.screens.BackToMainMenuListener;
 
 public class GameEndScreenController implements BackToMainMenuListener, ScreenController {
     private final Builder<Region> viewBuilder;

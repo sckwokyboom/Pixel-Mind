@@ -2,10 +2,10 @@ package ru.nsu.fit.pixelmind.screens.scores_screen;
 
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
-import ru.nsu.fit.pixelmind.characters.character.CharacterType;
+import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
 import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
-import ru.nsu.fit.pixelmind.screens.common.BackToMainMenuListener;
+import ru.nsu.fit.pixelmind.screens.BackToMainMenuListener;
 
 public class ScoresController implements BackToMainMenuListener, ScreenController {
     private final Builder<Region> viewBuilder;

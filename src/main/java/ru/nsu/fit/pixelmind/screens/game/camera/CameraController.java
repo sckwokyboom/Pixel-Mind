@@ -2,8 +2,8 @@ package ru.nsu.fit.pixelmind.screens.game.camera;
 
 import javafx.scene.layout.Region;
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.game_field.tile.TileIndexCoordinates;
-import ru.nsu.fit.pixelmind.screens.game.game_screen.GameModel;
+import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.screens.game.GameModel;
 
 import java.util.function.Consumer;
 

@@ -28,6 +28,12 @@ public class LoadingResourcesController implements ScreenController {
         return model.resources();
     }
 
+    @NotNull
+    public GameSessionConfig gameSessionConfig() {
+        setupGameSessionConfig();
+        return model.getGameSessionConfig();
+    }
+
     private void setupResources() {
         if (!model.isResourcesSetup()) {
             model.setResources(LoadingResourcesInteractor.parseResources());
@@ -42,11 +48,5 @@ public class LoadingResourcesController implements ScreenController {
             model.setGameSessionConfigSetup(true);
             System.out.println("Load game session config");
         }
-    }
-
-    @NotNull
-    public GameSessionConfig gameSessionConfig() {
-        setupGameSessionConfig();
-        return model.getGameSessionConfig();
     }
 }
