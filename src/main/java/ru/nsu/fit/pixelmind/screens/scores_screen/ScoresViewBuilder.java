@@ -30,22 +30,18 @@ public class ScoresViewBuilder implements Builder<Region> {
     public Region build() {
         Label label = new Label("Scores");
         TableView<HighScoreEntry> tableView = new TableView<>();
+        TableColumn<HighScoreEntry, String> heroTypeColumn = new TableColumn<>("Hero");
+        heroTypeColumn.setCellValueFactory((e) -> new SimpleStringProperty(e.getValue().heroType().toString()));
+        TableColumn<HighScoreEntry, String> scoreColumn = new TableColumn<>("Score");
+        scoreColumn.setCellValueFactory((e) -> new SimpleStringProperty(String.valueOf(e.getValue().score())));
 
-        TableColumn<HighScoreEntry, String> firstNameColumn = new TableColumn<>("Hero");
-
-        firstNameColumn.setCellValueFactory((e) -> new SimpleStringProperty(e.getValue().heroType().toString()));
-
-        TableColumn<HighScoreEntry, String> lastNameColumn = new TableColumn<>("Score");
-        lastNameColumn.setCellValueFactory((e) -> new SimpleStringProperty(String.valueOf(e.getValue().score())));
-
-        List<TableColumn<HighScoreEntry, String>> entry = new ArrayList<>();
-        entry.add(firstNameColumn);
-        entry.add(lastNameColumn);
-        tableView.getColumns().addAll(entry);
-
+        List<TableColumn<HighScoreEntry, String>> columns = new ArrayList<>();
+        columns.add(heroTypeColumn);
+        columns.add(scoreColumn);
+        tableView.getColumns().addAll(columns);
         ObservableList<HighScoreEntry> data = FXCollections.observableArrayList(model.scores());
-
         tableView.setItems(data);
+
         Button backToMainMenuButton = Buttons.button("Back", backToMainMenuButtonHandler);
         VBox results = new VBox(20, label, tableView, backToMainMenuButton);
         results.setPadding(new Insets(40));

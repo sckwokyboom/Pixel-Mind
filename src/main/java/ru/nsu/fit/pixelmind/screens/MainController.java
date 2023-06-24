@@ -37,6 +37,34 @@ public class MainController {
         gameEndScreenController = new GameEndScreenController(this);
     }
 
+    public void init() {
+        switchToLoadingResourcesScreen();
+        new Thread(() -> {
+            Resources resources = loadingResourcesScreenController.resources();
+            newGameScreenController.setAvatars(resources.avatars());
+            scoresController.loadScores();
+            Platform.runLater(this::switchToMainMenuScene);
+        }).start();
+    }
+
+    public void runGame() {
+        switchToLoadingResourcesScreen();
+        new Thread(() -> {
+            Resources resources = loadingResourcesScreenController.resources();
+            GameSessionConfig gameSessionConfig = loadingResourcesScreenController.gameSessionConfig();
+            UserModifications userModifications = newGameScreenController.getUserModifications();
+            gameController.launchGameSession(resources, userModifications, gameSessionConfig);
+            Platform.runLater(this::switchToGameScene);
+        }).start();
+    }
+
+    public void switchToMainMenuScene() {
+        Scene mainMenuScene = new Scene(mainMenuController.getView(), 512, 512);
+
+        primaryStage.setScene(mainMenuScene);
+        primaryStage.show();
+    }
+
     public void switchToNewGameScene() {
         Scene newGameScene = new Scene(newGameScreenController.getView(), 512, 512);
 
@@ -58,13 +86,6 @@ public class MainController {
         primaryStage.show();
     }
 
-    public void switchToMainMenuScene() {
-        Scene mainMenuScene = new Scene(mainMenuController.getView(), 512, 512);
-
-        primaryStage.setScene(mainMenuScene);
-        primaryStage.show();
-    }
-
     public void switchToGameScene() {
         Scene gameScene = new Scene(gameController.getView(), 512, 512);
 
@@ -79,29 +100,8 @@ public class MainController {
         primaryStage.show();
     }
 
-    public void runGame() {
-        switchToLoadingResourcesScreen();
-        new Thread(() -> {
-            Resources resources = loadingResourcesScreenController.resources();
-            GameSessionConfig gameSessionConfig = loadingResourcesScreenController.gameSessionConfig();
-            UserModifications userModifications = newGameScreenController.getUserModifications();
-            gameController.launchGameSession(resources, userModifications, gameSessionConfig);
-            Platform.runLater(this::switchToGameScene);
-        }).start();
-    }
-
     public void exit() {
         primaryStage.close();
-    }
-
-    public void init() {
-        switchToLoadingResourcesScreen();
-        new Thread(() -> {
-            Resources resources = loadingResourcesScreenController.resources();
-            newGameScreenController.setAvatars(resources.avatars());
-            scoresController.loadScores();
-            Platform.runLater(this::switchToMainMenuScene);
-        }).start();
     }
 
     public interface GameEndSceneHandler {

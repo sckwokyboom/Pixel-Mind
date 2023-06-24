@@ -3,13 +3,10 @@ package ru.nsu.fit.pixelmind.screens.main_menu_screen;
 import javafx.scene.layout.Region;
 import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
+import ru.nsu.fit.pixelmind.screens.common.MenuListener;
 
-// CR:
-// interface MenuListener {
-//    void handleNewGameButtonClicked();
-//}
 
-public class MainMenuController implements ScreenController {
+public class MainMenuController implements ScreenController, MenuListener {
     private final MainController sceneManager;
     private final MainMenuViewBuilder mainMenuViewBuilder;
 
@@ -18,18 +15,22 @@ public class MainMenuController implements ScreenController {
         this.sceneManager = sceneManager;
     }
 
+    @Override
     public void handleNewGameButtonClicked() {
         sceneManager.switchToNewGameScene();
     }
 
+    @Override
     public void handleLoadGameButtonClicked() {
         sceneManager.switchToLoadGameScene();
     }
 
+    @Override
     public void handleHighScoresButtonClicked() {
         sceneManager.switchToHighScoresScene();
     }
 
+    @Override
     public void handleExitButtonClicked() {
         sceneManager.exit();
     }

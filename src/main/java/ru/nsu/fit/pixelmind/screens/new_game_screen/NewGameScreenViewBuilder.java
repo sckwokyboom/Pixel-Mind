@@ -32,6 +32,7 @@ public class NewGameScreenViewBuilder implements Builder<Region> {
 
     @Override
     public Region build() {
+        // default hero
         handleUserChoose.accept(CharacterType.NORTH_WARRIOR);
         Canvas northWarrior = new Canvas(64, 64);
         northWarrior.getGraphicsContext2D().setGlobalAlpha(1);

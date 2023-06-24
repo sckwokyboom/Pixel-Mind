@@ -17,7 +17,6 @@ public class GameEndScreenController implements BackToMainMenuListener, ScreenCo
         this.sceneManager = sceneManager;
     }
 
-
     @Override
     public Region getView() {
         return viewBuilder.build();

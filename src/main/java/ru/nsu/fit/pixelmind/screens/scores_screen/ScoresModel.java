@@ -7,7 +7,6 @@ public class ScoresModel {
     private List<HighScoreEntry> scores = new ArrayList<>();
     private final List<HighScoreEntry> newScores = new ArrayList<>();
 
-
     public List<HighScoreEntry> scores() {
         return scores;
     }

@@ -17,13 +17,6 @@ import java.nio.file.Path;
 
 public class LoadingResourcesInteractor {
 
-
-    private final LoadingResourcesModel model;
-
-    LoadingResourcesInteractor(LoadingResourcesModel model) {
-        this.model = model;
-    }
-
     @NotNull
     public static Resources parseResources() {
         return GameInteractor.parseResources(parseResourcesConfig());

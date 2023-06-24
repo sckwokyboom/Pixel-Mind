@@ -9,16 +9,9 @@ public class GameEndScreenModel {
     private final StringProperty gameResult = new SimpleStringProperty();
 
     private final IntegerProperty gameScore = new SimpleIntegerProperty();
-    public String getGameResult() {
-        return gameResult.get();
-    }
 
     public StringProperty gameResultProperty() {
         return gameResult;
-    }
-
-    public int getGameScore() {
-        return gameScore.get();
     }
 
     public IntegerProperty gameScoreProperty() {

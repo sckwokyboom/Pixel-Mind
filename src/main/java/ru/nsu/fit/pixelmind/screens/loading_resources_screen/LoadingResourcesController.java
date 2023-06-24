@@ -13,7 +13,7 @@ public class LoadingResourcesController implements ScreenController {
 
     public LoadingResourcesController() {
         this.model = new LoadingResourcesModel();
-        viewBuilder = new LoadingResourcesViewBuilder(model);
+        viewBuilder = new LoadingResourcesViewBuilder();
     }
 
     @Override
