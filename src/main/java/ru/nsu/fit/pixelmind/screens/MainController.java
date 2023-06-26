@@ -4,13 +4,17 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
 import ru.nsu.fit.pixelmind.screens.game.GameController;
+import ru.nsu.fit.pixelmind.screens.game.GameSession;
+import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
 import ru.nsu.fit.pixelmind.screens.game_end_screen.GameEndScreenController;
 import ru.nsu.fit.pixelmind.screens.load_game_screen.LoadGameScreenController;
+import ru.nsu.fit.pixelmind.screens.load_game_screen.LoadGameScreenInteractor;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.LoadingResourcesController;
+import ru.nsu.fit.pixelmind.screens.loading_resources_screen.LoadingResourcesInteractor;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
+import ru.nsu.fit.pixelmind.screens.loading_resources_screen.SavedSessionEntry;
 import ru.nsu.fit.pixelmind.screens.main_menu_screen.MainMenuController;
 import ru.nsu.fit.pixelmind.screens.new_game_screen.NewGameScreenController;
 import ru.nsu.fit.pixelmind.screens.new_game_screen.UserModifications;
@@ -35,7 +39,13 @@ public class MainController {
         scoresController = new ScoresController(this);
         mainMenuController = new MainMenuController(this);
         gameEndScreenController = new GameEndScreenController(this);
+        this.primaryStage.setOnCloseRequest(event -> {
+            scoresController.dumpScores();
+            gameController.saveGameSession();
+            gameController.dumpNewSaves();
+        });
     }
+
 
     public void init() {
         switchToLoadingResourcesScreen();
@@ -43,19 +53,28 @@ public class MainController {
             Resources resources = loadingResourcesScreenController.resources();
             newGameScreenController.setAvatars(resources.avatars());
             scoresController.loadScores();
+            loadGameScreenController.setSavedGameSessionEntriesInfo(LoadingResourcesInteractor.parseSavesSessionsEntries());
             Platform.runLater(this::switchToMainMenuScene);
         }).start();
     }
 
     public void runGame() {
         switchToLoadingResourcesScreen();
-        Platform.runLater(this::switchToGameScene);
-        // CR: find smth like that in javafx
         new Thread(() -> {
             Resources resources = loadingResourcesScreenController.resources();
             GameSessionConfig gameSessionConfig = loadingResourcesScreenController.gameSessionConfig();
             UserModifications userModifications = newGameScreenController.getUserModifications();
-            gameController.launchGameSession(resources, userModifications, gameSessionConfig);
+            gameController.createGameSession(resources, userModifications, gameSessionConfig);
+            Platform.runLater(this::switchToGameScene);
+        }).start();
+    }
+
+    public void loadGame(SavedSessionEntry savedSessionEntry) {
+        switchToLoadingResourcesScreen();
+        new Thread(() -> {
+            Resources resources = loadingResourcesScreenController.resources();
+            GameSession gameSession = LoadGameScreenInteractor.parseGameSessionEntry(savedSessionEntry, resources);
+            gameController.launchGameSession(gameSession);
             Platform.runLater(this::switchToGameScene);
         }).start();
     }
@@ -103,6 +122,7 @@ public class MainController {
     }
 
     public void exit() {
+        scoresController.dumpScores();
         primaryStage.close();
     }
 
@@ -116,8 +136,6 @@ public class MainController {
             gameEndScreenController.setGameResult(gameResult);
             gameEndScreenController.setScore(gameScore);
             scoresController.addNewScore(heroType, gameScore);
-            // CR: on close
-            scoresController.dumpScores();
             Scene gameEndScene = new Scene(gameEndScreenController.getView(), 512, 512);
             primaryStage.setScene(gameEndScene);
             primaryStage.show();

@@ -1,6 +1,7 @@
 package ru.nsu.fit.pixelmind.screens.main_menu_screen;
 
 import javafx.scene.layout.Region;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 import ru.nsu.fit.pixelmind.screens.MenuListener;
@@ -36,7 +37,7 @@ public class MainMenuController implements ScreenController, MenuListener {
     }
 
     @Override
-    public Region getView() {
+    public @NotNull Region getView() {
         return mainMenuViewBuilder.build();
     }
 }

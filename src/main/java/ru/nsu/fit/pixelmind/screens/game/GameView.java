@@ -8,12 +8,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.util.Builder;
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.screens.game.character.SpriteType;
+import ru.nsu.fit.pixelmind.screens.game.camera.CameraController;
 import ru.nsu.fit.pixelmind.screens.game.character.CharacterController;
 import ru.nsu.fit.pixelmind.screens.game.character.CharacterView;
+import ru.nsu.fit.pixelmind.screens.game.character.SpriteType;
 import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileIndexCoordinates;
 import ru.nsu.fit.pixelmind.screens.game.game_field.tile_map.TileMapController;
-import ru.nsu.fit.pixelmind.screens.game.camera.CameraController;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import static ru.nsu.fit.pixelmind.Constants.TILE_SIZE;
 import static ru.nsu.fit.pixelmind.screens.game.character.ActionType.MOVE;
 
 
-public class GameViewBuilder implements Builder<Region> {
+public class GameView implements Builder<Region> {
     private Canvas tileMapView;
     private TileMapController tileMapController;
     private final CameraController cameraController;
@@ -29,7 +29,7 @@ public class GameViewBuilder implements Builder<Region> {
     private boolean isAnimatingRightNow;
 
 
-    public GameViewBuilder(@NotNull CameraController cameraController, @NotNull GameModel gameModel) {
+    public GameView(@NotNull CameraController cameraController, @NotNull GameModel gameModel) {
         this.cameraController = cameraController;
         this.gameModel = gameModel;
     }
@@ -37,6 +37,7 @@ public class GameViewBuilder implements Builder<Region> {
     @Override
     @NotNull
     public Region build() {
+        System.out.println("Game view built");
         tileMapController = gameModel.gameSession().gameField();
         tileMapView = tileMapController.getView();
 

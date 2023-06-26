@@ -12,7 +12,7 @@ import ru.nsu.fit.pixelmind.utils.ShortestPathFinder;
 import java.util.*;
 
 public class TileMapController {
-    private final TileMapViewBuilder viewBuilder;
+    private final TileMapView viewBuilder;
     private final TileMapModel tileMapModel;
     private final Set<TileType> wallTypes;
 
@@ -20,7 +20,7 @@ public class TileMapController {
         tileMapModel = new TileMapModel(TileMapInteractor.tileTypesToTileControllers(tileMap, tileMapSize));
         tileMapModel.setHeight(tileMapSize.height());
         tileMapModel.setWidth(tileMapSize.width());
-        viewBuilder = new TileMapViewBuilder(tileMapModel, tileTypeImageResource);
+        viewBuilder = new TileMapView(tileMapModel, tileTypeImageResource);
         wallTypes = new HashSet<>();
         wallTypes.add(TileType.MOSSY_WALL);
         wallTypes.add(TileType.REGULAR_WALL);
@@ -82,6 +82,23 @@ public class TileMapController {
 
     public void releaseTile(@NotNull TileIndexCoordinates tileIndex) {
         tileMapModel.tileMap()[tileIndex.x()][tileIndex.y()].isThereSomebodyOnTile().set(false);
+    }
+
+    public TileController[][] getTileMap() {
+        return tileMapModel.tileMap();
+    }
+
+    public int getHeight() {
+        return tileMapModel.height();
+    }
+
+    public int getWidth() {
+        return tileMapModel.width();
+    }
+
+    @NotNull
+    public Map<TileType, Image> tileTypeImageMapResource() {
+        return viewBuilder.tileTypeImageMap();
     }
 
 }

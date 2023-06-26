@@ -4,16 +4,16 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.nsu.fit.pixelmind.screens.game.character.CharacterController;
-import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
-import ru.nsu.fit.pixelmind.screens.game.character.CharacterView;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
-import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileIndexCoordinates;
-import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileType;
-import ru.nsu.fit.pixelmind.screens.game.game_field.tile_map.TileMapController;
 import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 import ru.nsu.fit.pixelmind.screens.game.camera.CameraController;
+import ru.nsu.fit.pixelmind.screens.game.character.CharacterController;
+import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
+import ru.nsu.fit.pixelmind.screens.game.character.CharacterView;
+import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileIndexCoordinates;
+import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileType;
+import ru.nsu.fit.pixelmind.screens.game.game_field.tile_map.TileMapController;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
 import ru.nsu.fit.pixelmind.screens.new_game_screen.UserModifications;
 
@@ -24,15 +24,17 @@ import static ru.nsu.fit.pixelmind.Constants.GAME_VICTORY_MESSAGE;
 import static ru.nsu.fit.pixelmind.screens.game.character.ActionType.*;
 
 public class GameController implements ScreenController {
-    private final GameViewBuilder gameView;
+    private final GameView gameView;
     private final GameModel gameModel;
     private final MainController.GameEndSceneHandler gameEndSceneHandler;
+    private final GameInteractor gameInteractor;
 
     public GameController(@NotNull MainController.GameEndSceneHandler gameEndSceneHandler) {
         this.gameEndSceneHandler = gameEndSceneHandler;
         gameModel = new GameModel();
         CameraController cameraController = new CameraController(gameModel, this::handleTileClicked);
-        gameView = new GameViewBuilder(cameraController, gameModel);
+        gameView = new GameView(cameraController, gameModel);
+        gameInteractor = new GameInteractor(gameModel);
     }
 
     @Override
@@ -41,12 +43,15 @@ public class GameController implements ScreenController {
         return gameView.build();
     }
 
-//    interface CharacterGenerator {
+    //    interface CharacterGenerator {
 //        generateEnemy();
 //        generatePlayer();
 //    }
+    public void saveGameSession() {
+        gameInteractor.saveCurrentGameSession();
+    }
 
-    public void launchGameSession(@NotNull Resources resources, @NotNull UserModifications userModifications, @NotNull GameSessionConfig gameSessionConfig) {
+    public void createGameSession(@NotNull Resources resources, @NotNull UserModifications userModifications, @NotNull GameSessionConfig gameSessionConfig) {
         System.out.println("Launch game session");
         Map<TileType, Image> tileTypeImageResources = resources.tileSets().get(gameSessionConfig.tileSetType());
         TileMapController tileMapController = new TileMapController(gameSessionConfig.tileMap(), gameSessionConfig.tileMapSize(), tileTypeImageResources);
@@ -74,6 +79,18 @@ public class GameController implements ScreenController {
         gameModel.setGameSession(new GameSession(tileMapController, hero, enemies));
     }
 
+    public void launchGameSession(GameSession gameSession) {
+        TileIndexCoordinates heroPos = gameSession.hero().currentTile();
+        gameSession.gameField().captureTile(heroPos);
+        gameSession.hero().setAnimationInfoOnThisStep(heroPos, heroPos, WAIT);
+        for (CharacterController enemy : gameSession.enemies()) {
+            TileIndexCoordinates enemyPos = enemy.currentTile();
+            gameSession.gameField().captureTile(enemyPos);
+            enemy.setAnimationInfoOnThisStep(enemyPos, enemyPos, WAIT);
+        }
+        gameModel.setGameSession(gameSession);
+    }
+
     public void handleTileClicked(@NotNull TileIndexCoordinates tile) {
         if (gameView.isAnimatingRightNow()) {
             return;
@@ -98,6 +115,13 @@ public class GameController implements ScreenController {
         }
         gameModel.gameSession().hero().setTargetTile(tile);
         moveHeroToNextTile();
+    }
+
+    //    public GameSession getGameSession() {
+//
+//    }
+    public void dumpNewSaves() {
+        gameInteractor.dumpNewSaves();
     }
 
     private void huntEnemy() {

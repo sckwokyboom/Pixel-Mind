@@ -2,6 +2,7 @@ package ru.nsu.fit.pixelmind.screens.scores_screen;
 
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
 import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
@@ -26,7 +27,7 @@ public class ScoresController implements BackToMainMenuListener, ScreenControlle
     }
 
     @Override
-    public Region getView() {
+    public @NotNull Region getView() {
         return viewBuilder.build();
     }
 

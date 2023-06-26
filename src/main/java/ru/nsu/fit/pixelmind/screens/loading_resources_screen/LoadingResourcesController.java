@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 
+import java.util.List;
+
 public class LoadingResourcesController implements ScreenController {
     private final Builder<Region> viewBuilder;
     private final LoadingResourcesModel model;
@@ -31,14 +33,20 @@ public class LoadingResourcesController implements ScreenController {
     @NotNull
     public GameSessionConfig gameSessionConfig() {
         setupGameSessionConfig();
-        return model.getGameSessionConfig();
+        return model.gameSessionConfig();
+    }
+
+    @NotNull
+    public List<SavedSessionEntry> savedSessionEntries() {
+        setupSavedSessionEntries();
+        return model.savedSessionEntries();
     }
 
     private void setupResources() {
         if (!model.isResourcesSetup()) {
             model.setResources(LoadingResourcesInteractor.parseResources());
             model.setResourcesSetup(true);
-            System.out.println("Load resources");
+            System.out.println("Loaded resources");
         }
     }
 
@@ -46,7 +54,15 @@ public class LoadingResourcesController implements ScreenController {
         if (!model.isGameSessionConfigSetup()) {
             model.setGameSessionConfig(LoadingResourcesInteractor.parseGameSessionConfig());
             model.setGameSessionConfigSetup(true);
-            System.out.println("Load game session config");
+            System.out.println("Loaded game session config");
+        }
+    }
+
+    private void setupSavedSessionEntries() {
+        if (!model.isSavedSessionEntriesSetup()) {
+            model.setSavedSessionEntries(LoadingResourcesInteractor.parseSavesSessionsEntries());
+            model.setSavedSessionEntriesSetup(true);
+            System.out.println("Loaded saves sessions entries");
         }
     }
 }

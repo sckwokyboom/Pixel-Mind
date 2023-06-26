@@ -2,6 +2,7 @@ package ru.nsu.fit.pixelmind.screens.game_end_screen;
 
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 import ru.nsu.fit.pixelmind.screens.BackToMainMenuListener;
@@ -18,7 +19,7 @@ public class GameEndScreenController implements BackToMainMenuListener, ScreenCo
     }
 
     @Override
-    public Region getView() {
+    public @NotNull Region getView() {
         return viewBuilder.build();
     }
 
