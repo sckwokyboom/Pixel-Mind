@@ -18,23 +18,29 @@ import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
 import ru.nsu.fit.pixelmind.screens.new_game_screen.UserModifications;
 
 import java.util.*;
+import java.util.function.BiFunction;
 
 import static ru.nsu.fit.pixelmind.Constants.GAME_LOSS_MESSAGE;
 import static ru.nsu.fit.pixelmind.Constants.GAME_VICTORY_MESSAGE;
 import static ru.nsu.fit.pixelmind.screens.game.character.ActionType.*;
 
 public class GameController implements ScreenController {
-    protected GameView gameView;
-    protected GameModel gameModel;
+    private final GameView gameView;
+    private final GameModel gameModel;
     private final MainController.GameEndSceneHandler gameEndSceneHandler;
     private final GameInteractor gameInteractor;
 
-    public GameController(@NotNull MainController.GameEndSceneHandler gameEndSceneHandler) {
+    public GameController(@NotNull MainController.GameEndSceneHandler gameEndSceneHandler,
+                          BiFunction<CameraController, GameModel, GameView> viewCreator) {
         this.gameEndSceneHandler = gameEndSceneHandler;
         gameModel = new GameModel();
         CameraController cameraController = new CameraController(gameModel, this::handleTileClicked);
-        gameView = new GameView(cameraController, gameModel);
+        this.gameView = viewCreator.apply(cameraController, gameModel);
         gameInteractor = new GameInteractor(gameModel);
+    }
+
+    public GameController(@NotNull MainController.GameEndSceneHandler gameEndSceneHandler) {
+        this(gameEndSceneHandler, GameView::new);
     }
 
     @Override

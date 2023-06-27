@@ -23,17 +23,8 @@ import java.util.List;
 import static ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileType.REGULAR_FLOOR;
 
 public class GameTest {
-    public static class GameControllerTest extends GameController {
-
-        public GameControllerTest(MainController.@NotNull GameEndSceneHandler gameEndSceneHandler) {
-            super(gameEndSceneHandler);
-            this.gameModel = new GameModel();
-            this.gameView = new GameViewTest(new CameraController(gameModel, this::handleTileClicked), gameModel);
-        }
-    }
-
     public static class GameViewTest extends GameView {
-        protected GameViewTest(@NotNull CameraController cameraController, @NotNull GameModel gameModel) {
+        GameViewTest(@NotNull CameraController cameraController, @NotNull GameModel gameModel) {
             super(cameraController, gameModel);
         }
 
@@ -72,7 +63,7 @@ public class GameTest {
 
     @Test
     public void testSimpleStep() {
-        GameController gameController = new GameControllerTest(new GameEndSceneSwitcher());
+        GameController gameController = new GameController(new GameEndSceneSwitcher(), GameViewTest::new);
         gameController.launchGameSession(createGameSession());
         gameController.handleTileClicked(new TileIndexCoordinates(0, 1));
         Assertions.assertEquals(gameController.getGameSession().hero().currentTile(), new TileIndexCoordinates(0, 1));
@@ -80,7 +71,7 @@ public class GameTest {
 
     @Test
     public void testCompoundStep() {
-        GameController gameController = new GameControllerTest(new GameEndSceneSwitcher());
+        GameController gameController = new GameController(new GameEndSceneSwitcher(), GameViewTest::new);
         gameController.launchGameSession(createGameSession());
         gameController.handleTileClicked(new TileIndexCoordinates(4, 4));
         Assertions.assertEquals(gameController.getGameSession().hero().currentTile(), new TileIndexCoordinates(4, 4));
