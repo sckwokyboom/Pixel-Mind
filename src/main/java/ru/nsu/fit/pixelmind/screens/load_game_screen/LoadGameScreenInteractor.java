@@ -28,14 +28,17 @@ public class LoadGameScreenInteractor {
         TileType[][] tileMap = gameSessionForJson.gameField();
         //TODO: maybe load size in config?
         TileMapSize tileMapSize = new TileMapSize(tileMap.length, tileMap[0].length);
-        TileMapController tileMapController = new TileMapController(tileMap, tileMapSize, resources.tileSets().get(gameSessionForJson.tileSetType()));
-        CharacterController hero = new CharacterController(gameSessionForJson.character().characterType(), resources.sprites().get(gameSessionForJson.character().characterType()));
+        TileMapController tileMapController = new TileMapController(tileMap, tileMapSize);
+        tileMapController.setResources(resources.tileSets().get(gameSessionForJson.tileSetType()));
+        CharacterController hero = new CharacterController(gameSessionForJson.character().characterType());
+        hero.setResources(resources.sprites().get(gameSessionForJson.character().characterType()));
         hero.setCurrentHealth(gameSessionForJson.character().currentHealth());
         hero.setCurrentPosition(gameSessionForJson.character().currentPosition());
         hero.setDamageValue(gameSessionForJson.character().damageValue());
         List<CharacterController> enemies = new ArrayList<>();
         for (CharacterForJson enemyInfo : gameSessionForJson.enemies()) {
-            CharacterController enemy = new CharacterController(enemyInfo.characterType(), resources.sprites().get(enemyInfo.characterType()));
+            CharacterController enemy = new CharacterController(enemyInfo.characterType());
+            enemy.setResources(resources.sprites().get(enemyInfo.characterType()));
             enemy.setCurrentHealth(enemyInfo.currentHealth());
             enemy.setCurrentPosition(enemyInfo.currentPosition());
             enemy.setDamageValue(enemyInfo.damageValue());

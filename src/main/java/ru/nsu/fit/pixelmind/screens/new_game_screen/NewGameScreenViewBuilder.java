@@ -23,7 +23,7 @@ public class NewGameScreenViewBuilder implements Builder<Region> {
     private final Consumer<CharacterType> handleUserChoose;
     private Map<CharacterType, Image> avatars;
 
-    public NewGameScreenViewBuilder(Consumer<CharacterType> handleUserChoose, Runnable backToMainMenuButtonHandler, Runnable startButtonHandler) {
+    NewGameScreenViewBuilder(Consumer<CharacterType> handleUserChoose, Runnable backToMainMenuButtonHandler, Runnable startButtonHandler) {
         this.backToMainMenuButtonHandler = backToMainMenuButtonHandler;
         this.startButtonHandler = startButtonHandler;
         this.handleUserChoose = handleUserChoose;

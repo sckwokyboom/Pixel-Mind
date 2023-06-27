@@ -25,7 +25,7 @@ public class LoadGameScreenViewBuilder implements Builder<Region> {
     private final Runnable backToMainMenuButtonHandler;
     private final Consumer<SavedSessionEntry> selectSaveHandler;
 
-    public LoadGameScreenViewBuilder(LoadGameScreenModel model, Runnable backToMainMenuButtonHandler, Consumer<SavedSessionEntry> selectSaveHandler) {
+    LoadGameScreenViewBuilder(LoadGameScreenModel model, Runnable backToMainMenuButtonHandler, Consumer<SavedSessionEntry> selectSaveHandler) {
         this.model = model;
         this.backToMainMenuButtonHandler = backToMainMenuButtonHandler;
         this.selectSaveHandler = selectSaveHandler;

@@ -10,18 +10,16 @@ import java.util.Map;
 public class CharacterView implements Builder<Image> {
     private TileIndexCoordinates currentPositionOnThisStep;
     private TileIndexCoordinates actionTargetTileOnThisStep;
-    @NotNull
     private Map<SpriteType, Image> characterSprites;
     @NotNull
     private ActionType actionTypeOnThisStep = ActionType.WAIT;
-    @NotNull
     private Image currentSprite;
     @NotNull
     private SpriteType currentSpriteType = SpriteType.REGULAR_SPRITE;
 
-
-    CharacterView(@NotNull Map<@NotNull SpriteType, @NotNull Image> characterSprites) {
+    public void setSpritesResources(@NotNull Map<@NotNull SpriteType, @NotNull Image> characterSprites) {
         this.characterSprites = characterSprites;
+        //TODO: create additional method?
         currentSprite = characterSprites.get(currentSpriteType);
     }
 

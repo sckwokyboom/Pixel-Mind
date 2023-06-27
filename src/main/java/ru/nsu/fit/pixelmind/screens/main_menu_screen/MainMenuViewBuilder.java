@@ -16,7 +16,7 @@ public class MainMenuViewBuilder implements Builder<Region> {
     private final Runnable scoresButtonHandler;
     private final Runnable exitButtonHandler;
 
-    public MainMenuViewBuilder(Runnable handleNewGameButton, Runnable handleLoadGameButton, Runnable handleScoresButton, Runnable handleExitButton) {
+    MainMenuViewBuilder(Runnable handleNewGameButton, Runnable handleLoadGameButton, Runnable handleScoresButton, Runnable handleExitButton) {
         this.newGameButtonHandler = handleNewGameButton;
         this.loadGameButtonHandler = handleLoadGameButton;
         this.scoresButtonHandler = handleScoresButton;

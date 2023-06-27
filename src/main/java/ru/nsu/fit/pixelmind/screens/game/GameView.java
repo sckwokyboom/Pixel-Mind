@@ -14,6 +14,7 @@ import ru.nsu.fit.pixelmind.screens.game.character.CharacterView;
 import ru.nsu.fit.pixelmind.screens.game.character.SpriteType;
 import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileIndexCoordinates;
 import ru.nsu.fit.pixelmind.screens.game.game_field.tile_map.TileMapController;
+import ru.nsu.fit.pixelmind.screens.loading_resources_screen.Resources;
 
 import java.util.List;
 
@@ -27,11 +28,19 @@ public class GameView implements Builder<Region> {
     private final CameraController cameraController;
     private final GameModel gameModel;
     private boolean isAnimatingRightNow;
+    private Resources resources;
 
-
-    public GameView(@NotNull CameraController cameraController, @NotNull GameModel gameModel) {
+    protected GameView(@NotNull CameraController cameraController, @NotNull GameModel gameModel) {
         this.cameraController = cameraController;
         this.gameModel = gameModel;
+    }
+
+    public Resources resources() {
+        return resources;
+    }
+
+    public void setResources(Resources resources) {
+        this.resources = resources;
     }
 
     @Override
@@ -64,7 +73,7 @@ public class GameView implements Builder<Region> {
 
             @Override
             public void handle(long now) {
-                if (frameCount == numFramesOnHeroAnimation + numFramesOnEnemiesAnimation) {
+                if (frameCount == numFramesOnHeroAnimation + numFramesOnEnemiesAnimation || heroView.characterSprites() == null) {
                     stop();
                     isAnimatingRightNow = false;
                     heroView.setCurrentSpriteType(SpriteType.REGULAR_SPRITE);

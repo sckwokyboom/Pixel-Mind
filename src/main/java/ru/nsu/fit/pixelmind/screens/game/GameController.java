@@ -24,8 +24,8 @@ import static ru.nsu.fit.pixelmind.Constants.GAME_VICTORY_MESSAGE;
 import static ru.nsu.fit.pixelmind.screens.game.character.ActionType.*;
 
 public class GameController implements ScreenController {
-    private final GameView gameView;
-    private final GameModel gameModel;
+    protected GameView gameView;
+    protected GameModel gameModel;
     private final MainController.GameEndSceneHandler gameEndSceneHandler;
     private final GameInteractor gameInteractor;
 
@@ -40,22 +40,21 @@ public class GameController implements ScreenController {
     @Override
     @NotNull
     public Region getView() {
+        //TODO: maybe resources manipulations here?
         return gameView.build();
     }
 
-    //    interface CharacterGenerator {
-//        generateEnemy();
-//        generatePlayer();
-//    }
     public void saveGameSession() {
         gameInteractor.saveCurrentGameSession();
     }
 
-    public void createGameSession(@NotNull Resources resources, @NotNull UserModifications userModifications, @NotNull GameSessionConfig gameSessionConfig) {
-        System.out.println("Launch game session");
-        Map<TileType, Image> tileTypeImageResources = resources.tileSets().get(gameSessionConfig.tileSetType());
-        TileMapController tileMapController = new TileMapController(gameSessionConfig.tileMap(), gameSessionConfig.tileMapSize(), tileTypeImageResources);
-        CharacterController hero = new CharacterController(userModifications.heroType(), resources.sprites().get(userModifications.heroType()));
+    public void createGameSession(@NotNull UserModifications userModifications, @NotNull GameSessionConfig gameSessionConfig) {
+        System.out.println("Create game session");
+        Map<TileType, Image> tileTypeImageResources = gameView.resources().tileSets().get(gameSessionConfig.tileSetType());
+        TileMapController tileMapController = new TileMapController(gameSessionConfig.tileMap(), gameSessionConfig.tileMapSize());
+        tileMapController.setResources(tileTypeImageResources);
+        CharacterController hero = new CharacterController(userModifications.heroType());
+        hero.setResources(gameView.resources().sprites().get(userModifications.heroType()));
 
         TileIndexCoordinates heroPos = tileMapController.getRandomFreeTile();
         assert (heroPos != null);
@@ -68,7 +67,8 @@ public class GameController implements ScreenController {
         List<CharacterType> enemiesTypes = gameSessionConfig.enemiesTypes();
         List<CharacterController> enemies = new ArrayList<>(enemiesTypes.size());
         for (CharacterType enemyType : enemiesTypes) {
-            CharacterController enemy = new CharacterController(enemyType, resources.sprites().get(enemyType));
+            CharacterController enemy = new CharacterController(enemyType);
+            enemy.setResources(gameView.resources().sprites().get(enemyType));
             TileIndexCoordinates enemyPos = tileMapController.getRandomFreeTile();
             assert (enemyPos != null);
             tileMapController.captureTile(enemyPos);
@@ -89,6 +89,18 @@ public class GameController implements ScreenController {
             enemy.setAnimationInfoOnThisStep(enemyPos, enemyPos, WAIT);
         }
         gameModel.setGameSession(gameSession);
+    }
+
+    public GameSession getGameSession() {
+        return gameModel.gameSession();
+    }
+
+    public void setResources(Resources resources) {
+        gameView.setResources(resources);
+    }
+
+    public void dumpNewSaves() {
+        gameInteractor.dumpNewSaves();
     }
 
     public void handleTileClicked(@NotNull TileIndexCoordinates tile) {
@@ -115,13 +127,6 @@ public class GameController implements ScreenController {
         }
         gameModel.gameSession().hero().setTargetTile(tile);
         moveHeroToNextTile();
-    }
-
-    //    public GameSession getGameSession() {
-//
-//    }
-    public void dumpNewSaves() {
-        gameInteractor.dumpNewSaves();
     }
 
     private void huntEnemy() {

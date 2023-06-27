@@ -11,9 +11,13 @@ public class CharacterController {
     private final CharacterView heroView;
     private final CharacterModel model;
 
-    public CharacterController(@NotNull CharacterType characterType, @NotNull Map<SpriteType, Image> imageResources) {
+    public CharacterController(@NotNull CharacterType characterType) {
         this.model = new CharacterModel(characterType);
-        heroView = new CharacterView(imageResources);
+        heroView = new CharacterView();
+    }
+
+    public void setResources(@NotNull Map<@NotNull SpriteType, @NotNull Image> characterSprites) {
+        heroView.setSpritesResources(characterSprites);
     }
 
     public int currentHealth() {

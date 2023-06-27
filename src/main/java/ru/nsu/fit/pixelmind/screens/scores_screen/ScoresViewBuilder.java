@@ -21,7 +21,7 @@ public class ScoresViewBuilder implements Builder<Region> {
     private final ScoresModel model;
     private final Runnable backToMainMenuButtonHandler;
 
-    public ScoresViewBuilder(ScoresModel model, Runnable backToMainMenuButtonHandler) {
+    ScoresViewBuilder(ScoresModel model, Runnable backToMainMenuButtonHandler) {
         this.model = model;
         this.backToMainMenuButtonHandler = backToMainMenuButtonHandler;
     }

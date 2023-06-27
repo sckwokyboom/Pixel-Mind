@@ -18,7 +18,7 @@ public class ScoresInteractor {
     public static final String SCORES_TABLE = "src/main/resources/scores.csv";
     private final ScoresModel scoresModel;
 
-    public ScoresInteractor(ScoresModel scoresModel) {
+    ScoresInteractor(ScoresModel scoresModel) {
         this.scoresModel = scoresModel;
     }
 

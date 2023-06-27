@@ -13,17 +13,20 @@ import static ru.nsu.fit.pixelmind.Constants.TILE_SIZE;
 
 public class TileMapView implements Builder<Canvas> {
     private final @NotNull TileMapModel model;
-    private final @NotNull Map<TileType, Image> tileTypeImageMap;
+    private Map<TileType, Image> tileTypeImageMap;
     private final @NotNull Canvas gameFieldCanvas;
 
 
-    public TileMapView(@NotNull TileMapModel model, @NotNull Map<TileType, Image> tileTypeImageMap) {
+    TileMapView(@NotNull TileMapModel model) {
         this.model = model;
-        this.tileTypeImageMap = tileTypeImageMap;
         gameFieldCanvas = new Canvas(model.width() * TILE_SIZE, model.height() * TILE_SIZE);
         gameFieldCanvas.getGraphicsContext2D().setImageSmoothing(false);
         gameFieldCanvas.setCache(true);
         gameFieldCanvas.setCacheHint(CacheHint.SPEED);
+    }
+
+    public void setTileTypeImageMap(@NotNull Map<TileType, Image> tileTypeImageMap) {
+        this.tileTypeImageMap = tileTypeImageMap;
     }
 
     @Override

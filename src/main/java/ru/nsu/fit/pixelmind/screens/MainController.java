@@ -53,6 +53,7 @@ public class MainController {
             Resources resources = loadingResourcesScreenController.resources();
             newGameScreenController.setAvatars(resources.avatars());
             scoresController.loadScores();
+            gameController.setResources(resources);
             loadGameScreenController.setSavedGameSessionEntriesInfo(LoadingResourcesInteractor.parseSavesSessionsEntries());
             Platform.runLater(this::switchToMainMenuScene);
         }).start();
@@ -61,10 +62,10 @@ public class MainController {
     public void runGame() {
         switchToLoadingResourcesScreen();
         new Thread(() -> {
-            Resources resources = loadingResourcesScreenController.resources();
+//            Resources resources = loadingResourcesScreenController.resources();
             GameSessionConfig gameSessionConfig = loadingResourcesScreenController.gameSessionConfig();
             UserModifications userModifications = newGameScreenController.getUserModifications();
-            gameController.createGameSession(resources, userModifications, gameSessionConfig);
+            gameController.createGameSession(userModifications, gameSessionConfig);
             Platform.runLater(this::switchToGameScene);
         }).start();
     }

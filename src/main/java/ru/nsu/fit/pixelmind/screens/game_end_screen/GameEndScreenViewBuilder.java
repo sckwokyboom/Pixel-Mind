@@ -16,7 +16,7 @@ public class GameEndScreenViewBuilder implements Builder<Region> {
     private final IntegerProperty gameScore;
     private final StringProperty gameResult;
 
-    public GameEndScreenViewBuilder(Runnable backToMainMenu, IntegerProperty gameScore, StringProperty gameResult) {
+    GameEndScreenViewBuilder(Runnable backToMainMenu, IntegerProperty gameScore, StringProperty gameResult) {
         this.backToMainMenuButtonHandler = backToMainMenu;
         this.gameScore = gameScore;
         this.gameResult = gameResult;

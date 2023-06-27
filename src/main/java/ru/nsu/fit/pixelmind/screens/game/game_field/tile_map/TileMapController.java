@@ -16,15 +16,19 @@ public class TileMapController {
     private final TileMapModel tileMapModel;
     private final Set<TileType> wallTypes;
 
-    public TileMapController(@NotNull TileType[][] tileMap, @NotNull TileMapSize tileMapSize, @NotNull Map<TileType, Image> tileTypeImageResource) {
+    public TileMapController(@NotNull TileType[][] tileMap, @NotNull TileMapSize tileMapSize) {
         tileMapModel = new TileMapModel(TileMapInteractor.tileTypesToTileControllers(tileMap, tileMapSize));
         tileMapModel.setHeight(tileMapSize.height());
         tileMapModel.setWidth(tileMapSize.width());
-        viewBuilder = new TileMapView(tileMapModel, tileTypeImageResource);
+        viewBuilder = new TileMapView(tileMapModel);
         wallTypes = new HashSet<>();
         wallTypes.add(TileType.MOSSY_WALL);
         wallTypes.add(TileType.REGULAR_WALL);
         wallTypes.add(TileType.WOOD_WALL);
+    }
+
+    public void setResources(@NotNull Map<TileType, Image> tileTypeImageResource) {
+        viewBuilder.setTileTypeImageMap(tileTypeImageResource);
     }
 
     @NotNull

@@ -10,7 +10,7 @@ import javafx.util.Builder;
 public class LoadingResourcesViewBuilder implements Builder<Region> {
 
 
-    public LoadingResourcesViewBuilder() {
+    LoadingResourcesViewBuilder() {
     }
 
     @Override
