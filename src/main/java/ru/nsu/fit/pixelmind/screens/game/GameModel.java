@@ -21,7 +21,6 @@ public class GameModel {
         this.score = newScore;
     }
 
-    @NotNull
     public GameSession gameSession() {
         return gameSession;
     }

@@ -7,6 +7,7 @@ import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileIndexCoordinates;
 public class CharacterModel {
     private final CharacterType characterType;
     // CR: move to config
+    //TODO: don't agree, thinking...
     private int damageValue = 15;
     private int healthPoints = 100;
     private TileIndexCoordinates currentPosition;

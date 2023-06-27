@@ -30,8 +30,8 @@ public class GameController implements ScreenController {
     private final MainController.GameEndSceneHandler gameEndSceneHandler;
     private final GameInteractor gameInteractor;
 
-    public GameController(@NotNull MainController.GameEndSceneHandler gameEndSceneHandler,
-                          BiFunction<CameraController, GameModel, GameView> viewCreator) {
+    GameController(@NotNull MainController.GameEndSceneHandler gameEndSceneHandler,
+                   BiFunction<CameraController, GameModel, GameView> viewCreator) {
         this.gameEndSceneHandler = gameEndSceneHandler;
         gameModel = new GameModel();
         CameraController cameraController = new CameraController(gameModel, this::handleTileClicked);
@@ -121,7 +121,7 @@ public class GameController implements ScreenController {
             System.out.println("You clicked on yourself");
             return;
         }
-        if (gameModel.gameSession().gameField().isThereEnemyOnThisTile(tile)) {
+        if (gameModel.gameSession().gameField().isThereSomebodyOnThisTile(tile)) {
             System.out.println("You started hunt");
             gameModel.gameSession().hero().huntEnemy(getEnemyOnTile(tile));
             huntEnemy();
@@ -175,14 +175,15 @@ public class GameController implements ScreenController {
         TileIndexCoordinates nextTileToHuntEnemy = route.getFirst();
         hero.setAnimationInfoOnThisStep(hero.currentTile(), nextTileToHuntEnemy, MOVE);
         List<CharacterView> enemiesViews = buildEnemiesSteps(nextTileToHuntEnemy);
-        gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, this::huntEnemy);
         gameModel.gameSession().gameField().releaseTile(gameModel.gameSession().hero().currentTile());
         gameModel.gameSession().gameField().captureTile(nextTileToHuntEnemy);
         gameModel.gameSession().hero().setCurrentPosition(nextTileToHuntEnemy);
+        gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, this::huntEnemy);
     }
 
     private void moveHeroToNextTile() {
         // CR: separate recursion and action
+        //TODO: Hard...thinking
         if (gameView.isAnimatingRightNow()) {
             return;
         }
@@ -216,6 +217,7 @@ public class GameController implements ScreenController {
         for (CharacterController enemy : gameModel.gameSession().enemies()) {
             var route = buildRoute(enemy.currentTile(), targetPosition, getAllCapturedTilesExcept(enemy));
             // CR: return null
+            //TODO: hard...empty is also OK
             if (route.isEmpty()) {
                 System.out.println("Enemy cannot accessible you");
                 enemy.setAnimationInfoOnThisStep(enemy.currentTile(), enemy.currentTile(), WAIT);

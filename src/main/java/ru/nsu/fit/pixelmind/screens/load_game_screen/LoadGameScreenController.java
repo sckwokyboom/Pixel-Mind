@@ -34,6 +34,7 @@ public class LoadGameScreenController implements BackToMainMenuListener, ScreenC
     public void setSavedGameSessionEntriesInfo(List<SavedSessionEntry> savedSessionEntry) {
         model.setSavedSessionEntriesInfo(savedSessionEntry);
     }
+
     public void handleSelectedSave(SavedSessionEntry selectedSave) {
         sceneManager.loadGame(selectedSave);
     }

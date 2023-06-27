@@ -3,9 +3,9 @@ package ru.nsu.fit.pixelmind.screens.new_game_screen;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import org.jetbrains.annotations.NotNull;
-import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
-import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.BackToMainMenuListener;
+import ru.nsu.fit.pixelmind.screens.MainController;
+import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
 
 import java.util.Map;
 

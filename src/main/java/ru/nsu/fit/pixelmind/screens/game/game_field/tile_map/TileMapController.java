@@ -82,7 +82,7 @@ public class TileMapController {
         return availableTiles.get(random.nextInt(availableTiles.size()));
     }
 
-    public boolean isThereEnemyOnThisTile(@NotNull TileIndexCoordinates tile) {
+    public boolean isThereSomebodyOnThisTile(@NotNull TileIndexCoordinates tile) {
         return tileMapModel.tileMap()[tile.x()][tile.y()].isThereSomebodyOnTile().get();
     }
 

@@ -40,6 +40,9 @@ public class GameInteractor {
     }
 
     public void saveCurrentGameSession() {
+        if (gameModel.gameSession() == null) {
+            return;
+        }
         Gson gson = new Gson();
         TileType[][] gameField = new TileType[gameModel.gameSession().gameField().getHeight()][gameModel.gameSession().gameField().getWidth()];
         for (int i = 0; i < gameModel.gameSession().gameField().getHeight(); i++) {
@@ -79,6 +82,9 @@ public class GameInteractor {
     }
 
     public void dumpNewSaves() {
+        if (gameModel.newSaves().isEmpty()) {
+            return;
+        }
         try (FileWriter fileWriter = new FileWriter(Assets.SAVES_SESSIONS_ENTRIES, true);
              CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT)) {
             System.out.println(gameModel.newSaves());

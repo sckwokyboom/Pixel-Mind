@@ -9,10 +9,6 @@ import javafx.util.Builder;
 
 public class LoadingResourcesViewBuilder implements Builder<Region> {
 
-
-    LoadingResourcesViewBuilder() {
-    }
-
     @Override
     public Region build() {
         Label label = new Label("Loading Game...");

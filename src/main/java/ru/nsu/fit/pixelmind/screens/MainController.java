@@ -62,7 +62,6 @@ public class MainController {
     public void runGame() {
         switchToLoadingResourcesScreen();
         new Thread(() -> {
-//            Resources resources = loadingResourcesScreenController.resources();
             GameSessionConfig gameSessionConfig = loadingResourcesScreenController.gameSessionConfig();
             UserModifications userModifications = newGameScreenController.getUserModifications();
             gameController.createGameSession(userModifications, gameSessionConfig);
