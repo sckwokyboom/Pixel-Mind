@@ -10,21 +10,27 @@ import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileType;
 import ru.nsu.fit.pixelmind.utils.ShortestPathFinder;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class TileMapController {
     private final TileMapView viewBuilder;
     private final TileMapModel tileMapModel;
     private final Set<TileType> wallTypes;
 
-    public TileMapController(@NotNull TileType[][] tileMap, @NotNull TileMapSize tileMapSize) {
+    TileMapController(@NotNull TileType[][] tileMap, @NotNull TileMapSize tileMapSize,
+                             Function<TileMapModel, TileMapView> viewCreator) {
         tileMapModel = new TileMapModel(TileMapInteractor.tileTypesToTileControllers(tileMap, tileMapSize));
         tileMapModel.setHeight(tileMapSize.height());
         tileMapModel.setWidth(tileMapSize.width());
-        viewBuilder = new TileMapView(tileMapModel);
+        viewBuilder = viewCreator.apply(tileMapModel);
         wallTypes = new HashSet<>();
         wallTypes.add(TileType.MOSSY_WALL);
         wallTypes.add(TileType.REGULAR_WALL);
         wallTypes.add(TileType.WOOD_WALL);
+    }
+
+    public TileMapController(@NotNull TileType[][] tileMap, @NotNull TileMapSize tileMapSize) {
+        this(tileMap, tileMapSize, TileMapView::new);
     }
 
     public void setResources(@NotNull Map<TileType, Image> tileTypeImageResource) {
