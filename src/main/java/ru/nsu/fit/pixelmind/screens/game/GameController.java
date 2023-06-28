@@ -50,10 +50,6 @@ public class GameController implements ScreenController {
         return gameView.build();
     }
 
-    public void saveGameSession() {
-        gameInteractor.saveCurrentGameSession();
-    }
-
     public void createGameSession(@NotNull UserModifications userModifications, @NotNull GameSessionConfig gameSessionConfig) {
         System.out.println("Create game session");
         Map<TileType, Image> tileTypeImageResources = gameView.resources().tileSets().get(gameSessionConfig.tileSetType());
@@ -97,11 +93,19 @@ public class GameController implements ScreenController {
         gameModel.setGameSession(gameSession);
     }
 
+    public void saveGameSession() {
+        gameInteractor.saveCurrentGameSession();
+    }
+
     public GameSession getGameSession() {
         return gameModel.gameSession();
     }
 
-    public void setResources(Resources resources) {
+    public void clearGameSession() {
+        gameModel.setGameSession(null);
+    }
+
+    public void setResources(@NotNull Resources resources) {
         gameView.setResources(resources);
     }
 

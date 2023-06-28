@@ -1,6 +1,6 @@
 package ru.nsu.fit.pixelmind.screens.game;
 
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.nsu.fit.pixelmind.config.GameSessionConfig;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.SavedSessionEntry;
 
@@ -25,7 +25,7 @@ public class GameModel {
         return gameSession;
     }
 
-    public void setGameSession(@NotNull GameSession gameSession) {
+    public void setGameSession(@Nullable GameSession gameSession) {
         this.gameSession = gameSession;
     }
 

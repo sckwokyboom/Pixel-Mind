@@ -136,6 +136,7 @@ public class MainController {
             gameEndScreenController.setGameResult(gameResult);
             gameEndScreenController.setScore(gameScore);
             scoresController.addNewScore(heroType, gameScore);
+            gameController.clearGameSession();
             Scene gameEndScene = new Scene(gameEndScreenController.getView(), 512, 512);
             primaryStage.setScene(gameEndScene);
             primaryStage.show();

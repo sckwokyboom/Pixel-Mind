@@ -19,7 +19,7 @@ public class TileMapView implements Builder<Canvas> {
 
     TileMapView(@NotNull TileMapModel model) {
         this.model = model;
-        gameFieldCanvas = new Canvas(model.width() * TILE_SIZE, model.height() * TILE_SIZE);
+        gameFieldCanvas = new Canvas(model.tileMapSize().width() * TILE_SIZE, model.tileMapSize().height() * TILE_SIZE);
         gameFieldCanvas.getGraphicsContext2D().setImageSmoothing(false);
         gameFieldCanvas.setCache(true);
         gameFieldCanvas.setCacheHint(CacheHint.SPEED);
@@ -38,12 +38,12 @@ public class TileMapView implements Builder<Canvas> {
     }
 
     public void drawTileMap() {
-        for (int i = 0; i < model.height(); i++) {
-            for (int j = 0; j < model.width(); j++) {
+        for (int i = 0; i < model.tileMapSize().height(); i++) {
+            for (int j = 0; j < model.tileMapSize().width(); j++) {
                 TileType tileType = model.tileMap()[i][j].getType();
                 model.tileMap()[i][j].setTexture(tileTypeImageMap.get(tileType));
                 Image tileTexture = model.tileMap()[i][j].getView();
-                gameFieldCanvas.getGraphicsContext2D().drawImage(tileTexture, i * TILE_SIZE, j * TILE_SIZE);
+                gameFieldCanvas.getGraphicsContext2D().drawImage(tileTexture, j * TILE_SIZE, i * TILE_SIZE);
             }
         }
     }

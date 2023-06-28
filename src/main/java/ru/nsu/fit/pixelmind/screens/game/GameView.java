@@ -35,11 +35,12 @@ public class GameView implements Builder<Region> {
         this.gameModel = gameModel;
     }
 
+    @NotNull
     public Resources resources() {
         return resources;
     }
 
-    public void setResources(Resources resources) {
+    public void setResources(@NotNull Resources resources) {
         this.resources = resources;
     }
 

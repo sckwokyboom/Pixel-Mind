@@ -23,13 +23,26 @@ public class TileMapInteractor {
         assert (tileMapSize.height() > 0);
         assert (tileMapSize.width() > 0);
 
-        TileController[][] tileControllers = new TileController[tileMapSize.height()][tileMapSize.width()];
+//        TileType[][] temporary = new TileType[tileMapSize.width()][tileMapSize.height()];
+//        for (int i = 0; i < tileMapSize.height(); i++) {
+//            for (int j = 0; j < tileMapSize.width(); j++) {
+//                temporary[j][i] = tileTypes[i][j];
+//            }
+//        }
+//        TileController[][] tileMap = new TileController[tileMapSize.height()][tileMapSize.width()];
+//        for (int i = 0; i < tileMapSize.height(); i++) {
+//            for (int j = 0; j < tileMapSize.width(); j++) {
+//                tileMap[i][j] = new TileController(temporary[j][i]);
+//            }
+//        }
+//        return tileMap;
+        TileController[][] tileMap = new TileController[tileMapSize.height()][tileMapSize.width()];
         for (int i = 0; i < tileMapSize.height(); i++) {
             for (int j = 0; j < tileMapSize.width(); j++) {
-                tileControllers[i][j] = new TileController(tileTypes[j][i]);
+                tileMap[i][j] = new TileController(tileTypes[i][j]);
             }
         }
-        return tileControllers;
+        return tileMap;
     }
 
     @NotNull
