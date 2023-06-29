@@ -30,7 +30,7 @@ public class ScoresInteractor {
                 csvPrinter.printRecord(scoreEntry.heroType(), scoreEntry.score());
             }
         } catch (IOException e) {
-            log.error("Unable to dump scores." + e.getMessage());
+            log.error("Unable to dump scores", e);
         }
     }
 

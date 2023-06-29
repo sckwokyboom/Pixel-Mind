@@ -49,7 +49,7 @@ public class GameInteractor {
         TileType[][] gameField = new TileType[gameModel.gameSession().gameField().getHeight()][gameModel.gameSession().gameField().getWidth()];
         for (int i = 0; i < gameModel.gameSession().gameField().getHeight(); i++) {
             for (int j = 0; j < gameModel.gameSession().gameField().getWidth(); j++) {
-                gameField[i][j] = gameModel.gameSession().gameField().getTileMap()[j][i].getType();
+                gameField[i][j] = gameModel.gameSession().gameField().getTileMap()[i][j].getType();
             }
         }
         GameSessionForJson gameSessionForJson = new GameSessionForJson(
