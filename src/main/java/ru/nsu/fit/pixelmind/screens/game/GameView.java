@@ -143,7 +143,7 @@ public class GameView implements Builder<Region> {
         }
     }
 
-    private void drawMoveActionOfCharacter(CharacterView characterView, int numOfFrames, int currentFrameNum) {
+    private void drawMoveActionOfCharacter(@NotNull CharacterView characterView, int numOfFrames, int currentFrameNum) {
         TileIndexCoordinates characterCurrentTile = characterView.currentTile();
         TileIndexCoordinates characterTargetTile = characterView.targetTile();
         double dx = (double) ((characterTargetTile.x() - characterCurrentTile.x()) * TILE_SIZE) / numOfFrames;

@@ -1,13 +1,13 @@
 package ru.nsu.fit.pixelmind.utils.widgets;
 
 import javafx.scene.control.Button;
+import org.jetbrains.annotations.NotNull;
 
 public class Buttons {
-    public static Button button(String text, Runnable handler) {
+    @NotNull
+    public static Button button(@NotNull String text, @NotNull Runnable handler) {
         Button button = new Button(text);
-        button.setOnAction(event -> {
-            handler.run();
-        });
+        button.setOnAction(event -> handler.run());
         return button;
     }
 }

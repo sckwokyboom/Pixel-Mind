@@ -2,29 +2,35 @@ package ru.nsu.fit.pixelmind.utils.widgets;
 
 import javafx.beans.value.ObservableStringValue;
 import javafx.scene.control.Label;
+import org.jetbrains.annotations.NotNull;
 
 public class Labels {
-    public static Label styled(String textValue, String styleClass) {
+    @NotNull
+    public static Label styled(@NotNull String textValue, @NotNull String styleClass) {
         Label results = new Label(textValue);
         results.getStyleClass().add(styleClass);
         return results;
     }
 
-    public static Label styled(ObservableStringValue textValue, String styleClass) {
+    @NotNull
+    public static Label styled(@NotNull ObservableStringValue textValue, @NotNull String styleClass) {
         Label results = styled("", styleClass);
         results.textProperty().bind(textValue);
         return results;
     }
 
-    public static Label h3(ObservableStringValue textValue) {
+    @NotNull
+    public static Label h3(@NotNull ObservableStringValue textValue) {
         return styled(textValue, "label-h3");
     }
 
-    public static Label h4(ObservableStringValue textValue) {
+    @NotNull
+    public static Label h4(@NotNull ObservableStringValue textValue) {
         return styled(textValue, "label-h3");
     }
 
-    public static Label h4(String textValue) {
+    @NotNull
+    public static Label h4(@NotNull String textValue) {
         return styled(textValue, "label-h4");
     }
 }

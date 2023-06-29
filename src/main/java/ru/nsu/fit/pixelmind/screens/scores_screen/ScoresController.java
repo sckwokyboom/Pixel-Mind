@@ -9,11 +9,14 @@ import ru.nsu.fit.pixelmind.screens.ScreenController;
 import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
 
 public class ScoresController implements BackToMainMenuListener, ScreenController {
+    @NotNull
     private final Builder<Region> viewBuilder;
+    @NotNull
     private final MainController mainController;
+    @NotNull
     private final ScoresInteractor scoresInteractor;
 
-    public ScoresController(MainController mainController) {
+    public ScoresController(@NotNull MainController mainController) {
         ScoresModel scoresModel = new ScoresModel();
         scoresInteractor = new ScoresInteractor(scoresModel);
         viewBuilder = new ScoresViewBuilder(scoresModel, this::handleBackToMainMenu);
@@ -26,7 +29,8 @@ public class ScoresController implements BackToMainMenuListener, ScreenControlle
     }
 
     @Override
-    public @NotNull Region getView() {
+    @NotNull
+    public Region getView() {
         return viewBuilder.build();
     }
 
@@ -34,7 +38,7 @@ public class ScoresController implements BackToMainMenuListener, ScreenControlle
         scoresInteractor.dumpScores();
     }
 
-    public void addNewScore(CharacterType heroType, int score) {
+    public void addNewScore(@NotNull CharacterType heroType, int score) {
         scoresInteractor.addScore(heroType, score);
     }
 

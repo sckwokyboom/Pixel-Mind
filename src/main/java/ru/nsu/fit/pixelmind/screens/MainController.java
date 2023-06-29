@@ -21,13 +21,21 @@ import ru.nsu.fit.pixelmind.screens.new_game_screen.UserModifications;
 import ru.nsu.fit.pixelmind.screens.scores_screen.ScoresController;
 
 public class MainController {
+    @NotNull
     private final Stage primaryStage;
+    @NotNull
     private final NewGameScreenController newGameScreenController;
+    @NotNull
     private final LoadGameScreenController loadGameScreenController;
+    @NotNull
     private final ScoresController scoresController;
+    @NotNull
     private final GameController gameController;
+    @NotNull
     private final MainMenuController mainMenuController;
+    @NotNull
     private final GameEndScreenController gameEndScreenController;
+    @NotNull
     private final LoadingResourcesController loadingResourcesScreenController;
 
     public MainController(@NotNull Stage primaryStage) {

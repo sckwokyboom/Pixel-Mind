@@ -188,7 +188,7 @@ public class GameController implements ScreenController {
 
     private void moveHeroToNextTile() {
         // CR: separate recursion and action
-        //TODO: Hard...it seems to be pointless. There is recursion calls only in the last lines.
+        // TODO: Hard...it seems to be pointless. There is recursion calls only in the last lines.
         if (gameView.isAnimatingRightNow()) {
             return;
         }
