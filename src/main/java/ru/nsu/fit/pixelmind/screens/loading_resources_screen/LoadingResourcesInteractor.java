@@ -2,6 +2,7 @@ package ru.nsu.fit.pixelmind.screens.loading_resources_screen;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -22,6 +23,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 public class LoadingResourcesInteractor {
 
     @NotNull
@@ -35,6 +37,7 @@ public class LoadingResourcesInteractor {
         try (BufferedReader configReader = new BufferedReader(new FileReader(Path.of(Assets.RESOURCES).toFile()))) {
             return gson.fromJson(configReader, ResourcesConfig.class);
         } catch (IOException e) {
+            log.error("Unable to parse resources config", e);
             throw new RuntimeException(e);
         }
     }
@@ -47,6 +50,7 @@ public class LoadingResourcesInteractor {
         try (BufferedReader configReader = new BufferedReader(new FileReader(Path.of(Assets.DEFAULT_GAME_SESSION_CONFIG).toFile()))) {
             return gson.fromJson(configReader, GameSessionConfig.class);
         } catch (IOException e) {
+            log.error("Unable to parse game session config", e);
             throw new RuntimeException(e);
         }
     }
@@ -60,7 +64,8 @@ public class LoadingResourcesInteractor {
             for (CSVRecord csvRecord : csvParser) {
                 csvRecords.add(new SavedSessionEntry(CharacterType.valueOf(csvRecord.get(0)), csvRecord.get(1), csvRecord.get(2)));
             }
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            log.error("Unable to parse list of save session records", e);
         }
         return csvRecords;
     }

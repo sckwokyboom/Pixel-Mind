@@ -1,6 +1,7 @@
 package ru.nsu.fit.pixelmind.screens.load_game_screen;
 
 import com.google.gson.Gson;
+import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.screens.game.GameSession;
 import ru.nsu.fit.pixelmind.screens.game.character.CharacterController;
@@ -17,6 +18,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 public class LoadGameScreenInteractor {
     @NotNull
     public static GameSession parseGameSessionEntry(@NotNull SavedSessionEntry savedSessionEntry, @NotNull Resources resources) {
@@ -25,6 +27,7 @@ public class LoadGameScreenInteractor {
         try (BufferedReader configReader = new BufferedReader(new FileReader(Path.of(savedSessionEntry.path()).toFile()))) {
             gameSessionForJson = gson.fromJson(configReader, GameSessionForJson.class);
         } catch (IOException e) {
+            log.error("Unable to parse saved game session", e);
             throw new RuntimeException(e);
         }
         TileType[][] tileMap = gameSessionForJson.gameField();

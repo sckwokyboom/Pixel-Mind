@@ -5,11 +5,13 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.util.Objects;
 
+@Log4j2
 public class Utils {
     @NotNull
     public static Image parseImageByPixels(@NotNull String url, int startOffsetX, int startOffsetY, int height, int width) {
@@ -26,9 +28,7 @@ public class Utils {
                 }
             }
         } catch (NullPointerException | IndexOutOfBoundsException e) {
-            System.out.println(url);
-            e.printStackTrace();
-            System.out.println("Tile set loading error occurred: " + e.getMessage());
+            log.error("Unable to parse the image pixel by pixel", e);
         }
         return image;
     }

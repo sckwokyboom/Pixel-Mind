@@ -2,6 +2,7 @@ package ru.nsu.fit.pixelmind.screens.game;
 
 import com.google.gson.Gson;
 import javafx.scene.image.Image;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.jetbrains.annotations.NotNull;
@@ -32,6 +33,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@Log4j2
 public class GameInteractor {
     private final @NotNull GameModel gameModel;
 
@@ -77,7 +79,7 @@ public class GameInteractor {
             Files.write(gameSessionPath, gameSessionJson.getBytes(), StandardOpenOption.CREATE);
             gameModel.newSaves().add(new SavedSessionEntry(gameModel.gameSession().hero().characterType(), formattedDateTime, gameSessionPath.toString()));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Unable to save current game session", e);
         }
     }
 
@@ -93,7 +95,7 @@ public class GameInteractor {
             }
             csvPrinter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Unable to save game sessions entries", e);
         }
     }
 
