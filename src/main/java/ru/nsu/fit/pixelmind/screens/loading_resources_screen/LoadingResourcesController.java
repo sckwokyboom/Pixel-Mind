@@ -9,13 +9,15 @@ import ru.nsu.fit.pixelmind.screens.ScreenController;
 import java.util.List;
 
 public class LoadingResourcesController implements ScreenController {
+    @NotNull
     private final Builder<Region> viewBuilder;
+    @NotNull
     private final LoadingResourcesModel model;
 
 
     public LoadingResourcesController() {
         this.model = new LoadingResourcesModel();
-        viewBuilder = new LoadingResourcesViewBuilder();
+        viewBuilder = new LoadingResourcesView();
     }
 
     @Override

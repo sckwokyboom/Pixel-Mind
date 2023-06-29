@@ -1,7 +1,7 @@
 package ru.nsu.fit.pixelmind.screens.game.game_field.tile;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.scene.image.Image;
+import org.jetbrains.annotations.NotNull;
 
 public class TileController {
     private final TileViewBuilder viewBuilder;
@@ -12,10 +12,12 @@ public class TileController {
         this.viewBuilder = new TileViewBuilder();
     }
 
+    @NotNull
     public Image getView() {
         return viewBuilder.build();
     }
 
+    @NotNull
     public TileType getType() {
         return model.tileType();
     }
@@ -23,11 +25,16 @@ public class TileController {
     public void setType(TileType newTileType) {
         model.setTileType(newTileType);
     }
+
     public void setTexture(Image tileTexture) {
         viewBuilder.setTexture(tileTexture);
     }
 
-    public BooleanProperty isThereSomebodyOnTile() {
+    public boolean isThereSomebodyOnTile() {
         return model.isThereSomebodyOnTile();
+    }
+
+    public void setIsThereSomebodyOnTile(boolean isThereSomebodyOnTile) {
+        model.setThereSomebodyOnTile(isThereSomebodyOnTile);
     }
 }

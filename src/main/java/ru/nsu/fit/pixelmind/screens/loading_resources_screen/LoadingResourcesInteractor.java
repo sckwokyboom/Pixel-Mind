@@ -53,7 +53,7 @@ public class LoadingResourcesInteractor {
 
     @NotNull
     public static List<SavedSessionEntry> parseSavesSessionsEntries() {
-        //TODO: maybe null?
+        // TODO: maybe null?
         ArrayList<SavedSessionEntry> csvRecords = new ArrayList<>();
         try (Reader reader = new FileReader(Assets.SAVES_SESSIONS_ENTRIES);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT)) {

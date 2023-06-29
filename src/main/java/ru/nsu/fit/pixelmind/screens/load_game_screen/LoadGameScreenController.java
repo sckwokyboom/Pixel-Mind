@@ -11,18 +11,22 @@ import ru.nsu.fit.pixelmind.screens.loading_resources_screen.SavedSessionEntry;
 import java.util.List;
 
 public class LoadGameScreenController implements BackToMainMenuListener, ScreenController {
+    @NotNull
     private final Builder<Region> viewBuilder;
+    @NotNull
     private final MainController sceneManager;
+    @NotNull
     private final LoadGameScreenModel model;
 
-    public LoadGameScreenController(MainController sceneManager) {
+    public LoadGameScreenController(@NotNull MainController sceneManager) {
         model = new LoadGameScreenModel();
-        viewBuilder = new LoadGameScreenViewBuilder(model, this::handleBackToMainMenu, this::handleSelectedSave);
+        viewBuilder = new LoadGameScreenView(model, this::handleBackToMainMenu, this::handleSelectedSave);
         this.sceneManager = sceneManager;
     }
 
     @Override
-    public @NotNull Region getView() {
+    @NotNull
+    public Region getView() {
         return viewBuilder.build();
     }
 

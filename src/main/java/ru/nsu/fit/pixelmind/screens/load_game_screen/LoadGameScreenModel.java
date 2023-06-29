@@ -1,5 +1,6 @@
 package ru.nsu.fit.pixelmind.screens.load_game_screen;
 
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.screens.game.GameSession;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.SavedSessionEntry;
 
@@ -13,7 +14,7 @@ public class LoadGameScreenModel {
         return savesSessionsEntries;
     }
 
-    public void setSavesGameSessions(List<GameSession> savesSessionsEntries) {
+    public void setSavesGameSessions(@NotNull List<GameSession> savesSessionsEntries) {
         this.savesSessionsEntries = savesSessionsEntries;
     }
 

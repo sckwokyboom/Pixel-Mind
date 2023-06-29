@@ -33,9 +33,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameInteractor {
-    private final GameModel gameModel;
+    private final @NotNull GameModel gameModel;
 
-    GameInteractor(GameModel gameModel) {
+    GameInteractor(@NotNull GameModel gameModel) {
         this.gameModel = gameModel;
     }
 

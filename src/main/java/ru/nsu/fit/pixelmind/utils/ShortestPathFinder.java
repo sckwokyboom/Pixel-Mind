@@ -10,11 +10,13 @@ import ru.nsu.fit.pixelmind.screens.game.game_field.tile_map.TileMapSize;
 import java.util.*;
 
 public class ShortestPathFinder {
-
+    @NotNull
     private final TileController[][] tileMap;
     private final int width;
     private final int height;
+    @Nullable
     private final Set<TileType> wallTypes;
+    @NotNull
     private final Set<TileIndexCoordinates> barriers;
 
     public ShortestPathFinder(@NotNull TileController[][] field, @NotNull TileMapSize tileMapSize, @Nullable Set<TileType> wallTypes) {
@@ -100,6 +102,7 @@ public class ShortestPathFinder {
         return null;
     }
 
+    @NotNull
     private Deque<TileIndexCoordinates> reconstructPath(Map<TileIndexCoordinates, TileIndexCoordinates> cameFrom, TileIndexCoordinates current) {
         Deque<TileIndexCoordinates> path = new ArrayDeque<>();
         path.addFirst(current);
@@ -113,6 +116,7 @@ public class ShortestPathFinder {
         return path;
     }
 
+    @NotNull
     private Set<TileIndexCoordinates> getNeighbors(TileIndexCoordinates position) {
         int x = position.x();
         int y = position.y();
@@ -143,7 +147,7 @@ public class ShortestPathFinder {
 //        return Math.max(Math.abs(dx), Math.abs(dy));
     }
 
-    private double heuristicCostEstimate(TileIndexCoordinates start, TileIndexCoordinates end) {
+    private double heuristicCostEstimate(@NotNull TileIndexCoordinates start, @NotNull TileIndexCoordinates end) {
         return distanceBetween(start, end);
     }
 
@@ -151,7 +155,7 @@ public class ShortestPathFinder {
         public TileIndexCoordinates position;
         public double fScore;
 
-        public Node(TileIndexCoordinates position, double fScore) {
+        public Node(@NotNull TileIndexCoordinates position, double fScore) {
             this.position = position;
             this.fScore = fScore;
         }

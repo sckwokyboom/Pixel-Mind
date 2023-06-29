@@ -132,7 +132,7 @@ public class GameController implements ScreenController {
             return;
         }
         var route = buildRoute(gameModel.gameSession().hero().currentTile(), tile, getAllCapturedTilesExcept());
-        if (route.isEmpty()) {
+        if (route == null || route.isEmpty()) {
             return;
         }
         gameModel.gameSession().hero().setTargetTile(tile);
@@ -150,7 +150,7 @@ public class GameController implements ScreenController {
         }
         TileIndexCoordinates currentHuntedEnemyPosition = huntedEnemy.currentTile();
         var route = buildRoute(hero.currentTile(), currentHuntedEnemyPosition, getAllCapturedTilesExcept(huntedEnemy));
-        if (route.isEmpty()) {
+        if (route == null || route.isEmpty()) {
             System.out.println("Enemy cannot be accessible");
             return;
         }
@@ -182,18 +182,19 @@ public class GameController implements ScreenController {
         gameModel.gameSession().gameField().releaseTile(gameModel.gameSession().hero().currentTile());
         gameModel.gameSession().gameField().captureTile(nextTileToHuntEnemy);
         gameModel.gameSession().hero().setCurrentPosition(nextTileToHuntEnemy);
+
         gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, this::huntEnemy);
     }
 
     private void moveHeroToNextTile() {
         // CR: separate recursion and action
-        //TODO: Hard...thinking
+        //TODO: Hard...it seems to be pointless. There is recursion calls only in the last lines.
         if (gameView.isAnimatingRightNow()) {
             return;
         }
         CharacterController hero = gameModel.gameSession().hero();
         var route = buildRoute(hero.currentTile(), hero.targetTile(), getAllCapturedTilesExcept());
-        if (route.isEmpty()) {
+        if (route == null || route.isEmpty()) {
             return;
         }
         TileIndexCoordinates nextTileInRoute = route.getFirst();
@@ -201,6 +202,7 @@ public class GameController implements ScreenController {
         gameModel.gameSession().gameField().releaseTile(gameModel.gameSession().hero().currentTile());
         gameModel.gameSession().gameField().captureTile(nextTileInRoute);
         hero.setCurrentPosition(nextTileInRoute);
+
         List<CharacterView> enemiesViews = buildEnemiesSteps(nextTileInRoute);
         gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, this::moveHeroToNextTile);
     }
@@ -220,9 +222,7 @@ public class GameController implements ScreenController {
         List<CharacterView> enemiesViews = new ArrayList<>();
         for (CharacterController enemy : gameModel.gameSession().enemies()) {
             var route = buildRoute(enemy.currentTile(), targetPosition, getAllCapturedTilesExcept(enemy));
-            // CR: return null
-            //TODO: hard...empty is also OK
-            if (route.isEmpty()) {
+            if (route == null || route.isEmpty()) {
                 System.out.println("Enemy cannot accessible you");
                 enemy.setAnimationInfoOnThisStep(enemy.currentTile(), enemy.currentTile(), WAIT);
                 enemiesViews.add(enemy.getView());
@@ -259,7 +259,7 @@ public class GameController implements ScreenController {
         return capturedTiles;
     }
 
-    @NotNull
+    @Nullable
     private Deque<TileIndexCoordinates> buildRoute(@NotNull TileIndexCoordinates exclusiveFrom, @NotNull TileIndexCoordinates inclusiveTo, @NotNull List<TileIndexCoordinates> additionalBarriers) {
         return gameModel.gameSession().gameField().buildRoute(exclusiveFrom, inclusiveTo, additionalBarriers);
     }

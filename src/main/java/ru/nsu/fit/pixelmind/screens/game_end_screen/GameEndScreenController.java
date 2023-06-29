@@ -8,18 +8,22 @@ import ru.nsu.fit.pixelmind.screens.MainController;
 import ru.nsu.fit.pixelmind.screens.ScreenController;
 
 public class GameEndScreenController implements BackToMainMenuListener, ScreenController {
+    @NotNull
     private final Builder<Region> viewBuilder;
+    @NotNull
     private final MainController sceneManager;
+    @NotNull
     private final GameEndScreenModel model;
 
-    public GameEndScreenController(MainController sceneManager) {
+    public GameEndScreenController(@NotNull MainController sceneManager) {
         model = new GameEndScreenModel();
-        viewBuilder = new GameEndScreenViewBuilder(this::handleBackToMainMenu, model.gameScoreProperty(), model.gameResultProperty());
+        viewBuilder = new GameEndScreenView(this::handleBackToMainMenu, model.gameScoreProperty(), model.gameResultProperty());
         this.sceneManager = sceneManager;
     }
 
     @Override
-    public @NotNull Region getView() {
+    @NotNull
+    public Region getView() {
         return viewBuilder.build();
     }
 

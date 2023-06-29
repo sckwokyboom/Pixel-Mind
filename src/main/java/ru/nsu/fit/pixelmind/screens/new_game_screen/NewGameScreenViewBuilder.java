@@ -18,12 +18,17 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class NewGameScreenViewBuilder implements Builder<Region> {
+    @NotNull
     private final Runnable backToMainMenuButtonHandler;
+    @NotNull
     private final Runnable startButtonHandler;
+    @NotNull
     private final Consumer<CharacterType> handleUserChoose;
     private Map<CharacterType, Image> avatars;
 
-    NewGameScreenViewBuilder(Consumer<CharacterType> handleUserChoose, Runnable backToMainMenuButtonHandler, Runnable startButtonHandler) {
+    NewGameScreenViewBuilder(@NotNull Consumer<CharacterType> handleUserChoose,
+                             @NotNull Runnable backToMainMenuButtonHandler,
+                             @NotNull Runnable startButtonHandler) {
         this.backToMainMenuButtonHandler = backToMainMenuButtonHandler;
         this.startButtonHandler = startButtonHandler;
         this.handleUserChoose = handleUserChoose;
@@ -31,6 +36,7 @@ public class NewGameScreenViewBuilder implements Builder<Region> {
 
 
     @Override
+    @NotNull
     public Region build() {
         // default hero
         handleUserChoose.accept(CharacterType.NORTH_WARRIOR);

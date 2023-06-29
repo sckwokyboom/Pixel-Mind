@@ -9,20 +9,25 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Builder;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.utils.widgets.Buttons;
 
-public class GameEndScreenViewBuilder implements Builder<Region> {
+public class GameEndScreenView implements Builder<Region> {
+    @NotNull
     private final Runnable backToMainMenuButtonHandler;
+    @NotNull
     private final IntegerProperty gameScore;
+    @NotNull
     private final StringProperty gameResult;
 
-    GameEndScreenViewBuilder(Runnable backToMainMenu, IntegerProperty gameScore, StringProperty gameResult) {
+    GameEndScreenView(@NotNull Runnable backToMainMenu, @NotNull IntegerProperty gameScore, @NotNull StringProperty gameResult) {
         this.backToMainMenuButtonHandler = backToMainMenu;
         this.gameScore = gameScore;
         this.gameResult = gameResult;
     }
 
     @Override
+    @NotNull
     public Region build() {
         Label label = new Label(gameResult.get());
         Label score = new Label("Your score: " + gameScore.get());

@@ -30,7 +30,7 @@ public class MainController {
     private final GameEndScreenController gameEndScreenController;
     private final LoadingResourcesController loadingResourcesScreenController;
 
-    public MainController(Stage primaryStage) {
+    public MainController(@NotNull Stage primaryStage) {
         this.primaryStage = primaryStage;
         loadingResourcesScreenController = new LoadingResourcesController();
         gameController = new GameController(new GameEndSceneSwitcher());
@@ -69,7 +69,7 @@ public class MainController {
         }).start();
     }
 
-    public void loadGame(SavedSessionEntry savedSessionEntry) {
+    public void loadGame(@NotNull SavedSessionEntry savedSessionEntry) {
         switchToLoadingResourcesScreen();
         new Thread(() -> {
             Resources resources = loadingResourcesScreenController.resources();

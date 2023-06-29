@@ -12,21 +12,25 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Builder;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.utils.widgets.Buttons;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScoresViewBuilder implements Builder<Region> {
+    @NotNull
     private final ScoresModel model;
+    @NotNull
     private final Runnable backToMainMenuButtonHandler;
 
-    ScoresViewBuilder(ScoresModel model, Runnable backToMainMenuButtonHandler) {
+    ScoresViewBuilder(@NotNull ScoresModel model, @NotNull Runnable backToMainMenuButtonHandler) {
         this.model = model;
         this.backToMainMenuButtonHandler = backToMainMenuButtonHandler;
     }
 
     @Override
+    @NotNull
     public Region build() {
         Label label = new Label("Scores");
         TableView<HighScoreEntry> tableView = new TableView<>();

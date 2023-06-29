@@ -16,9 +16,10 @@ import java.util.List;
 
 public class ScoresInteractor {
     public static final String SCORES_TABLE = "src/main/resources/scores.csv";
+    @NotNull
     private final ScoresModel scoresModel;
 
-    ScoresInteractor(ScoresModel scoresModel) {
+    ScoresInteractor(@NotNull ScoresModel scoresModel) {
         this.scoresModel = scoresModel;
     }
 
@@ -37,7 +38,7 @@ public class ScoresInteractor {
         }
     }
 
-    public void addScore(CharacterType heroType, int score) {
+    public void addScore(@NotNull CharacterType heroType, int score) {
         scoresModel.newScores().add(new HighScoreEntry(heroType, score));
         scoresModel.scores().add(new HighScoreEntry(heroType, score));
     }

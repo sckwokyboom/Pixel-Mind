@@ -1,6 +1,7 @@
 package ru.nsu.fit.pixelmind.screens.load_game_screen;
 
 import com.google.gson.Gson;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.screens.game.GameSession;
 import ru.nsu.fit.pixelmind.screens.game.character.CharacterController;
 import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileType;
@@ -17,7 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoadGameScreenInteractor {
-    public static GameSession parseGameSessionEntry(SavedSessionEntry savedSessionEntry, Resources resources) {
+    @NotNull
+    public static GameSession parseGameSessionEntry(@NotNull SavedSessionEntry savedSessionEntry, @NotNull Resources resources) {
         Gson gson = new Gson();
         GameSessionForJson gameSessionForJson;
         try (BufferedReader configReader = new BufferedReader(new FileReader(Path.of(savedSessionEntry.path()).toFile()))) {

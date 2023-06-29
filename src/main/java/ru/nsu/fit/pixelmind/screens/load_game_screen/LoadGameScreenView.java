@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Builder;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.screens.loading_resources_screen.SavedSessionEntry;
 import ru.nsu.fit.pixelmind.utils.widgets.Buttons;
 
@@ -19,19 +20,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class LoadGameScreenViewBuilder implements Builder<Region> {
-
+public class LoadGameScreenView implements Builder<Region> {
+    @NotNull
     private final LoadGameScreenModel model;
+    @NotNull
     private final Runnable backToMainMenuButtonHandler;
+    @NotNull
     private final Consumer<SavedSessionEntry> selectSaveHandler;
 
-    LoadGameScreenViewBuilder(LoadGameScreenModel model, Runnable backToMainMenuButtonHandler, Consumer<SavedSessionEntry> selectSaveHandler) {
+    LoadGameScreenView(@NotNull LoadGameScreenModel model, @NotNull Runnable backToMainMenuButtonHandler, @NotNull Consumer<SavedSessionEntry> selectSaveHandler) {
         this.model = model;
         this.backToMainMenuButtonHandler = backToMainMenuButtonHandler;
         this.selectSaveHandler = selectSaveHandler;
     }
 
     @Override
+    @NotNull
     public Region build() {
         Label label = new Label("Load Game");
         Button backToMainMenuButton = Buttons.button("Back", backToMainMenuButtonHandler);

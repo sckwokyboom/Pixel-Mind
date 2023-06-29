@@ -3,15 +3,17 @@ package ru.nsu.fit.pixelmind.screens.main_menu_screen;
 import javafx.scene.layout.Region;
 import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.screens.MainController;
-import ru.nsu.fit.pixelmind.screens.ScreenController;
 import ru.nsu.fit.pixelmind.screens.MenuListener;
+import ru.nsu.fit.pixelmind.screens.ScreenController;
 
 
 public class MainMenuController implements ScreenController, MenuListener {
+    @NotNull
     private final MainController sceneManager;
+    @NotNull
     private final MainMenuViewBuilder mainMenuViewBuilder;
 
-    public MainMenuController(MainController sceneManager) {
+    public MainMenuController(@NotNull MainController sceneManager) {
         mainMenuViewBuilder = new MainMenuViewBuilder(this::handleNewGameButtonClicked, this::handleLoadGameButtonClicked, this::handleHighScoresButtonClicked, this::handleExitButtonClicked);
         this.sceneManager = sceneManager;
     }
@@ -37,7 +39,8 @@ public class MainMenuController implements ScreenController, MenuListener {
     }
 
     @Override
-    public @NotNull Region getView() {
+    @NotNull
+    public Region getView() {
         return mainMenuViewBuilder.build();
     }
 }

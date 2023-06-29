@@ -1,5 +1,7 @@
 package ru.nsu.fit.pixelmind.screens.new_game_screen;
 
+import org.jetbrains.annotations.NotNull;
+
 public class NewGameScreenModel {
     private UserModifications userModifications;
 
@@ -7,7 +9,7 @@ public class NewGameScreenModel {
         return userModifications;
     }
 
-    public void setUserModifications(UserModifications userModifications) {
+    public void setUserModifications(@NotNull UserModifications userModifications) {
         this.userModifications = userModifications;
     }
 }

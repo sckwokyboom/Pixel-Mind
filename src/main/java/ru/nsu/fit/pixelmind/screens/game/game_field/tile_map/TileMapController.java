@@ -18,7 +18,7 @@ public class TileMapController {
     private final Set<TileType> wallTypes;
 
     TileMapController(@NotNull TileType[][] tileMap, @NotNull TileMapSize tileMapSize,
-                      Function<TileMapModel, TileMapView> viewCreator) {
+                      @NotNull Function<TileMapModel, TileMapView> viewCreator) {
         tileMapModel = new TileMapModel(TileMapInteractor.tileTypesToTileControllers(tileMap, tileMapSize), tileMapSize);
         viewBuilder = viewCreator.apply(tileMapModel);
         wallTypes = new HashSet<>();
@@ -52,14 +52,10 @@ public class TileMapController {
         return !wallTypes.contains(tileController.getType());
     }
 
-    @NotNull
+    @Nullable
     public Deque<TileIndexCoordinates> buildRoute(@NotNull TileIndexCoordinates exclusiveFrom, @NotNull TileIndexCoordinates inclusiveTo, @NotNull List<TileIndexCoordinates> additionalBarriers) {
         ShortestPathFinder shortestPathFinder = new ShortestPathFinder(tileMapModel.tileMap(), tileMapModel.tileMapSize(), wallTypes);
-        var route = shortestPathFinder.findShortestPath(exclusiveFrom, inclusiveTo, additionalBarriers);
-        if (route == null) {
-            return new ArrayDeque<>();
-        }
-        return route;
+        return shortestPathFinder.findShortestPath(exclusiveFrom, inclusiveTo, additionalBarriers);
     }
 
     @Nullable
@@ -68,7 +64,7 @@ public class TileMapController {
         for (int i = 0; i < tileMapModel.tileMapSize().height(); i++) {
             for (int j = 0; j < tileMapModel.tileMapSize().width(); j++) {
                 TileType tileType = tileMapModel.tileMap()[i][j].getType();
-                if (!wallTypes.contains(tileType) && !tileMapModel.tileMap()[i][j].isThereSomebodyOnTile().get()) {
+                if (!wallTypes.contains(tileType) && !tileMapModel.tileMap()[i][j].isThereSomebodyOnTile()) {
                     availableTiles.add(new TileIndexCoordinates(j, i));
                 }
             }
@@ -81,17 +77,18 @@ public class TileMapController {
     }
 
     public boolean isThereSomebodyOnThisTile(@NotNull TileIndexCoordinates tile) {
-        return tileMapModel.tileMap()[tile.y()][tile.x()].isThereSomebodyOnTile().get();
+        return tileMapModel.tileMap()[tile.y()][tile.x()].isThereSomebodyOnTile();
     }
 
     public void captureTile(@NotNull TileIndexCoordinates tileIndex) {
-        tileMapModel.tileMap()[tileIndex.y()][tileIndex.x()].isThereSomebodyOnTile().set(true);
+        tileMapModel.tileMap()[tileIndex.y()][tileIndex.x()].setIsThereSomebodyOnTile(true);
     }
 
     public void releaseTile(@NotNull TileIndexCoordinates tileIndex) {
-        tileMapModel.tileMap()[tileIndex.y()][tileIndex.x()].isThereSomebodyOnTile().set(false);
+        tileMapModel.tileMap()[tileIndex.y()][tileIndex.x()].setIsThereSomebodyOnTile(false);
     }
 
+    @NotNull
     public TileController[][] getTileMap() {
         return tileMapModel.tileMap();
     }
@@ -108,5 +105,4 @@ public class TileMapController {
     public Map<TileType, Image> tileTypeImageMapResource() {
         return viewBuilder.tileTypeImageMap();
     }
-
 }

@@ -6,10 +6,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Builder;
+import org.jetbrains.annotations.NotNull;
 
-public class LoadingResourcesViewBuilder implements Builder<Region> {
+public class LoadingResourcesView implements Builder<Region> {
 
     @Override
+    @NotNull
     public Region build() {
         Label label = new Label("Loading Game...");
         VBox results = new VBox(20, label);

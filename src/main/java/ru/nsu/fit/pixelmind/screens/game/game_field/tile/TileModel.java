@@ -1,20 +1,16 @@
 package ru.nsu.fit.pixelmind.screens.game.game_field.tile;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import org.jetbrains.annotations.NotNull;
 
 public class TileModel {
     private TileType tileType;
-    @NotNull
-    private final BooleanProperty isThereSomebodyOnTile = new SimpleBooleanProperty();
+    private boolean isThereSomebodyOnTile;
 
     TileModel(@NotNull TileType tileType) {
         this.tileType = tileType;
     }
 
-    @NotNull
-    public BooleanProperty isThereSomebodyOnTile() {
+    public boolean isThereSomebodyOnTile() {
         return isThereSomebodyOnTile;
     }
 
@@ -25,5 +21,9 @@ public class TileModel {
 
     public void setTileType(@NotNull TileType tileType) {
         this.tileType = tileType;
+    }
+
+    public void setThereSomebodyOnTile(boolean thereSomebodyOnTile) {
+        isThereSomebodyOnTile = thereSomebodyOnTile;
     }
 }

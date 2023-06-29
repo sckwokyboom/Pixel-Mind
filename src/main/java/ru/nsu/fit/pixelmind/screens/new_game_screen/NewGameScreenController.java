@@ -5,16 +5,20 @@ import javafx.scene.layout.Region;
 import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.screens.BackToMainMenuListener;
 import ru.nsu.fit.pixelmind.screens.MainController;
+import ru.nsu.fit.pixelmind.screens.ScreenController;
 import ru.nsu.fit.pixelmind.screens.game.character.CharacterType;
 
 import java.util.Map;
 
-public class NewGameScreenController implements BackToMainMenuListener {
+public class NewGameScreenController implements BackToMainMenuListener, ScreenController {
+    @NotNull
     private final NewGameScreenViewBuilder viewBuilder;
+    @NotNull
     private final MainController mainController;
+    @NotNull
     private final NewGameScreenModel model;
 
-    public NewGameScreenController(MainController mainController) {
+    public NewGameScreenController(@NotNull MainController mainController) {
         this.model = new NewGameScreenModel();
         this.viewBuilder = new NewGameScreenViewBuilder(this::handleUserChoose, this::handleBackToMainMenu, this::handleStartButtonClicked);
         this.mainController = mainController;
@@ -29,6 +33,8 @@ public class NewGameScreenController implements BackToMainMenuListener {
         mainController.runGame();
     }
 
+    @Override
+    @NotNull
     public Region getView() {
         return viewBuilder.build();
     }

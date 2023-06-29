@@ -6,17 +6,24 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Builder;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.utils.widgets.Buttons;
 import ru.nsu.fit.pixelmind.utils.widgets.Labels;
 
 public class MainMenuViewBuilder implements Builder<Region> {
-
+    @NotNull
     private final Runnable newGameButtonHandler;
+    @NotNull
     private final Runnable loadGameButtonHandler;
+    @NotNull
     private final Runnable scoresButtonHandler;
+    @NotNull
     private final Runnable exitButtonHandler;
 
-    MainMenuViewBuilder(Runnable handleNewGameButton, Runnable handleLoadGameButton, Runnable handleScoresButton, Runnable handleExitButton) {
+    MainMenuViewBuilder(@NotNull Runnable handleNewGameButton,
+                        @NotNull Runnable handleLoadGameButton,
+                        @NotNull Runnable handleScoresButton,
+                        @NotNull Runnable handleExitButton) {
         this.newGameButtonHandler = handleNewGameButton;
         this.loadGameButtonHandler = handleLoadGameButton;
         this.scoresButtonHandler = handleScoresButton;
@@ -24,6 +31,7 @@ public class MainMenuViewBuilder implements Builder<Region> {
     }
 
     @Override
+    @NotNull
     public Region build() {
         Button newGameButton = Buttons.button("New Game", newGameButtonHandler);
         Button loadGameButton = Buttons.button("Load Game", loadGameButtonHandler);
