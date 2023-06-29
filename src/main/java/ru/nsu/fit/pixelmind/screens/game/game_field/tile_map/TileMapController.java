@@ -13,8 +13,11 @@ import java.util.*;
 import java.util.function.Function;
 
 public class TileMapController {
+    @NotNull
     private final TileMapView viewBuilder;
+    @NotNull
     private final TileMapModel tileMapModel;
+    @NotNull
     private final Set<TileType> wallTypes;
 
     TileMapController(@NotNull TileType[][] tileMap, @NotNull TileMapSize tileMapSize,
@@ -99,10 +102,5 @@ public class TileMapController {
 
     public int getWidth() {
         return tileMapModel.tileMapSize().width();
-    }
-
-    @NotNull
-    public Map<TileType, Image> tileTypeImageMapResource() {
-        return viewBuilder.tileTypeImageMap();
     }
 }

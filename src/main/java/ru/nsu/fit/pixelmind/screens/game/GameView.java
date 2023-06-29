@@ -25,7 +25,9 @@ import static ru.nsu.fit.pixelmind.screens.game.character.ActionType.MOVE;
 public class GameView implements Builder<Region> {
     private Canvas tileMapView;
     private TileMapController tileMapController;
+    @NotNull
     private final CameraController cameraController;
+    @NotNull
     private final GameModel gameModel;
     private boolean isAnimatingRightNow;
     private Resources resources;

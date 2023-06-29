@@ -19,15 +19,14 @@ public class CharacterView implements Builder<Image> {
 
     public void setSpritesResources(@NotNull Map<@NotNull SpriteType, @NotNull Image> characterSprites) {
         this.characterSprites = characterSprites;
-        //TODO: create additional method?
         currentSprite = characterSprites.get(currentSpriteType);
     }
 
-    public void setCurrentPositionOnThisStep(TileIndexCoordinates currentPositionOnThisStep) {
+    public void setCurrentPositionOnThisStep(@NotNull TileIndexCoordinates currentPositionOnThisStep) {
         this.currentPositionOnThisStep = currentPositionOnThisStep;
     }
 
-    public void setActionTargetTileOnThisStep(TileIndexCoordinates actionTargetTileOnThisStep) {
+    public void setActionTargetTileOnThisStep(@NotNull TileIndexCoordinates actionTargetTileOnThisStep) {
         this.actionTargetTileOnThisStep = actionTargetTileOnThisStep;
     }
 
@@ -44,10 +43,6 @@ public class CharacterView implements Builder<Image> {
         this.actionTypeOnThisStep = actionTypeOnThisStep;
     }
 
-    public void setCharacterSprites(@NotNull Map<SpriteType, Image> characterSprites) {
-        this.characterSprites = characterSprites;
-    }
-
     public TileIndexCoordinates currentTile() {
         return currentPositionOnThisStep;
     }
@@ -60,6 +55,7 @@ public class CharacterView implements Builder<Image> {
         return characterSprites;
     }
 
+    @NotNull
     public SpriteType currentSpriteType() {
         return currentSpriteType;
     }
@@ -68,11 +64,12 @@ public class CharacterView implements Builder<Image> {
         return currentSprite;
     }
 
-    public void chooseSprite(SpriteType spriteType) {
+    public void chooseSprite(@NotNull SpriteType spriteType) {
         setCurrentSpriteType(spriteType);
     }
 
     public void nextAttackSprite() {
+        // sprite constants. Need a sprite mask maybe?
         if ((currentSpriteType.ordinal() + 1) > 5 || currentSpriteType.ordinal() < 2) {
             setCurrentSpriteType(SpriteType.values()[2]);
             setCurrentSprite(characterSprites.get(SpriteType.values()[2]));

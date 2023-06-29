@@ -4,8 +4,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
-import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileIndexCoordinates;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.fit.pixelmind.screens.game.GameModel;
+import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileIndexCoordinates;
 
 import java.util.function.Consumer;
 
@@ -13,21 +14,24 @@ import static ru.nsu.fit.pixelmind.Constants.TILE_SIZE;
 
 public class CameraViewBuilder implements Builder<Region> {
     private Canvas gameField;
+    @NotNull
     private final GameModel gameModel;
     private double scale = 1.0;
     //    private double centerX;
     //    private double centerY;
     //    private double topLeftCornerOffsetX;
     //    private double topLeftCornerOffsetY;
+    @NotNull
     private final Consumer<TileIndexCoordinates> tileClickedHandler;
 
 
-    CameraViewBuilder(GameModel gameModel, Consumer<TileIndexCoordinates> tileClickedHandler) {
+    CameraViewBuilder(@NotNull GameModel gameModel, @NotNull Consumer<TileIndexCoordinates> tileClickedHandler) {
         this.gameModel = gameModel;
         this.tileClickedHandler = tileClickedHandler;
     }
 
     @Override
+    @NotNull
     public Region build() {
         gameField = gameModel.gameSession().gameField().getView();
         Pane gamePane = new Pane();

@@ -18,7 +18,7 @@ public class LoadingResourcesModel {
         return resources;
     }
 
-    public void setResources(Resources resources) {
+    public void setResources(@NotNull Resources resources) {
         this.resources = resources;
     }
 
@@ -30,7 +30,7 @@ public class LoadingResourcesModel {
         return gameSessionConfig;
     }
 
-    public void setGameSessionConfig(GameSessionConfig gameSessionConfig) {
+    public void setGameSessionConfig(@NotNull GameSessionConfig gameSessionConfig) {
         this.gameSessionConfig = gameSessionConfig;
     }
 
@@ -58,7 +58,7 @@ public class LoadingResourcesModel {
         return savedSessionEntries;
     }
 
-    public void setSavedSessionEntries(List<SavedSessionEntry> savedSessionEntries) {
+    public void setSavedSessionEntries(@NotNull List<SavedSessionEntry> savedSessionEntries) {
         this.savedSessionEntries = savedSessionEntries;
     }
 }

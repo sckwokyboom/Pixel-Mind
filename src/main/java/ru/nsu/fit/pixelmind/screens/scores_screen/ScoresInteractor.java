@@ -12,7 +12,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Slf4j
 @Log4j2
 public class ScoresInteractor {
     public static final String SCORES_TABLE = "src/main/resources/scores.csv";

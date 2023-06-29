@@ -14,7 +14,6 @@ public class LoadingResourcesController implements ScreenController {
     @NotNull
     private final LoadingResourcesModel model;
 
-
     public LoadingResourcesController() {
         this.model = new LoadingResourcesModel();
         viewBuilder = new LoadingResourcesView();

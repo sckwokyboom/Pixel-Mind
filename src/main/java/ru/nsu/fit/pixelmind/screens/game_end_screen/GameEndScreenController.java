@@ -31,7 +31,7 @@ public class GameEndScreenController implements BackToMainMenuListener, ScreenCo
         model.gameScoreProperty().set(score);
     }
 
-    public void setGameResult(String gameResult) {
+    public void setGameResult(@NotNull String gameResult) {
         model.gameResultProperty().set(gameResult);
     }
 

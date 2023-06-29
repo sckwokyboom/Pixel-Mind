@@ -4,10 +4,12 @@ import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
 
 public class TileController {
+    @NotNull
     private final TileViewBuilder viewBuilder;
+    @NotNull
     private final TileModel model;
 
-    public TileController(TileType tileType) {
+    public TileController(@NotNull TileType tileType) {
         this.model = new TileModel(tileType);
         this.viewBuilder = new TileViewBuilder();
     }
@@ -22,11 +24,11 @@ public class TileController {
         return model.tileType();
     }
 
-    public void setType(TileType newTileType) {
+    public void setType(@NotNull TileType newTileType) {
         model.setTileType(newTileType);
     }
 
-    public void setTexture(Image tileTexture) {
+    public void setTexture(@NotNull Image tileTexture) {
         viewBuilder.setTexture(tileTexture);
     }
 

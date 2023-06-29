@@ -12,9 +12,11 @@ import java.util.Map;
 import static ru.nsu.fit.pixelmind.Constants.TILE_SIZE;
 
 public class TileMapView implements Builder<Canvas> {
-    private final @NotNull TileMapModel model;
+    @NotNull
+    private final TileMapModel model;
     private Map<TileType, Image> tileTypeImageMap;
-    private final @NotNull Canvas gameFieldCanvas;
+    @NotNull
+    private final Canvas gameFieldCanvas;
 
 
     TileMapView(@NotNull TileMapModel model) {
@@ -46,9 +48,5 @@ public class TileMapView implements Builder<Canvas> {
                 gameFieldCanvas.getGraphicsContext2D().drawImage(tileTexture, j * TILE_SIZE, i * TILE_SIZE);
             }
         }
-    }
-
-    @NotNull Map<TileType, Image> tileTypeImageMap() {
-        return tileTypeImageMap;
     }
 }

@@ -35,7 +35,8 @@ import java.util.Map;
 
 @Log4j2
 public class GameInteractor {
-    private final @NotNull GameModel gameModel;
+    @NotNull
+    private final GameModel gameModel;
 
     GameInteractor(@NotNull GameModel gameModel) {
         this.gameModel = gameModel;

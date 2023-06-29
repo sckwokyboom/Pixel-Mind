@@ -25,13 +25,17 @@ import static ru.nsu.fit.pixelmind.Constants.GAME_VICTORY_MESSAGE;
 import static ru.nsu.fit.pixelmind.screens.game.character.ActionType.*;
 
 public class GameController implements ScreenController {
+    @NotNull
     private final GameView gameView;
+    @NotNull
     private final GameModel gameModel;
+    @NotNull
     private final MainController.GameEndSceneHandler gameEndSceneHandler;
+    @NotNull
     private final GameInteractor gameInteractor;
 
     GameController(@NotNull MainController.GameEndSceneHandler gameEndSceneHandler,
-                   BiFunction<CameraController, GameModel, GameView> viewCreator) {
+                   @NotNull BiFunction<CameraController, GameModel, GameView> viewCreator) {
         this.gameEndSceneHandler = gameEndSceneHandler;
         gameModel = new GameModel();
         CameraController cameraController = new CameraController(gameModel, this::handleTileClicked);
@@ -46,7 +50,6 @@ public class GameController implements ScreenController {
     @Override
     @NotNull
     public Region getView() {
-        //TODO: maybe resources manipulations here?
         return gameView.build();
     }
 
@@ -64,7 +67,7 @@ public class GameController implements ScreenController {
         hero.setCurrentPosition(heroPos);
         hero.setAnimationInfoOnThisStep(heroPos, heroPos, WAIT);
         hero.setDamageValue(50);
-        hero.setCurrentHealth(1000);
+        hero.setCurrentHealth(200);
 
         List<CharacterType> enemiesTypes = gameSessionConfig.enemiesTypes();
         List<CharacterController> enemies = new ArrayList<>(enemiesTypes.size());
@@ -81,7 +84,7 @@ public class GameController implements ScreenController {
         gameModel.setGameSession(new GameSession(tileMapController, hero, enemies));
     }
 
-    public void launchGameSession(GameSession gameSession) {
+    public void launchGameSession(@NotNull GameSession gameSession) {
         TileIndexCoordinates heroPos = gameSession.hero().currentTile();
         gameSession.gameField().captureTile(heroPos);
         gameSession.hero().setAnimationInfoOnThisStep(heroPos, heroPos, WAIT);
@@ -173,6 +176,7 @@ public class GameController implements ScreenController {
                     ATTACK
             );
             List<CharacterView> enemiesViews = buildEnemiesSteps(hero.currentTile());
+
             gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, callback);
             return;
         }
@@ -188,7 +192,7 @@ public class GameController implements ScreenController {
 
     private void moveHeroToNextTile() {
         // CR: separate recursion and action
-        // TODO: Hard...it seems to be pointless. There is recursion calls only in the last lines.
+        // TODO: Hard...it seems to be pointless. There is recursion calls only in the last line.
         if (gameView.isAnimatingRightNow()) {
             return;
         }
@@ -202,8 +206,8 @@ public class GameController implements ScreenController {
         gameModel.gameSession().gameField().releaseTile(gameModel.gameSession().hero().currentTile());
         gameModel.gameSession().gameField().captureTile(nextTileInRoute);
         hero.setCurrentPosition(nextTileInRoute);
-
         List<CharacterView> enemiesViews = buildEnemiesSteps(nextTileInRoute);
+
         gameView.animateHeroAndEnemiesSteps(hero.getView(), enemiesViews, this::moveHeroToNextTile);
     }
 

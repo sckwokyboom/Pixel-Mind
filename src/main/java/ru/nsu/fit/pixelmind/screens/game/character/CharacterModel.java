@@ -5,13 +5,15 @@ import org.jetbrains.annotations.Nullable;
 import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileIndexCoordinates;
 
 public class CharacterModel {
+    @NotNull
     private final CharacterType characterType;
     // CR: move to config
-    //TODO: disagree
+    //TODO: disagree.
     private int damageValue = 15;
     private int healthPoints = 100;
     private TileIndexCoordinates currentPosition;
     private TileIndexCoordinates targetTile;
+    @Nullable
     private CharacterController huntingTarget;
 
     public CharacterModel(@NotNull CharacterType characterType) {

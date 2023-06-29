@@ -8,7 +8,9 @@ import ru.nsu.fit.pixelmind.screens.game.game_field.tile.TileIndexCoordinates;
 import java.util.Map;
 
 public class CharacterController {
+    @NotNull
     private final CharacterView heroView;
+    @NotNull
     private final CharacterModel model;
 
     public CharacterController(@NotNull CharacterType characterType) {
@@ -75,10 +77,12 @@ public class CharacterController {
         heroView.setActionTypeOnThisStep(action);
     }
 
+    @NotNull
     public CharacterView getView() {
         return heroView;
     }
 
+    @NotNull
     public CharacterType characterType() {
         return model.characterType();
     }
