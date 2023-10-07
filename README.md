@@ -1,8 +1,10 @@
 # Pixel Mind
 Stylized pixel roguelike game written using JavaFX.
 
-![Gameplay](https://github.com/sckwokyboom/Pixel-Mind/blob/main/docs/Pixel-Mind-Gameplay.gif)
+<img src="https://github.com/sckwokyboom/Pixel-Mind/blob/main/docs/Pixel-Mind-Gameplay.gif" width=450px align="center">
+
 ***
+
 ## Possibilities
 - Character selection
 - Saving the game session at the end of the game
